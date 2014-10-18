@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  get 'workouts/new'
+  #get 'workouts/new'
 
-  root 'home#index'
+ 	root 'home#index'
+
+	match ':controller(/:action(/:id))', :via => [:get, :post]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

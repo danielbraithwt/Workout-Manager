@@ -4,6 +4,8 @@
 
 <h1>Workouts</h1>
 
+<%= link_to "Create Workout", :controller => "workouts", :action => "new" %>
+
 <% @workouts.each do |workout| %>
 	
 	<div id="workout-<%= workout.id %>" class="workout">

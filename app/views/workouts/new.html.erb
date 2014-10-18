@@ -1,2 +1,11 @@
 <h1>Workouts#new</h1>
-<p>Find me in app/views/workouts/new.html.erb</p>
+
+<h1>Create New Workout</h1>
+
+<%= form_tag(:action => 'create') do %>
+
+	<%= text_field_tag('workout[name]') %>
+
+	<%= submit_tag("Create Workout") %>
+
+<% end %>

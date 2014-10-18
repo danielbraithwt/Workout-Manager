@@ -14,6 +14,7 @@
 ActiveRecord::Schema.define(version: 20141018064805) do
 
   create_table "excersises", force: true do |t|
+    t.integer  "workout_id"
     t.string   "name",       limit: 100
     t.integer  "type"
     t.float    "diffculty",  limit: 24
@@ -22,6 +23,8 @@ ActiveRecord::Schema.define(version: 20141018064805) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "excersises", ["workout_id"], name: "index_excersises_on_workout_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "first_name", limit: 200
@@ -33,9 +36,12 @@ ActiveRecord::Schema.define(version: 20141018064805) do
   end
 
   create_table "workouts", force: true do |t|
+    t.integer  "user_id"
     t.string   "name",       limit: 100
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "workouts", ["user_id"], name: "index_workouts_on_user_id", using: :btree
 
 end

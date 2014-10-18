@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'excersises/create'
+
+  get 'excersises/update'
+
+  get 'excersises/destory'
+
   #get 'workouts/new'
 
  	root 'home#index'

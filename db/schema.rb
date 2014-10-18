@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20141018064805) do
   end
 
   create_table "workouts", force: true do |t|
+    t.string   "name",       limit: 100
     t.datetime "created_at"
     t.datetime "updated_at"
   end

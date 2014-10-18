@@ -11,6 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20141018064805) do
+
+  create_table "excersises", force: true do |t|
+    t.string   "name",       limit: 100
+    t.integer  "type"
+    t.float    "diffculty",  limit: 24
+    t.integer  "group"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "first_name", limit: 200
+    t.string   "last_name",  limit: 200
+    t.string   "email",      limit: 200
+    t.string   "password",   limit: 40
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "workouts", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

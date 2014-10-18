@@ -1,2 +1,21 @@
 <h1>Home#index</h1>
 <p>Welcome To Workout Manager</p>
+</ br>
+
+<h1>Workouts</h1>
+
+<% @workouts.each do |workout| %>
+	
+	<div id="workout-<%= workout.id %>" class="workout">
+		
+		<div class="id">
+			<%= workout.id %>
+		</div>
+
+		<div class="name">
+			<%= workout.name %>
+		</div>
+
+	</div>
+
+<% end %>

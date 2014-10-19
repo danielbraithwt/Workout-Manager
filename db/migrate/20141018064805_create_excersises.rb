@@ -3,7 +3,7 @@ class CreateExcersises < ActiveRecord::Migration
     create_table :excersises do |t|
 		t.integer "workout_id"
 		t.string "name", :limit => "100"
-		t.integer "type"
+		t.integer "excersisetype"
 		t.float "diffculty"
 		t.integer "group", :defualt => 0
 		t.integer "position"

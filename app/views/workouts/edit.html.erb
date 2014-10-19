@@ -1,4 +1,78 @@
+<script>
+
+var workout_id = <%= @workout.id %>;
+
+function create_new_excersise()
+{
+	var xmlhttp;
+
+	if( window.XMLHttpRequest )
+	{
+			xmlhttp = new XMLHttpRequest();
+	}
+	else
+	{
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	xmlhttp.onreadystatechange = function()
+	{
+		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
+		{
+			var id = xmlhttp.responseText;
+
+			var excersises = document.getElementById("excerises");
+
+			// Add the name
+			excersises.innerHTML += "<div id='excersise_" + id + "' class='excersise'>";
+			excersises.innerHTML += "Name";
+			excersises.innerHTML += "</div>";
+
+			// Add the type
+			excersises.innerHTML += "<div id='excersise_type_" + id + "' class='excersise_type'>";
+			excersises.innerHTML += "Type";
+			excersises.innerHTML += "</div>";
+
+
+			// Add the diffculty
+			excersises.innerHTML += "<div id='excersise_diffculty_" + id + "' class='excersise_diffculty'>";
+			excersises.innerHTML += "Diffculty";
+			excersises.innerHTML += "</div>";
+		}
+	}
+
+	xmlhttp.open("GET", "/excersises/create?workoutid=" + workout_id, true);
+	xmlhttp.send();
+}
+
+</script>
+
 <h1>Editing Workout</h1>
 </ br>
 
-<h3>Name: <%= @workout.name %>
+<h3>Name: <%= @workout.name %></h3>
+</ br>
+
+<div id="excerises">
+	<% if @excersises.size == 0 %>
+		<p>There are currently no excersises in this workout</p>
+	<% else %>
+		<% @excersises.each do |excersise| %>
+			<div id="excersise_<%= excersise.id %>" class="excersise">
+				<div id="excersise_name_<%= excersise.id %>" class="excersise_name">
+					<%= excersise.name %>
+				</div>
+
+				<div id="excersise_type_<%= excersise.id %>" class="excersise_type">
+					<%= if excersise.excersisetype == 1; "Weight Based"; elsif excersise.excersisetype == 2; "Time Based"; end %>
+				</div>
+
+				<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
+					<%= excersise.diffculty %>
+				</div>
+			</div>
+		<% end %>
+	<% end %>
+</div>
+
+<button onclick="create_new_excersise()">Create New Excersise</button>

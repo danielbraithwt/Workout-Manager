@@ -15,9 +15,9 @@ ActiveRecord::Schema.define(version: 20141018064805) do
 
   create_table "excersises", force: true do |t|
     t.integer  "workout_id"
-    t.string   "name",       limit: 100
-    t.integer  "type"
-    t.float    "diffculty",  limit: 24
+    t.string   "name",          limit: 100
+    t.integer  "excersisetype"
+    t.float    "diffculty",     limit: 24
     t.integer  "group"
     t.integer  "position"
     t.datetime "created_at"

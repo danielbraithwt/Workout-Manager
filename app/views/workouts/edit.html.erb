@@ -45,6 +45,37 @@ function create_new_excersise()
 	xmlhttp.send();
 }
 
+function edit_excersise(id)
+{
+	var name = document.getElementById("excersise_name_" + id).innerText;
+	//var type
+	var diffculty = document.getElementById("excersise_diffculty_" + id).innerText;
+
+	// AJAX For saving exversise
+	var xmlhttp;
+
+	if( window.XMLHttpRequest )
+	{
+		xmlhttp = new XMLHttpRequest();
+	}
+	else
+	{
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	xmlhttp.onreadystatechange = function()
+	{
+		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
+		{
+			alert("Saved");
+		}
+	}
+
+
+	xmlhttp.open("GET", "/excersises/update?id=" + id + "&name=" + name + "&type=1&diffculty=" + diffculty, true);
+	xmlhttp.send();
+}
+
 </script>
 
 <h1>Editing Workout</h1>
@@ -58,19 +89,21 @@ function create_new_excersise()
 		<p>There are currently no excersises in this workout</p>
 	<% else %>
 		<% @excersises.each do |excersise| %>
-			<div id="excersise_<%= excersise.id %>" class="excersise">
-				<div id="excersise_name_<%= excersise.id %>" class="excersise_name">
-					<%= excersise.name %>
-				</div>
+			<a onfocusout="edit_excersise(<%= excersise.id %>)">
+				<div id="excersise_<%= excersise.id %>" class="excersise">
+					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" onClick="this.contentEditable='true'">
+						<%= excersise.name %>
+					</div>
 
-				<div id="excersise_type_<%= excersise.id %>" class="excersise_type">
-					<%= if excersise.excersisetype == 1; "Weight Based"; elsif excersise.excersisetype == 2; "Time Based"; end %>
-				</div>
+					<div id="excersise_type_<%= excersise.id %>" class="excersise_type" onClick="this.contentEditable='true'">
+						<%= if excersise.excersisetype == 1; "Weight Based"; elsif excersise.excersisetype == 2; "Time Based"; end %>
+					</div>
 
-				<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-					<%= excersise.diffculty %>
+					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty" onClick="this.contentEditable='true'">
+						<%= excersise.diffculty %>
+					</div>
 				</div>
-			</div>
+			</a>
 		<% end %>
 	<% end %>
 </div>

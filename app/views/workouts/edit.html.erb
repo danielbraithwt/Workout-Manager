@@ -67,13 +67,18 @@ function edit_excersise(id)
 	{
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
 		{
-			alert("Saved");
+			document.getElementById("status_bar").innerText = "Changes Saved";
 		}
 	}
 
 
 	xmlhttp.open("GET", "/excersises/update?id=" + id + "&name=" + name + "&type=1&diffculty=" + diffculty, true);
 	xmlhttp.send();
+}
+
+function change_made()
+{
+	document.getElementById("status_bar").innerText = "Not Saved!";
 }
 
 </script>
@@ -84,12 +89,19 @@ function edit_excersise(id)
 <h3>Name: <%= @workout.name %></h3>
 </ br>
 
+<div id="status_bar">
+	Changes Saved
+</div
+
+</ br>
+</ br>
+
 <div id="excerises">
 	<% if @excersises.size == 0 %>
 		<p>There are currently no excersises in this workout</p>
 	<% else %>
 		<% @excersises.each do |excersise| %>
-			<a onfocusout="edit_excersise(<%= excersise.id %>)">
+			<a onfocusout="edit_excersise(<%= excersise.id %>)" onfocusin="change_made()">
 				<div id="excersise_<%= excersise.id %>" class="excersise">
 					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" onClick="this.contentEditable='true'">
 						<%= excersise.name %>

@@ -1,4 +1,6 @@
 class ExcersisesController < ApplicationController
+	
+	layout false
 
   def create
 	  	# Make sure the passed workout id is valid

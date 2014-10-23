@@ -23,21 +23,83 @@ function create_new_excersise()
 
 			var excersises = document.getElementById("excerises");
 
+			//var toAdd = "";
+
+			var newA = document.createElement('a');
+			newA.addEventListener("focusout", edit_excersise(id));
+			newA.addEventListener("focusin", change_made());
+				
+			var excersiseContainer = document.createElement('div');
+			excersiseContainer.id = ("excersise_" + id);
+			excersiseContainer.class = "excersise";
+
+			var excersiseName = document.createElement('div');
+			excersiseName.id = ("excersise_name_" + id);
+			excersiseName.class = "excersise_name";
+			excersiseName.innerText = "Name";
+			excersiseName.contentEditable = 'true';
+
+			excersiseContainer.appendChild(excersiseName);
+
+			var excersiseType = document.createElement('div');
+			excersiseType.id = ("excersise_type_" + id);
+			excersiseType.class = "excersise_type";
+			excersiseType.innerText = "Type";
+			excersiseType.contentEditable = 'true';
+
+			excersiseContainer.appendChild(excersiseType);
+
+			var excersiseDiffculty = document.createElement('div');
+			excersiseDiffculty.id = ("excersise_diffculty_" + id);
+			excersiseDiffculty.class = "excersise_diffculty";
+			excersiseDiffculty.innerText = "Diffculty";
+			excersiseDiffculty.contentEditable = 'true';
+
+			excersiseContainer.appendChild(excersiseDiffculty);
+
+			newA.appendChild(excersiseContainer);
+			//newA.addEventListener("focus", function() { edit_excersise(id); }, true);
+			
+			excersises.appendChild(newA);
+
+			document.getElementById("status_bar").innerText = "Changes Saved";
+
+			//newA.onblur = function() {
+			//	edit_excersise(id);
+			//}
+			
+			//newA.onfocussin = new function() {
+			//	change_made();
+			//}
+			//var newExcersiseDiv = document.createElement('div');
+
+
+			//excersises.appendChild(newA);
+			//excersises.append("<a onfocusout='edit_excersise(" + id + ")' onfocusin='change_made()'>");
+
+			//newDiv.innerHTML += "<div id='excersise_" + id + "' class='excersise'>";
+
 			// Add the name
-			excersises.innerHTML += "<div id='excersise_" + id + "' class='excersise'>";
-			excersises.innerHTML += "Name";
-			excersises.innerHTML += "</div>";
+			//newDiv.innerHTML += "<div id='excersise_name_" + id + "' class='excersise_name' onClick='this.contentEditable=\"true\"'>";
+			//newDiv.innerHTML += "Name";
+			//newDiv.innerHTML += "</div>";
 
 			// Add the type
-			excersises.innerHTML += "<div id='excersise_type_" + id + "' class='excersise_type'>";
-			excersises.innerHTML += "Type";
-			excersises.innerHTML += "</div>";
+			//newDiv.innerHTML += "<div id='excersise_type_" + id + "' class='excersise_type' onClick='this.contentEditable=\"true\"'>";
+			//newDiv.innerHTML += "Type";
+			//newDiv.innerHTML += "</div>";
 
 
 			// Add the diffculty
-			excersises.innerHTML += "<div id='excersise_diffculty_" + id + "' class='excersise_diffculty'>";
-			excersises.innerHTML += "Diffculty";
-			excersises.innerHTML += "</div>";
+			//newDiv.innerHTML += "<div id='excersise_diffculty_" + id + "' class='excersise_diffculty' onClick='this.contentEditable=\"true\"'>";
+			//newDiv.innerHTML += "Diffculty";
+			//newDiv.innerHTML += "</div>";
+
+			// += "</div>";
+
+			//excersises.append("</a>");
+
+			//excersises.innerHTML += toAdd;
 		}
 	}
 
@@ -47,6 +109,8 @@ function create_new_excersise()
 
 function edit_excersise(id)
 {
+	//if( document.getElementById("excersise_" + id) == null ) return;
+
 	var name = document.getElementById("excersise_name_" + id).innerText;
 	//var type
 	var diffculty = document.getElementById("excersise_diffculty_" + id).innerText;
@@ -103,15 +167,15 @@ function change_made()
 		<% @excersises.each do |excersise| %>
 			<a onfocusout="edit_excersise(<%= excersise.id %>)" onfocusin="change_made()">
 				<div id="excersise_<%= excersise.id %>" class="excersise">
-					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" onClick="this.contentEditable='true'">
+					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true'>
 						<%= excersise.name %>
 					</div>
 
-					<div id="excersise_type_<%= excersise.id %>" class="excersise_type" onClick="this.contentEditable='true'">
+					<div id="excersise_type_<%= excersise.id %>" class="excersise_type" contentEditable='true'>
 						<%= if excersise.excersisetype == 1; "Weight Based"; elsif excersise.excersisetype == 2; "Time Based"; end %>
 					</div>
 
-					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty" onClick="this.contentEditable='true'">
+					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty" contentEditable='true'>
 						<%= excersise.diffculty %>
 					</div>
 				</div>

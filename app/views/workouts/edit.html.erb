@@ -19,11 +19,9 @@ function create_new_excersise()
 	{
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
 		{
-			var id = xmlhttp.responseText;
+			var id = xmlhttp.responseText.trim();
 
 			var excersises = document.getElementById("excerises");
-
-			//var toAdd = "";
 
 			var newA = document.createElement('a');
 			newA.addEventListener("focusout", edit_excersise_event);
@@ -58,7 +56,6 @@ function create_new_excersise()
 			excersiseContainer.appendChild(excersiseDiffculty);
 
 			newA.appendChild(excersiseContainer);
-			//newA.addEventListener("focus", function() { edit_excersise(id); }, true);
 			
 			excersises.appendChild(newA);
 
@@ -117,8 +114,6 @@ function edit_excersise_event(event)
 
 function edit_excersise(id)
 {
-	//if( document.getElementById("excersise_" + id) == null ) return;
-
 	var name = document.getElementById("excersise_name_" + id).innerText;
 	//var type
 	var diffculty = document.getElementById("excersise_diffculty_" + id).innerText;

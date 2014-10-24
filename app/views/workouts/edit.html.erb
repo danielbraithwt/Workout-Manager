@@ -26,8 +26,8 @@ function create_new_excersise()
 			//var toAdd = "";
 
 			var newA = document.createElement('a');
-			newA.addEventListener("focusout", edit_excersise(id));
-			newA.addEventListener("focusin", change_made());
+			newA.addEventListener("focusout", edit_excersise_event);
+			newA.addEventListener("focusin", change_made);
 				
 			var excersiseContainer = document.createElement('div');
 			excersiseContainer.id = ("excersise_" + id);
@@ -105,6 +105,14 @@ function create_new_excersise()
 
 	xmlhttp.open("GET", "/excersises/create?workoutid=" + workout_id, true);
 	xmlhttp.send();
+}
+
+function edit_excersise_event(event)
+{
+	var s = event.srcElement.id.split("_");
+	var id = s[s.length-1];
+
+	edit_excersise(parseInt(id));
 }
 
 function edit_excersise(id)

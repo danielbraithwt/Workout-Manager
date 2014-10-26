@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 20141018064805) do
     t.string   "name",          limit: 100
     t.integer  "excersisetype"
     t.float    "diffculty",     limit: 24
+    t.integer  "sets"
+    t.integer  "reps"
     t.integer  "group"
     t.integer  "position"
     t.datetime "created_at"

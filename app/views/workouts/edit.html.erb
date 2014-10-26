@@ -1,6 +1,9 @@
+<%= javascript_include_tag "jquery-ui.min.js" %>
+
 <script>
 
 var workout_id = <%= @workout.id %>;
+var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.group > memo then item.group; else memo; end } %>
 
 function create_new_excersise()
 {
@@ -23,6 +26,12 @@ function create_new_excersise()
 
 			var excersises = document.getElementById("excerises");
 
+			// Empty the div if there are 0 groups
+			if( current_group == 0 ) excersises.innerHTML = "";
+
+			// Increment the current group
+			current_group += 1;
+
 			var newA = document.createElement('a');
 			newA.addEventListener("focusout", edit_excersise_event);
 			newA.addEventListener("focusin", change_made);
@@ -30,6 +39,14 @@ function create_new_excersise()
 			var excersiseContainer = document.createElement('div');
 			excersiseContainer.id = ("excersise_" + id);
 			excersiseContainer.class = "excersise";
+
+			var excersiseGroup = document.createElement('div');
+			excersiseGroup.id = ("excersise_group_" + id);
+			excersiseGroup.class = "excersise_group";
+			excersiseGroup.innerText = current_group;
+			excersiseGroup.contentEditable = 'true';
+
+			excersiseContainer.appendChild(excersiseGroup);
 
 			var excersiseName = document.createElement('div');
 			excersiseName.id = ("excersise_name_" + id);
@@ -42,8 +59,21 @@ function create_new_excersise()
 			var excersiseType = document.createElement('div');
 			excersiseType.id = ("excersise_type_" + id);
 			excersiseType.class = "excersise_type";
-			excersiseType.innerText = "Type";
-			excersiseType.contentEditable = 'true';
+
+			var excersiseTypeSelect = document.createElement('select');
+			excersiseTypeSelect.id = ("excersise_type_select_" + id);
+			excersiseTypeSelect.class = "excersise_type_select";
+
+			var weightBasedOption = document.createElement('option');
+			weightBasedOption.innerText = "Weight Based";
+			excersiseTypeSelect.appendChild(weightBasedOption);
+
+			var timeBasedOption = document.createElement('option');
+			timeBasedOption.innerText = "Time Based";
+			excersiseTypeSelect.appendChild(timeBasedOption);
+			//excersiseType.innerText = "Type";
+			//excersiseType.contentEditable = 'true';
+			excersiseType.appendChild(excersiseTypeSelect);
 
 			excersiseContainer.appendChild(excersiseType);
 
@@ -55,52 +85,31 @@ function create_new_excersise()
 
 			excersiseContainer.appendChild(excersiseDiffculty);
 
+			var excersiseSets = document.createElement('div');
+			excersiseSets.id = ("excersise_sets_" + id);
+			excersiseSets.class = "excersise_sets";
+			excersiseSets.innerText = "0";
+			excersiseSets.contentEditable = 'true';
+
+			excersiseContainer.appendChild(excersiseSets);
+
+			var excersiseReps = document.createElement('div');
+			excersiseReps.id = ("excersise_reps_" + id);
+			excersiseReps.class = "excersise_reps";
+			excersiseReps.innerText = "0";
+			excersiseReps.contentEditable = "true";
+
+			excersiseContainer.appendChild(excersiseReps);
+
 			newA.appendChild(excersiseContainer);
 			
 			excersises.appendChild(newA);
 
 			document.getElementById("status_bar").innerText = "Changes Saved";
-
-			//newA.onblur = function() {
-			//	edit_excersise(id);
-			//}
-			
-			//newA.onfocussin = new function() {
-			//	change_made();
-			//}
-			//var newExcersiseDiv = document.createElement('div');
-
-
-			//excersises.appendChild(newA);
-			//excersises.append("<a onfocusout='edit_excersise(" + id + ")' onfocusin='change_made()'>");
-
-			//newDiv.innerHTML += "<div id='excersise_" + id + "' class='excersise'>";
-
-			// Add the name
-			//newDiv.innerHTML += "<div id='excersise_name_" + id + "' class='excersise_name' onClick='this.contentEditable=\"true\"'>";
-			//newDiv.innerHTML += "Name";
-			//newDiv.innerHTML += "</div>";
-
-			// Add the type
-			//newDiv.innerHTML += "<div id='excersise_type_" + id + "' class='excersise_type' onClick='this.contentEditable=\"true\"'>";
-			//newDiv.innerHTML += "Type";
-			//newDiv.innerHTML += "</div>";
-
-
-			// Add the diffculty
-			//newDiv.innerHTML += "<div id='excersise_diffculty_" + id + "' class='excersise_diffculty' onClick='this.contentEditable=\"true\"'>";
-			//newDiv.innerHTML += "Diffculty";
-			//newDiv.innerHTML += "</div>";
-
-			// += "</div>";
-
-			//excersises.append("</a>");
-
-			//excersises.innerHTML += toAdd;
 		}
 	}
 
-	xmlhttp.open("GET", "/excersises/create?workoutid=" + workout_id, true);
+	xmlhttp.open("GET", "/excersises/create?workoutid=" + workout_id + "&group=" + (current_group+1), true);
 	xmlhttp.send();
 }
 
@@ -114,9 +123,17 @@ function edit_excersise_event(event)
 
 function edit_excersise(id)
 {
+	var group = document.getElementById("excersise_group_" + id).innerText;
 	var name = document.getElementById("excersise_name_" + id).innerText;
-	//var type
+	var type_select = document.getElementById("excersise_type_select_" + id);
+	var type = 0;
+	if( type_select[type_select.selectedIndex].value == "Weight Based" || type_select[type_select.selectedIndex].value == "Time Based")
+	{
+		type = type_select.selectedIndex + 1;	
+	}
 	var diffculty = document.getElementById("excersise_diffculty_" + id).innerText;
+	var sets = document.getElementById("excersise_sets_" + id).innerText;
+	var reps = document.getElementById("excersise_reps_" + id).innerText;
 
 	// AJAX For saving exversise
 	var xmlhttp;
@@ -139,7 +156,7 @@ function edit_excersise(id)
 	}
 
 
-	xmlhttp.open("GET", "/excersises/update?id=" + id + "&name=" + name + "&type=1&diffculty=" + diffculty, true);
+	xmlhttp.open("GET", "/excersises/update?id=" + id + "&group=" + group + "&name=" + name + "&type=" + type + "&diffculty=" + diffculty + "&sets=" + sets + "&reps=" + reps, true);
 	xmlhttp.send();
 }
 
@@ -170,16 +187,31 @@ function change_made()
 		<% @excersises.each do |excersise| %>
 			<a onfocusout="edit_excersise(<%= excersise.id %>)" onfocusin="change_made()">
 				<div id="excersise_<%= excersise.id %>" class="excersise">
+					<div id="excersise_group_<%= excersise.id %>" class="excersise_group" contentEditable='true'>
+						<%= excersise.group %>
+					</div>
+
 					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true'>
 						<%= excersise.name %>
 					</div>
 
-					<div id="excersise_type_<%= excersise.id %>" class="excersise_type" contentEditable='true'>
-						<%= if excersise.excersisetype == 1; "Weight Based"; elsif excersise.excersisetype == 2; "Time Based"; end %>
+					<div id="excersise_type_<%= excersise.id %>" class="excersise_type">
+						<select id="excersise_type_select_<%= excersise.id %>" class="excersise_type_select">
+							<option <%= if excersise.excersisetype == 1 then "selected='selected'"; end%>>Weight Based</option>
+							<option <%= if excersise.excersisetype == 2 then "selected='selected'"; end%>>Time Based</option>
+						</select>
 					</div>
 
 					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty" contentEditable='true'>
 						<%= excersise.diffculty %>
+					</div>
+
+					<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets" contentEditable='true'>
+						<%= excersise.sets %>
+					</div>
+
+					<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps" contentEditable='true'>
+						<%= excersise.reps %>
 					</div>
 				</div>
 			</a>

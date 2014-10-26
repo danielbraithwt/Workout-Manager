@@ -5,6 +5,8 @@ class CreateExcersises < ActiveRecord::Migration
 		t.string "name", :limit => "100"
 		t.integer "excersisetype"
 		t.float "diffculty"
+		t.integer "sets"
+		t.integer "reps"
 		t.integer "group", :defualt => 0
 		t.integer "position"
 

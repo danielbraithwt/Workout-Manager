@@ -33,8 +33,8 @@ function create_new_excersise()
 			current_group += 1;
 
 			var newA = document.createElement('a');
-			newA.addEventListener("focusout", edit_excersise_event);
-			newA.addEventListener("focusin", change_made);
+			newA.addEventListener("change", edit_excersise_event);
+			newA.addEventListener("keyup", edit_excersise_event);
 				
 			var excersiseContainer = document.createElement('div');
 			excersiseContainer.id = ("excersise_" + id);
@@ -61,6 +61,7 @@ function create_new_excersise()
 			excersiseType.class = "excersise_type";
 
 			var excersiseTypeSelect = document.createElement('select');
+			excersiseTypeSelect.addEventListener("change", change_units_event);
 			excersiseTypeSelect.id = ("excersise_type_select_" + id);
 			excersiseTypeSelect.class = "excersise_type_select";
 
@@ -80,8 +81,21 @@ function create_new_excersise()
 			var excersiseDiffculty = document.createElement('div');
 			excersiseDiffculty.id = ("excersise_diffculty_" + id);
 			excersiseDiffculty.class = "excersise_diffculty";
-			excersiseDiffculty.innerText = "Diffculty";
-			excersiseDiffculty.contentEditable = 'true';
+
+			var excersiseDiffcultyMagnitude = document.createElement('div');
+			excersiseDiffcultyMagnitude.id = ("excersise_diffculty_magnitude_" + id);
+			excersiseDiffcultyMagnitude.class = "excersise_diffculty_magnitude";
+			excersiseDiffcultyMagnitude.innerText = "1.0";
+			excersiseDiffcultyMagnitude.contentEditable = 'true';
+
+			excersiseDiffculty.appendChild(excersiseDiffcultyMagnitude);
+
+			var excersiseDiffcultyUnits = document.createElement('div');
+			excersiseDiffcultyUnits.id = ("excersise_diffculty_units_" + id);
+			excersiseDiffcultyUnits.class = "excersise_diffculty_units";
+			excersiseDiffcultyUnits.innerText = "kg";
+
+			excersiseDiffculty.appendChild(excersiseDiffcultyUnits);
 
 			excersiseContainer.appendChild(excersiseDiffculty);
 
@@ -105,7 +119,7 @@ function create_new_excersise()
 			
 			excersises.appendChild(newA);
 
-			document.getElementById("status_bar").innerText = "Changes Saved";
+			//document.getElementById("status_bar").innerText = "Changes Saved";
 		}
 	}
 
@@ -123,6 +137,8 @@ function edit_excersise_event(event)
 
 function edit_excersise(id)
 {
+	document.getElementById("status_bar").innerText = "Not Saved";
+
 	var group = document.getElementById("excersise_group_" + id).innerText;
 	var name = document.getElementById("excersise_name_" + id).innerText;
 	var type_select = document.getElementById("excersise_type_select_" + id);
@@ -131,7 +147,7 @@ function edit_excersise(id)
 	{
 		type = type_select.selectedIndex + 1;	
 	}
-	var diffculty = document.getElementById("excersise_diffculty_" + id).innerText;
+	var diffculty = document.getElementById("excersise_diffculty_magnitude_" + id).innerText;
 	var sets = document.getElementById("excersise_sets_" + id).innerText;
 	var reps = document.getElementById("excersise_reps_" + id).innerText;
 
@@ -160,9 +176,26 @@ function edit_excersise(id)
 	xmlhttp.send();
 }
 
-function change_made()
+function change_units_event(event)
 {
-	document.getElementById("status_bar").innerText = "Not Saved!";
+	var s = event.srcElement.id.split("_");
+	var id = s[s.length-1];
+
+	change_units(parseInt(id));
+}
+
+function change_units(id)
+{
+	var type_select = document.getElementById("excersise_type_select_" + id);
+
+	if( type_select[type_select.selectedIndex].value == "Weight Based" )
+	{
+		document.getElementById("excersise_diffculty_units_" + id).innerText = "kg";
+	}
+	else if(type_select[type_select.selectedIndex].value == "Time Based")
+	{
+		document.getElementById("excersise_diffculty_units_" + id).innerText = "sec";
+	}
 }
 
 </script>
@@ -185,7 +218,7 @@ function change_made()
 		<p>There are currently no excersises in this workout</p>
 	<% else %>
 		<% @excersises.each do |excersise| %>
-			<a onfocusout="edit_excersise(<%= excersise.id %>)" onfocusin="change_made()">
+			<a onchange="edit_excersise(<%= excersise.id %>)" onkeyup="edit_excersise(<%= excersise.id %>)">
 				<div id="excersise_<%= excersise.id %>" class="excersise">
 					<div id="excersise_group_<%= excersise.id %>" class="excersise_group" contentEditable='true'>
 						<%= excersise.group %>
@@ -196,14 +229,19 @@ function change_made()
 					</div>
 
 					<div id="excersise_type_<%= excersise.id %>" class="excersise_type">
-						<select id="excersise_type_select_<%= excersise.id %>" class="excersise_type_select">
+						<select id="excersise_type_select_<%= excersise.id %>" class="excersise_type_select" onchange="change_units(<%= excersise.id %>)">
 							<option <%= if excersise.excersisetype == 1 then "selected='selected'"; end%>>Weight Based</option>
 							<option <%= if excersise.excersisetype == 2 then "selected='selected'"; end%>>Time Based</option>
 						</select>
 					</div>
 
-					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty" contentEditable='true'>
-						<%= excersise.diffculty %>
+					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
+						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" contentEditable='true'>
+							<%= excersise.diffculty %>
+						</div>
+						<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">
+							<%= excersise.get_units %>
+						</div>
 					</div>
 
 					<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets" contentEditable='true'>

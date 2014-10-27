@@ -1,4 +1,6 @@
 class WorkoutsController < ApplicationController
+	
+	layout false
 
 	def show
 		@workout = Workout.find(params[:id])

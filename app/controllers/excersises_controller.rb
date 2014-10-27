@@ -12,7 +12,7 @@ class ExcersisesController < ApplicationController
 			
 	  		excersise = Excersise.new
 			excersise.name = "Name"
-			excersise.excersisetype = 0
+			excersise.excersisetype = 1
 			excersise.diffculty = 1.0
 			excersise.sets = 0
 			excersise.reps = 0

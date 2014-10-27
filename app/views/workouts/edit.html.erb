@@ -1,4 +1,6 @@
+<%= javascript_include_tag "jquery-2.1.1.min.js" %>
 <%= javascript_include_tag "jquery-ui.min.js" %>
+<%= stylesheet_link_tag "excersise_edit.css" %>
 
 <script>
 
@@ -24,7 +26,10 @@ function create_new_excersise()
 		{
 			var id = xmlhttp.responseText.trim();
 
-			var excersises = document.getElementById("excerises");
+			// Create the span tag to align the text propperly
+			var aligner = document.createElement('span');
+
+			var excersises = document.getElementById("excersises");
 
 			// Empty the div if there are 0 groups
 			if( current_group == 0 ) excersises.innerHTML = "";
@@ -38,32 +43,42 @@ function create_new_excersise()
 				
 			var excersiseContainer = document.createElement('div');
 			excersiseContainer.id = ("excersise_" + id);
-			excersiseContainer.class = "excersise";
+			excersiseContainer.className = "excersise";
 
 			var excersiseGroup = document.createElement('div');
+
 			excersiseGroup.id = ("excersise_group_" + id);
-			excersiseGroup.class = "excersise_group";
+			excersiseGroup.className = "excersise_group";
 			excersiseGroup.innerText = current_group;
 			excersiseGroup.contentEditable = 'true';
+
+			// Create the span tag to align the text propperly
+			var groupAligner = document.createElement('span');
+			excersiseGroup.appendChild(groupAligner);
 
 			excersiseContainer.appendChild(excersiseGroup);
 
 			var excersiseName = document.createElement('div');
 			excersiseName.id = ("excersise_name_" + id);
-			excersiseName.class = "excersise_name";
+			excersiseName.className = "excersise_name";
 			excersiseName.innerText = "Name";
 			excersiseName.contentEditable = 'true';
+
+			// Create the span tag to align the text propperly
+			var nameAligner = document.createElement('span');
+
+			excersiseName.appendChild(nameAligner);
 
 			excersiseContainer.appendChild(excersiseName);
 
 			var excersiseType = document.createElement('div');
 			excersiseType.id = ("excersise_type_" + id);
-			excersiseType.class = "excersise_type";
+			excersiseType.className = "excersise_type";
 
 			var excersiseTypeSelect = document.createElement('select');
 			excersiseTypeSelect.addEventListener("change", change_units_event);
 			excersiseTypeSelect.id = ("excersise_type_select_" + id);
-			excersiseTypeSelect.class = "excersise_type_select";
+			excersiseTypeSelect.className = "excersise_type_select";
 
 			var weightBasedOption = document.createElement('option');
 			weightBasedOption.innerText = "Weight Based";
@@ -80,46 +95,64 @@ function create_new_excersise()
 
 			var excersiseDiffculty = document.createElement('div');
 			excersiseDiffculty.id = ("excersise_diffculty_" + id);
-			excersiseDiffculty.class = "excersise_diffculty";
+			excersiseDiffculty.className = "excersise_diffculty";
 
 			var excersiseDiffcultyMagnitude = document.createElement('div');
+
 			excersiseDiffcultyMagnitude.id = ("excersise_diffculty_magnitude_" + id);
-			excersiseDiffcultyMagnitude.class = "excersise_diffculty_magnitude";
+			excersiseDiffcultyMagnitude.className = "excersise_diffculty_magnitude";
 			excersiseDiffcultyMagnitude.innerText = "1.0";
 			excersiseDiffcultyMagnitude.contentEditable = 'true';
+
+			// Create the span tag to align the text propperly
+			var magnitudeAligner = document.createElement('span');
+			excersiseDiffcultyMagnitude.appendChild(magnitudeAligner);
 
 			excersiseDiffculty.appendChild(excersiseDiffcultyMagnitude);
 
 			var excersiseDiffcultyUnits = document.createElement('div');
+
 			excersiseDiffcultyUnits.id = ("excersise_diffculty_units_" + id);
 			excersiseDiffcultyUnits.class = "excersise_diffculty_units";
 			excersiseDiffcultyUnits.innerText = "kg";
+
+			// Create the span tag to align the text propperly
+			var unitsAligner = document.createElement('span');
+			excersiseDiffcultyUnits.appendChild(unitsAligner);
 
 			excersiseDiffculty.appendChild(excersiseDiffcultyUnits);
 
 			excersiseContainer.appendChild(excersiseDiffculty);
 
 			var excersiseSets = document.createElement('div');
+
 			excersiseSets.id = ("excersise_sets_" + id);
-			excersiseSets.class = "excersise_sets";
+			excersiseSets.className = "excersise_sets";
 			excersiseSets.innerText = "0";
 			excersiseSets.contentEditable = 'true';
+
+			// Create the span tag to align the text propperly
+			var setsAligner = document.createElement('span');
+			excersiseSets.appendChild(setsAligner);
 
 			excersiseContainer.appendChild(excersiseSets);
 
 			var excersiseReps = document.createElement('div');
+
 			excersiseReps.id = ("excersise_reps_" + id);
-			excersiseReps.class = "excersise_reps";
+			excersiseReps.className = "excersise_reps";
 			excersiseReps.innerText = "0";
 			excersiseReps.contentEditable = "true";
+
+			// Create the span tag to align the text propperly
+			var repsAligner = document.createElement('span');
+			excersiseReps.appendChild(repsAligner);
 
 			excersiseContainer.appendChild(excersiseReps);
 
 			newA.appendChild(excersiseContainer);
 			
 			excersises.appendChild(newA);
-
-			//document.getElementById("status_bar").innerText = "Changes Saved";
 		}
 	}
 
@@ -190,11 +223,11 @@ function change_units(id)
 
 	if( type_select[type_select.selectedIndex].value == "Weight Based" )
 	{
-		document.getElementById("excersise_diffculty_units_" + id).innerText = "kg";
+		document.getElementById("excersise_diffculty_units_" + id).innerHTML = "<span></span>kg";
 	}
 	else if(type_select[type_select.selectedIndex].value == "Time Based")
 	{
-		document.getElementById("excersise_diffculty_units_" + id).innerText = "sec";
+		document.getElementById("excersise_diffculty_units_" + id).innerHTML = "<span></span>sec";
 	}
 }
 
@@ -213,7 +246,7 @@ function change_units(id)
 </ br>
 </ br>
 
-<div id="excerises">
+<div id="excersises">
 	<% if @excersises.size == 0 %>
 		<p>There are currently no excersises in this workout</p>
 	<% else %>
@@ -221,11 +254,11 @@ function change_units(id)
 			<a onchange="edit_excersise(<%= excersise.id %>)" onkeyup="edit_excersise(<%= excersise.id %>)">
 				<div id="excersise_<%= excersise.id %>" class="excersise">
 					<div id="excersise_group_<%= excersise.id %>" class="excersise_group" contentEditable='true'>
-						<%= excersise.group %>
+						<span></span><%= excersise.group %>
 					</div>
 
 					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true'>
-						<%= excersise.name %>
+						<span></span><%= excersise.name %>
 					</div>
 
 					<div id="excersise_type_<%= excersise.id %>" class="excersise_type">
@@ -237,20 +270,21 @@ function change_units(id)
 
 					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
 						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" contentEditable='true'>
-							<%= excersise.diffculty %>
+							<span></span><%= excersise.diffculty %>
 						</div>
 						<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">
-							<%= excersise.get_units %>
+							<span></span><%= excersise.get_units %>
 						</div>
 					</div>
 
 					<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets" contentEditable='true'>
-						<%= excersise.sets %>
+						<span></span><%= excersise.sets %>
 					</div>
 
 					<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps" contentEditable='true'>
-						<%= excersise.reps %>
+						<span></span><%= excersise.reps %>
 					</div>
+
 				</div>
 			</a>
 		<% end %>

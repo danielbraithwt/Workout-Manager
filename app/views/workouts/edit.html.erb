@@ -7,12 +7,21 @@
 var workout_id = <%= @workout.id %>;
 var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.group != nil && item.group > memo then item.group; else memo; end } %>
 
-$( document ).ready( function() {
+$(window).bind("load", function() {
 		update_colors();
 		});
 
 function update_colors()
 {
+	// Update the color of the header so it matches the first excersise background
+	var first = $("#excersises").children("a").first();
+	var first_group = document.getElementById("excersise_group_" + first.attr('id')).innerText;
+	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / current_group ), 0.68, 0.66);
+
+	$("#header").animate({backgroundColor: "rgba(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ", 0.8)"});
+
+
+	// Update the colors of the excersises
 	$("#excersises").children("a").each(function() {
 			var group = document.getElementById("excersise_group_" + this.id).innerText;
 
@@ -194,10 +203,6 @@ function edit_excersise(id)
 	document.getElementById("status_bar").innerText = "Not Saved";
 
 	var group = document.getElementById("excersise_group_" + id).innerText;
-
-	var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / current_group ), 0.68, 0.66);
-	$("#excersise_"+id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-
 	var name = document.getElementById("excersise_name_" + id).innerText;
 	var type_select = document.getElementById("excersise_type_select_" + id);
 	var type = 0;
@@ -226,6 +231,7 @@ function edit_excersise(id)
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
 		{
 			document.getElementById("status_bar").innerText = "Changes Saved";
+			update_colors();
 		}
 	}
 
@@ -310,18 +316,16 @@ function HSBtoRGB(h, s, l)
 
 </script>
 
-<h1>Editing Workout</h1>
-</ br>
+<div id="header">
+	<div id="title">
+		<h1><%= @workout.name %></h1>
+	</div>
 
-<h3>Name: <%= @workout.name %></h3>
-</ br>
+	<div id="status_bar">
+		Changes Saved
+	</div>
 
-<div id="status_bar">
-	Changes Saved
-</div
-
-</ br>
-</ br>
+</div>
 
 <div id="excersises">
 	<% if @excersises.size == 0 %>

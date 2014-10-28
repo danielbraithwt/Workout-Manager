@@ -11,15 +11,24 @@ $(window).bind("load", function() {
 		update_colors();
 		});
 
+$(document).scroll( function() {
+		// Caclulate what current excersise the header is over
+		var scrolled = $(document).scrollTop();
+		var currentExcersise = parseInt(scrolled / 100);
+		var element = $("#excersises a:nth-child(" + currentExcersise+1 + ")");
+		alert($("#" + element.id).css("background-color"));
+		$("#column_titles").animate({backgroundColor: $("#" + element.id).css("background-color")});
+});
+
 function update_colors()
 {
 	// Update the color of the header so it matches the first excersise background
 	var first = $("#excersises").children("a").first();
 	var first_group = document.getElementById("excersise_group_" + first.attr('id')).innerText;
-	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / current_group ), 0.68, 0.66);
+	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / current_group ), 0.68, 0.7);
 
-	$("#header").animate({backgroundColor: "rgba(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ", 0.8)"});
-
+	//$("#header").animate({backgroundColor: "rgba(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ", 0.8)"});
+	$("#column_titles").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 
 	// Update the colors of the excersises
 	$("#excersises").children("a").each(function() {
@@ -66,6 +75,7 @@ function create_new_excersise()
 			newA.addEventListener("keyup", edit_excersise_event);
 				
 			var excersiseContainer = document.createElement('div');
+			excersiseContainer.addEventListener("focusout", update_colors);
 			excersiseContainer.id = ("excersise_" + id);
 			excersiseContainer.className = "excersise";
 
@@ -200,7 +210,8 @@ function edit_excersise_event(event)
 
 function edit_excersise(id)
 {
-	document.getElementById("status_bar").innerText = "Not Saved";
+	$("#column_titles").animate({backgroundColor: "#EEEEEE"});
+
 
 	var group = document.getElementById("excersise_group_" + id).innerText;
 	var name = document.getElementById("excersise_name_" + id).innerText;
@@ -230,8 +241,7 @@ function edit_excersise(id)
 	{
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
 		{
-			document.getElementById("status_bar").innerText = "Changes Saved";
-			update_colors();
+			// Dont need to do anything
 		}
 	}
 
@@ -316,13 +326,44 @@ function HSBtoRGB(h, s, l)
 
 </script>
 
+<div id="container">
 <div id="header">
 	<div id="title">
-		<h1><%= @workout.name %></h1>
+		<a href="/">
+			<div id="home">
+				H
+			</div>
+		</a>
+
+		<div id="workout_name">
+			<%= @workout.name %>
+		</div>
 	</div>
 
-	<div id="status_bar">
-		Changes Saved
+	<div id="column_titles">
+		<div id="excersise_group_header" class="excersise_group">
+			<span></span>Group
+		</div>
+
+		<div id="excersise_name_header" class="excersise_name">
+			<span></span>Name
+		</div>
+
+		<div id="excersise_type_header" class="excersise_type">
+			<span></span>Type
+		</div>
+
+		<div id="excersise_diffculty_header" class="excersise_diffculty">
+			<span></span>Diffculty
+		</div>
+
+		<div id="excersise_sets_header" class="excersise_sets">
+			<span></span>Sets
+		</div>
+
+		<div id="excersise_reps_header" class="excersise_reps">
+			<span></span>Reps
+		</div>
 	</div>
 
 </div>
@@ -333,7 +374,7 @@ function HSBtoRGB(h, s, l)
 	<% else %>
 		<% @excersises.each do |excersise| %>
 			<a id="<%= excersise.id %>" onchange="edit_excersise(<%= excersise.id %>)" onkeyup="edit_excersise(<%= excersise.id %>)">
-				<div id="excersise_<%= excersise.id %>" class="excersise">
+				<div id="excersise_<%= excersise.id %>" class="excersise" onfocusout="update_colors()">
 					<div id="excersise_group_<%= excersise.id %>" class="excersise_group" contentEditable='true'>
 						<span></span><%= excersise.group %>
 					</div>
@@ -372,4 +413,10 @@ function HSBtoRGB(h, s, l)
 	<% end %>
 </div>
 
-<button onclick="create_new_excersise()">Create New Excersise</button>
+<a onclick="create_new_excersise()">
+	<div id="create_new_excersise_button">
+		<span></span>Create New Excersise
+	</div>
+</a>
+</div>
+

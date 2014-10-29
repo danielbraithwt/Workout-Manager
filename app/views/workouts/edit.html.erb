@@ -7,6 +7,11 @@
 var workout_id = <%= @workout.id %>;
 var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.group != nil && item.group > memo then item.group; else memo; end } %>
 
+$(function() {
+		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y'});
+		$("#excersises").disableSelection();
+		});
+
 $(window).bind("load", function() {
 			update_colors();
 		});
@@ -401,7 +406,8 @@ function HSBtoRGB(h, s, l)
 		<p>There are currently no excersises in this workout</p>
 	<% else %>
 		<% @excersises.each do |excersise| %>
-			<a id="<%= excersise.id %>" onchange="edit_excersise(<%= excersise.id %>)" onkeyup="if(e.keyCode != 9) edit_excersise(<%= excersise.id %>);">
+
+			<a id="<%= excersise.id %>" class="excersise_container ui-sortable-handle" onchange="edit_excersise(<%= excersise.id %>)" onkeyup="if(e.keyCode != 9) edit_excersise(<%= excersise.id %>);">
 				<div id="excersise_<%= excersise.id %>" class="excersise" onfocusout="update_colors()">
 					<div id="excersise_group_<%= excersise.id %>" class="excersise_group" contentEditable='true'>
 						<span></span><%= excersise.group %>

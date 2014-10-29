@@ -57,6 +57,22 @@
 	margin-top: 180px;
 }
 
+/* The class for the excersise placeholder */
+.excersise-placeholder {
+	width: 100%;
+	height: 100px;
+
+	display: block;
+}
+
+/* <a> tag sourounding excersise */
+.excersise_container {
+	width: 100%;
+	height : 100px;
+
+	display: block;
+}
+
 /* Excersise container styling */
 .excersise {
 	width: 100%;

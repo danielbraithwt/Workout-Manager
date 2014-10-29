@@ -10,6 +10,8 @@ body {
 	width: 100%;
 	height: 100%;
 
+	max-width: 950px;
+
 	background-color: #F5F5F5;
 }
 
@@ -17,6 +19,8 @@ body {
 #header {
 	width: 100%;
 	height: 180px;
+
+	max-width: 950px;
 
 	position: fixed;
 

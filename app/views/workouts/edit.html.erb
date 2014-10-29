@@ -18,9 +18,22 @@ $(window).bind("load", function() {
 
 $(document).scroll( function() {
 			update_column_title_color();
+			});
+
+$(window).on("load resize", function() {
+			var widthDiffrence = $(window).width() - 950;
+
+			if( widthDiffrence > 0 )
+			{
+				var newLeft = widthDiffrence/2;
+				$("#container").css({left: newLeft});
+			}
+			else
+			{
+				$("#container").css({left: 0});
+			}
+				
 		});
-
-
 
 function update_column_title_color()
 {

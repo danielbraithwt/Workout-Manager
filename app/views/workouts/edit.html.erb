@@ -19,8 +19,11 @@ $(document).scroll( function() {
 		// Get the <a> tag containing the excersise we want
 		var element = $("#excersises a:nth-child(" + (currentExcersise+1) + ")").get(0);
 
-		// Set the color of the column header to the color of that excersise
-		$("#column_titles").animate({backgroundColor: $("#excersise_" + element.id).css("background-color")});
+		if( $("#column_titles").css("background-color") != $("#excersise_" + element.id).css("background-color") )
+		{
+			// Set the color of the column header to the color of that excersise
+			$("#column_titles").animate({backgroundColor: $("#excersise_" + element.id).css("background-color")});
+		}
 });
 
 function update_colors()

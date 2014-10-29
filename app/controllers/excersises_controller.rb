@@ -52,4 +52,12 @@ class ExcersisesController < ApplicationController
 
   def destory
   end
+
+  def update_position
+	  excersise = Excersise.find(params[:id])
+
+	  excersise.position = params[:position]
+
+	  excersise.save
+  end
 end

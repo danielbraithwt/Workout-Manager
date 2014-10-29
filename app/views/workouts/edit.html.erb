@@ -8,8 +8,8 @@ var workout_id = <%= @workout.id %>;
 var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.group != nil && item.group > memo then item.group; else memo; end } %>
 
 $(function() {
-		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y'});
-		$("#excersises").disableSelection();
+		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y' });
+		//$("#excersises").disableSelection();
 		});
 
 $(window).bind("load", function() {
@@ -33,7 +33,38 @@ $(window).on("load resize", function() {
 				$("#container").css({left: 0});
 			}
 				
-		});
+			});
+
+function update_positions()
+{
+	var pos = 0;
+	
+	$("#excersises").children("a").each(function() {
+				var xmlhttp;
+
+				if( window.XMLHttpRequest )
+				{
+					xmlhttp = new XMLHttpRequest();
+				}
+				else
+				{
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+
+				xmlhttp.onreadystatechange = function()
+				{
+					if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
+					{
+						// Dont need to do anything
+					}
+				}
+
+				xmlhttp.open("GET", "/excersises/update_position?id=" + this.id + "&position=" + (pos), true);
+				xmlhttp.send();
+
+				pos += 1;
+			});	
+}
 
 function update_column_title_color()
 {
@@ -64,7 +95,7 @@ function update_colors()
 	var first_group = document.getElementById("excersise_group_" + first.attr('id')).innerText;
 	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / current_group ), 0.68, 0.7);
 
-	//$("#header").animate({backgroundColor: "rgba(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ", 0.8)"});
+	$("#header").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 	$("#column_titles").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 
 	// Update the colors of the excersises
@@ -236,6 +267,9 @@ function create_new_excersise()
 
 			var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / current_group ), 0.68, 0.66);
 			$("#excersise_"+id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+
+
+			update_positions();
 		}
 	}
 
@@ -288,6 +322,7 @@ function edit_excersise(id)
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
 		{
 			//update_colors();
+			update_positions();
 		}
 	}
 
@@ -387,6 +422,9 @@ function HSBtoRGB(h, s, l)
 	</div>
 
 	<div id="column_titles">
+		<div id="excersise_handle_header" class="excersise_handle">
+		</div>
+
 		<div id="excersise_group_header" class="excersise_group">
 			<span></span>Group
 		</div>
@@ -420,8 +458,12 @@ function HSBtoRGB(h, s, l)
 	<% else %>
 		<% @excersises.each do |excersise| %>
 
-			<a id="<%= excersise.id %>" class="excersise_container ui-sortable-handle" onchange="edit_excersise(<%= excersise.id %>)" onkeyup="if(e.keyCode != 9) edit_excersise(<%= excersise.id %>);">
+			<a id="<%= excersise.id %>" class="excersise_container" onchange="edit_excersise(<%= excersise.id %>)" onkeyup="if(e.keyCode != 9) edit_excersise(<%= excersise.id %>);">
 				<div id="excersise_<%= excersise.id %>" class="excersise" onfocusout="update_colors()">
+					<div id="excersise_handle_<%= excersise.id %>" class="excersise_handle">
+						H
+					</div>
+
 					<div id="excersise_group_<%= excersise.id %>" class="excersise_group" contentEditable='true'>
 						<span></span><%= excersise.group %>
 					</div>

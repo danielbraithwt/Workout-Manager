@@ -31,7 +31,7 @@ class WorkoutsController < ApplicationController
 		puts "Editing Workout : #{params[:id]}"
 
 		@workout = Workout.find(params[:id])
-		@excersises = @workout.excersises
+		@excersises = @workout.excersises.order("position asc")
 
 	end
 end

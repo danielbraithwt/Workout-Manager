@@ -9,7 +9,7 @@ var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.gr
 
 $(function() {
 		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y', 
-				cancel: '.excersise_group,.excersise_name,.excersise_type,.excesise_sets,.excersise_reps',
+				cancel: '.excersise_group,.excersise_name,.excersise_type,.excersise_diffculty,.excersise_sets,.excersise_reps',
 				stop: function(event, ui) { 
 					update_column_title_color();
 					update_positions();
@@ -159,6 +159,14 @@ function create_new_excersise()
 			excersiseContainer.id = ("excersise_" + id);
 			excersiseContainer.className = "excersise";
 
+			var excersiseHandle = document.createElement('div');
+			excersiseHandle.addEventListener("mousedown", blockfy);
+			excersiseHandle.addEventListener("mouseup", unblockfy);
+			excersiseHandle.id = ("excersise_handle_" + id);
+			excersiseHandle.className = "excersise_handle";
+
+			excersiseContainer.appendChild(excersiseHandle);
+
 			var excersiseGroup = document.createElement('div');
 
 			excersiseGroup.id = ("excersise_group_" + id);
@@ -297,6 +305,9 @@ function edit_excersise_event(event)
 function edit_excersise(id)
 {
 	$("#column_titles").animate({backgroundColor: "#EEEEEE"});
+	$("#header").animate({backgroundColor: "#EEEEEE"});
+
+
 
 
 	var group = document.getElementById("excersise_group_" + id).innerText;
@@ -328,7 +339,7 @@ function edit_excersise(id)
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
 		{
 			//update_colors();
-			update_positions();
+			//update_positions();
 		}
 	}
 
@@ -412,14 +423,14 @@ function HSBtoRGB(h, s, l)
 }
 
 
-function blockfy(id)
+function blockfy()
 {
 	$("#excersises").children("a").each(function() {
 				$("#" + this.id).css({display: "block"});
 			});
 }
 
-function unblockfy(id)
+function unblockfy()
 {
 	$("#excersises").children("a").each(function() {
 				$("#" + this.id).css({display: "inline"});
@@ -478,9 +489,9 @@ function unblockfy(id)
 	<% else %>
 		<% @excersises.each do |excersise| %>
 
-			<a id="<%= excersise.id %>" class="excersise_container" onchange="edit_excersise(<%= excersise.id %>)" onkeyup="if(e.keyCode != 9) edit_excersise(<%= excersise.id %>);">
+			<a id="<%= excersise.id %>" class="excersise_container" onchange="edit_excersise(<%= excersise.id %>)" onkeyup="if(this.keyCode != 9) edit_excersise(<%= excersise.id %>);">
 				<div id="excersise_<%= excersise.id %>" class="excersise" onfocusout="update_colors()">
-					<div id="excersise_handle_<%= excersise.id %>" class="excersise_handle" onmousedown="blockfy(<%= excersise.id %>)" onmouseup="unblockfy(<%= excersise.id %>)">
+					<div id="excersise_handle_<%= excersise.id %>" class="excersise_handle" onmousedown="blockfy()" onmouseup="unblockfy()">
 						H
 					</div>
 

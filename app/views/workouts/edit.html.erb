@@ -8,7 +8,8 @@ var workout_id = <%= @workout.id %>;
 var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.group != nil && item.group > memo then item.group; else memo; end } %>
 
 $(function() {
-		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y' });
+		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y', 
+				cancel: '.excersise_group,.excersise_name,.excersise_type,.excesise_sets,.excersise_reps' });
 		//$("#excersises").disableSelection();
 		});
 
@@ -405,6 +406,20 @@ function HSBtoRGB(h, s, l)
 	return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 }
 
+
+function blockfy(id)
+{
+	$("#excersises").children("a").each(function() {
+				$("#" + this.id).css({display: "block"});
+			});
+}
+
+function unblockfy(id)
+{
+	$("#excersises").children("a").each(function() {
+				$("#" + this.id).css({display: "inline"});
+			});
+}
 </script>
 
 <div id="container">
@@ -460,7 +475,7 @@ function HSBtoRGB(h, s, l)
 
 			<a id="<%= excersise.id %>" class="excersise_container" onchange="edit_excersise(<%= excersise.id %>)" onkeyup="if(e.keyCode != 9) edit_excersise(<%= excersise.id %>);">
 				<div id="excersise_<%= excersise.id %>" class="excersise" onfocusout="update_colors()">
-					<div id="excersise_handle_<%= excersise.id %>" class="excersise_handle">
+					<div id="excersise_handle_<%= excersise.id %>" class="excersise_handle" onmousedown="blockfy(<%= excersise.id %>)" onmouseup="unblockfy(<%= excersise.id %>)">
 						H
 					</div>
 

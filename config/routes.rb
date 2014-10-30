@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   get 'excersises/destory'
 
+  get 'workouts/edit'
+
   #get 'workouts/new'
 
  	root 'home#index'

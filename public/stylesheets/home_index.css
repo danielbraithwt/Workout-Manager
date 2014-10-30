@@ -1,0 +1,20 @@
+.workout_container {
+	height: 100px;
+	width: 100%;
+}
+
+.workout {
+	height: 100px;
+	width: 100%;
+}
+
+.workout_name {
+	height: 100px;
+	width: 100%;
+}
+
+span {
+	height: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}

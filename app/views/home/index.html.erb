@@ -1,3 +1,5 @@
+<%= stylesheet_link_tag "home_index.css" %>
+
 <h1>Home#index</h1>
 <p>Welcome To Workout Manager</p>
 </ br>
@@ -8,16 +10,14 @@
 
 <% @workouts.each do |workout| %>
 	
-	<div id="workout-<%= workout.id %>" class="workout">
-		
-		<div class="id">
-			<%= workout.id %>
-		</div>
+	<a id="workout_container_<%= workout.id %>" class="workout_container" href="/workouts/edit/<%= workout.id %>">
+		<div id="workout_<%= workout.id %>" class="workout">
 
-		<div class="name">
-			<%= workout.name %>
-		</div>
+			<div class="workout_name_<%= workout.id %>" class="workout_name">
+				<%= workout.name %>
+			</div>
 
-	</div>
+		</div>
+	</a>
 
 <% end %>

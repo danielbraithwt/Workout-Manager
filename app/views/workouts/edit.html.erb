@@ -252,12 +252,12 @@ function create_new_excersise()
 			excersises.appendChild(newA);
 
 			// Set the color of the newley created div
-			var group = document.getElementById("excersise_group_" + id).innerText;
+			//var group = document.getElementById("excersise_group_" + id).innerText;
 
-			var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / current_group ), 0.68, 0.66);
-			$("#excersise_"+id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+			//var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / current_group ), 0.68, 0.66);
+			//$("#excersise_"+id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 
-
+			update_colors();
 			update_positions();
 		}
 	}
@@ -281,9 +281,6 @@ function edit_excersise(id)
 {
 	$("#column_titles").animate({backgroundColor: "#EEEEEE"});
 	$("#header").animate({backgroundColor: "#EEEEEE"});
-
-
-
 
 	var group = document.getElementById("excersise_group_" + id).innerText;
 	var name = document.getElementById("excersise_name_" + id).innerText;
@@ -313,8 +310,7 @@ function edit_excersise(id)
 	{
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
 		{
-			//update_colors();
-			//update_positions();
+			// Nothing needed
 		}
 	}
 

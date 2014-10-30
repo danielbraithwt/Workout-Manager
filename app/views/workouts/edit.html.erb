@@ -9,7 +9,11 @@ var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.gr
 
 $(function() {
 		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y', 
-				cancel: '.excersise_group,.excersise_name,.excersise_type,.excesise_sets,.excersise_reps' });
+				cancel: '.excersise_group,.excersise_name,.excersise_type,.excesise_sets,.excersise_reps',
+				stop: function(event, ui) { 
+					update_column_title_color();
+					update_positions();
+					}});
 		//$("#excersises").disableSelection();
 		});
 
@@ -79,6 +83,7 @@ function update_column_title_color()
 	if( $("#column_titles").css("background-color") != $("#excersise_" + element.id).css("background-color") )
 	{
 		// Set the color of the column header to the color of that excersise
+		$("#header").animate({backgroundColor: $("#excersise_" + element.id).css("background-color")});
 		$("#column_titles").animate({backgroundColor: $("#excersise_" + element.id).css("background-color")});
 	}
 }

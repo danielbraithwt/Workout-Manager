@@ -58,6 +58,10 @@ class ExcersisesController < ApplicationController
 
 	  excersise.position = params[:position]
 
-	  excersise.save
+	  if excersise.save
+		  @id = excersise.id;
+	  else
+		  @id = -1;
+	  end
   end
 end

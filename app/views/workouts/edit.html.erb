@@ -174,10 +174,6 @@ function create_new_excersise()
 			excersiseGroup.innerText = current_group;
 			excersiseGroup.contentEditable = 'true';
 
-			// Create the span tag to align the text propperly
-			var groupAligner = document.createElement('span');
-			excersiseGroup.appendChild(groupAligner);
-
 			excersiseContainer.appendChild(excersiseGroup);
 
 			var excersiseName = document.createElement('div');
@@ -185,11 +181,6 @@ function create_new_excersise()
 			excersiseName.className = "excersise_name";
 			excersiseName.innerText = "Name";
 			excersiseName.contentEditable = 'true';
-
-			// Create the span tag to align the text propperly
-			var nameAligner = document.createElement('span');
-
-			excersiseName.appendChild(nameAligner);
 
 			excersiseContainer.appendChild(excersiseName);
 
@@ -226,10 +217,6 @@ function create_new_excersise()
 			excersiseDiffcultyMagnitude.innerText = "1.0";
 			excersiseDiffcultyMagnitude.contentEditable = 'true';
 
-			// Create the span tag to align the text propperly
-			var magnitudeAligner = document.createElement('span');
-			excersiseDiffcultyMagnitude.appendChild(magnitudeAligner);
-
 			excersiseDiffculty.appendChild(excersiseDiffcultyMagnitude);
 
 			var excersiseDiffcultyUnits = document.createElement('div');
@@ -237,10 +224,6 @@ function create_new_excersise()
 			excersiseDiffcultyUnits.id = ("excersise_diffculty_units_" + id);
 			excersiseDiffcultyUnits.class = "excersise_diffculty_units";
 			excersiseDiffcultyUnits.innerText = "kg";
-
-			// Create the span tag to align the text propperly
-			var unitsAligner = document.createElement('span');
-			excersiseDiffcultyUnits.appendChild(unitsAligner);
 
 			excersiseDiffculty.appendChild(excersiseDiffcultyUnits);
 
@@ -253,10 +236,6 @@ function create_new_excersise()
 			excersiseSets.innerText = "0";
 			excersiseSets.contentEditable = 'true';
 
-			// Create the span tag to align the text propperly
-			var setsAligner = document.createElement('span');
-			excersiseSets.appendChild(setsAligner);
-
 			excersiseContainer.appendChild(excersiseSets);
 
 			var excersiseReps = document.createElement('div');
@@ -265,10 +244,6 @@ function create_new_excersise()
 			excersiseReps.className = "excersise_reps";
 			excersiseReps.innerText = "0";
 			excersiseReps.contentEditable = "true";
-
-			// Create the span tag to align the text propperly
-			var repsAligner = document.createElement('span');
-			excersiseReps.appendChild(repsAligner);
 
 			excersiseContainer.appendChild(excersiseReps);
 
@@ -496,11 +471,11 @@ function unblockfy()
 					</div>
 
 					<div id="excersise_group_<%= excersise.id %>" class="excersise_group" contentEditable='true'>
-						<span></span><%= excersise.group %>
+						<%= excersise.group %>
 					</div>
 
 					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true'>
-						<span></span><%= excersise.name %>
+						<%= excersise.name %>
 					</div>
 
 					<div id="excersise_type_<%= excersise.id %>" class="excersise_type">
@@ -512,19 +487,19 @@ function unblockfy()
 
 					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
 						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" contentEditable='true'>
-							<span></span><%= excersise.diffculty %>
+							<%= excersise.diffculty %>
 						</div>
 						<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">
-							<span></span><%= excersise.get_units %>
+							<%= excersise.get_units %>
 						</div>
 					</div>
 
 					<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets" contentEditable='true'>
-						<span></span><%= excersise.sets %>
+						<%= excersise.sets %>
 					</div>
 
 					<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps" contentEditable='true'>
-						<span></span><%= excersise.reps %>
+						<%= excersise.reps %>
 					</div>
 
 				</div>

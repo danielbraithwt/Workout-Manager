@@ -138,9 +138,6 @@ function create_new_excersise()
 		{
 			var id = xmlhttp.responseText.trim();
 
-			// Create the span tag to align the text propperly
-			var aligner = document.createElement('span');
-
 			var excersises = document.getElementById("excersises");
 
 			// Empty the div if there are 0 groups
@@ -150,6 +147,7 @@ function create_new_excersise()
 			current_group += 1;
 
 			var newA = document.createElement('a');
+			newA.className = "excersise_container";
 			newA.id = id;
 			newA.addEventListener("change", edit_excersise_event);
 			newA.addEventListener("keyup", edit_excersise_event);

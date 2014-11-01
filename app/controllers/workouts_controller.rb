@@ -34,4 +34,39 @@ class WorkoutsController < ApplicationController
 		@excersises = @workout.excersises.order("position asc")
 
 	end
+
+	def do
+		puts "Doing Workout : #{params[:id]}"
+
+		@workout = Workout.find(params[:id])
+		@excersises = @workout.excersises.order("position asc")
+		
+		excersise_frequency = {}
+		@excersise_order = []
+
+		index = 0
+
+		while index < @excersises.length
+
+			excersise_frequency[index] = 0 if excersise_frequency[index] == nil
+			excersise_frequency[index] += 1
+			@excersise_order << index
+
+			if index != 0 && @excersises[index-1].group == @excersises[index].group && excersise_frequency[index-1] != @excersises[index-1].sets
+				index -= 1
+			else
+				index += 1
+			end
+		end
+		
+		## just for testing
+		############################
+		puts "\nWorkout Schedule: "
+
+		@excersise_order.each do |i|
+			puts "Excersise: #{@excersises[i].name}"
+		end
+		puts "\n"
+		###########################
+	end
 end

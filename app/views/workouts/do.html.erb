@@ -14,8 +14,15 @@ $(document).ready( function() {
 
 function next()
 {
+	// If there are no more excersises to do
+	if( excersiseOrder.length == 0 )
+	{
+		document.getElementById("excersises").innerHTML = "Finished!";
+		return;
+	}
+
 	var next = excersiseOrder.shift();
-	
+
 	// Dont need to do anything if the excersise hasnt changed
 	var children = $("#excersises").children();
  

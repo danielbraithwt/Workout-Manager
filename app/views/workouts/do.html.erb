@@ -5,12 +5,33 @@
 <script>
 
 var excersiseOrder = <%= @excersise_order.to_json %>;
+var excersiseGroupOrder = <%= @excersise_group_order.reverse.to_json %>
+var largestGroup = <%= @largest_group %>
 
 var currentExcersise = 0;
 
 $(document).ready( function() {
 		var currentExcersise = excersiseOrder.shift();
-	});
+		});
+
+$(document).ready( function() {
+
+		var index = 0;
+		$("#excersises").children().each(function() {
+
+				var rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / largestGroup), 0.68, 0.66);
+				$(this).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+
+				if( index == excersiseGroupOrder.length - 1 ) 
+				{
+					rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / largestGroup), 0.68, 0.7);
+					$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+				}
+
+				index += 1;
+				});			
+
+		});
 
 function next()
 {
@@ -29,7 +50,13 @@ function next()
 	if( next < currentExcersise )
 	{
 
-		if( next != currentExcersise ) $(children[(children.length-1) - next]).animate({height: "toggle"});
+		if( next != currentExcersise ) 
+		{
+			$(children[(children.length-1) - next]).animate({height: "toggle"});
+
+			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / largestGroup), 0.68, 0.7);
+			$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+		}
 
 		var child =  $(children[(children.length-1) - currentExcersise]);
 		var reps_left = parseInt(document.getElementById("excersise_sets_" + child.attr('id')).innerText.split(":")[1]);
@@ -37,7 +64,13 @@ function next()
 	}
 	else
 	{
-		if( next != currentExcersise )  $(children[(children.length-1) - currentExcersise]).animate({height: "toggle"});
+		if( next != currentExcersise )  
+		{
+			$(children[(children.length-1) - currentExcersise]).animate({height: "toggle"});
+
+			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / largestGroup), 0.68, 0.7);
+			$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+		}
 
 		var child = $(children[(children.length-1) - currentExcersise]);
 		var reps_left = parseInt(document.getElementById("excersise_sets_" + child.attr('id')).innerText.split(":")[1]);
@@ -47,7 +80,58 @@ function next()
 
 	currentExcersise = next;
 }
- 
+
+function HSBtoRGB(h, s, l)
+{
+	var C = (1 - Math.abs(2 * l - 1)) * s;
+	var Hp = h/60.0;
+	var x = C * ( 1 - Math.abs(Hp%2 - 1));
+
+	var r;
+	var g;
+	var b;
+
+	if( Hp >= 0 && Hp < 1 )
+	{
+		r = C;
+		g = x;
+		b = 0;
+	}
+	else if( Hp >= 1 && Hp < 2 )
+	{
+		r = x;
+		g = C;
+		b = 0;
+	}
+	else if( Hp >= 2 && Hp < 3 )
+	{
+		r = 0;
+		g = C;
+		b = x;
+	}
+	else if( Hp >= 3 && Hp < 4 )
+	{
+		r = 0;
+		g = x;
+		b = C;
+	}
+	else if( Hp >= 4 && Hp < 5 )
+	{
+		r = x;
+		g = 0;
+		b = C;
+	}	
+	else if( Hp >= 5 && Hp < 6 )
+	{
+		r = C;
+		g = 0;
+		b = x;
+	}
+
+	m = l - (1/2.0) * C;
+
+	return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
+}
 
 </script>
 

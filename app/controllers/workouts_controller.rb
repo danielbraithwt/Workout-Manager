@@ -76,6 +76,16 @@ class WorkoutsController < ApplicationController
 			end
 		end
 
+		# Get groups into an array
+		@excersise_group_order = []
+
+		@excersises.each do |excersise|
+			@excersise_group_order << excersise.group
+		end
+
+		# Get the largest group
+		@largest_group = @excersises.inject(0) { |memo, item| if item.group != nil && item.group > memo then item.group; else memo; end }
+
 		#index = 0
 
 		#while index < @excersises.length

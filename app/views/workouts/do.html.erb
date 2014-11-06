@@ -5,6 +5,7 @@
 <script>
 
 var excersiseOrder = <%= @excersise_order.to_json %>;
+
 var currentExcersise = 0;
 
 $(document).ready( function() {
@@ -16,18 +17,25 @@ function next()
 	var next = excersiseOrder.shift();
 	
 	// Dont need to do anything if the excersise hasnt changed
-	if( next == currentExcersise )
-	{
-		var children = $("#excersises").children();
+	var children = $("#excersises").children();
  
-		if( next < currentExcersise )
-		{
-			$(children[(children.length-1) - next]).animate({height: "toggle"});
-		}
-		else
-		{
-			$(children[(children.length-1) - currentExcersise]).animate({height: "toggle"});
-		}
+	if( next < currentExcersise )
+	{
+
+		if( next != currentExcersise ) $(children[(children.length-1) - next]).animate({height: "toggle"});
+
+		var child =  $(children[(children.length-1) - currentExcersise]);
+		var reps_left = parseInt(document.getElementById("excersise_sets_" + child.attr('id')).innerText.split(":")[1]);
+		document.getElementById("excersise_sets_" + child.attr('id')).innerHTML = "<span></span>Sets Left: " + (reps_left-1);
+	}
+	else
+	{
+		if( next != currentExcersise )  $(children[(children.length-1) - currentExcersise]).animate({height: "toggle"});
+
+		var child = $(children[(children.length-1) - currentExcersise]);
+		var reps_left = parseInt(document.getElementById("excersise_sets_" + child.attr('id')).innerText.split(":")[1]);
+		document.getElementById("excersise_sets_" + child.attr('id')).innerHTML = "<span></span>Sets Left: " + (reps_left-1);
+
 	}
 
 	currentExcersise = next;
@@ -40,8 +48,20 @@ function next()
 	<% @excersises.reverse.each do |excersise| %>
 		<a id="<%= excersise.id %>" class="excersise_container">
 			<div id="excersise_<%= excersise.id %>" class="excersise">
-				<div id="excersisse_name_<%= excersise.id %>" class="excersise_name">
+				<div id="excersise_name_<%= excersise.id %>" class="excersise_name">
 					<span></span><%= excersise.name %>
+				</div>
+				
+				<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets">
+					<span></span>Sets Left: <%= excersise.sets %>
+				</div>
+
+				<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps">
+					<span></span>Reps: <%= excersise.reps %>
+				</div>
+				
+				<div id="excersise_encouragement_<%= excersise.id %>" class="excersise_encouragement">
+					<span></span><%= @encouragements[rand(@encouragements.size)] %>
 				</div>
 			</div>
 		</a>

@@ -38,6 +38,8 @@ class WorkoutsController < ApplicationController
 	def do
 		puts "Doing Workout : #{params[:id]}"
 
+		@encouragements = ["Lets Do It", "Go For It!"]
+
 		@workout = Workout.find(params[:id])
 		@excersises = @workout.excersises.order("position asc")
 		

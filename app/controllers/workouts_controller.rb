@@ -41,23 +41,55 @@ class WorkoutsController < ApplicationController
 		@workout = Workout.find(params[:id])
 		@excersises = @workout.excersises.order("position asc")
 		
+		groups = {}
 		excersise_frequency = {}
 		@excersise_order = []
 
-		index = 0
+		# Sort the excersises into there groups
+		@excersises.each do |excersise|
+			groups[excersise.group] = [] if groups[excersise.group] == nil
 
-		while index < @excersises.length
+			groups[excersise.group] << excersise
+		end
 
-			excersise_frequency[index] = 0 if excersise_frequency[index] == nil
-			excersise_frequency[index] += 1
-			@excersise_order << index
+		# Itterate through the groups and 
+		groups.keys.sort.each do |group|
+			excersise_group = groups[group]
+			group_finished = false
+			
+			# Untill all the excersises have been added the ammout they should
+			while !group_finished
+				group_finished = true
 
-			if index != 0 && @excersises[index-1].group == @excersises[index].group && excersise_frequency[index-1] != @excersises[index-1].sets
-				index -= 1
-			else
-				index += 1
+				excersise_group.each do |excersise|
+					excersise_frequency[excersise.id] = 0 if excersise_frequency[excersise.id] == nil
+					
+					if excersise_frequency[excersise.id] < excersise.sets
+						@excersise_order << excersise.position
+						excersise_frequency[excersise.id] += 1
+
+						group_finished = false
+					end
+				end
 			end
 		end
+
+		#index = 0
+
+		#while index < @excersises.length
+
+			#excersise_frequency[index] = 0 if excersise_frequency[index] == nil
+			#excersise_frequency[index] += 1
+			#@excersise_order << index
+
+			#if index != 0 && @excersises[index-1].group == @excersises[index].group && excersise_frequency[index-1] != @excersises[index-1].sets
+			#	index -= 1
+			#elsif index < @excersises.length-1 && @excersises[index+1].group != @excersises[index].group
+
+			#else
+			#	index += 1
+			#end
+		#end
 		
 		## just for testing
 		############################

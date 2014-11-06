@@ -14,17 +14,20 @@ $(document).ready( function() {
 function next()
 {
 	var next = excersiseOrder.shift();
-	var children = $("#excersises").children();
+	
+	// Dont need to do anything if the excersise hasnt changed
+	if( next == currentExcersise )
+	{
+		var children = $("#excersises").children();
  
-	if( next < currentExcersise )
-	{
-		//var child = $("#excersises a:nth-child(" + (currentExcersise) + ")").get(0);
-		$(children[(children.length-1) - next]).animate({height: "toggle"});
-	}
-	else
-	{
-		//var child = $("#excersises a:nth-child(" + (currentExcersise+1) + ")").get(0);
-		$(children[(children.length-1) - currentExcersise]).animate({height: "toggle"});
+		if( next < currentExcersise )
+		{
+			$(children[(children.length-1) - next]).animate({height: "toggle"});
+		}
+		else
+		{
+			$(children[(children.length-1) - currentExcersise]).animate({height: "toggle"});
+		}
 	}
 
 	currentExcersise = next;

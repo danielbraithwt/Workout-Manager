@@ -1,0 +1,52 @@
+<%= javascript_include_tag "jquery-2.1.1.min.js" %>
+<%= javascript_include_tag "jquery-ui.min.js" %>
+<%= stylesheet_link_tag "excersise_do.css" %>
+
+<script>
+
+var excersiseOrder = <%= @excersise_order.to_json %>;
+var currentExcersise = 0;
+
+$(document).ready( function() {
+		var currentExcersise = excersiseOrder.shift();
+	});
+
+function next()
+{
+	var next = excersiseOrder.shift();
+	var children = $("#excersises").children();
+ 
+	if( next < currentExcersise )
+	{
+		//var child = $("#excersises a:nth-child(" + (currentExcersise) + ")").get(0);
+		$(children[(children.length-1) - next]).animate({height: "toggle"});
+	}
+	else
+	{
+		//var child = $("#excersises a:nth-child(" + (currentExcersise+1) + ")").get(0);
+		$(children[(children.length-1) - currentExcersise]).animate({height: "toggle"});
+	}
+
+	currentExcersise = next;
+}
+ 
+
+</script>
+
+<div id="excersises">
+	<% @excersises.reverse.each do |excersise| %>
+		<a id="<%= excersise.id %>" class="excersise_container">
+			<div id="excersise_<%= excersise.id %>" class="excersise">
+				<div id="excersisse_name_<%= excersise.id %>" class="excersise_name">
+					<span></span><%= excersise.name %>
+				</div>
+			</div>
+		</a>
+	<% end %>	
+</div>
+
+<div id="controll_bar">
+	<div id="next" onclick="next()">
+		NEXT!
+	</div>
+</div>

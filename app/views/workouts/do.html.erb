@@ -60,7 +60,7 @@ function next()
 		{
 			$(children[(children.length-1) - next]).animate({height: "toggle"});
 
-			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.7);
+			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.72);
 			$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 		}
 
@@ -74,8 +74,17 @@ function next()
 		{
 			$(children[(children.length-1) - current_excersise]).animate({height: "toggle"});
 
-			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.7);
+			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.72);
 			$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+
+			if( excersiseGroupOrder[(children.length-1) - next] != excersiseGroupOrder[(children.length-1) - current_excersise] )
+			{
+
+				rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.7);
+				$("#current_group_details").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+
+				update_current_group_bar(excersiseGroupOrder[(children.length-1)-next]);
+			}
 		}
 
 		var child = $(children[(children.length-1) - current_excersise]);
@@ -85,6 +94,41 @@ function next()
 	}
 
 	current_excersise = next;
+}
+
+function update_current_group_bar(group)
+{
+	var i = 0;
+	document.getElementById("current_group_details").innerHTML = "";
+	$("#excersises").children('a').each( function() {
+			
+			if( excersiseGroupOrder[i] == group )
+			{
+				var id = $(this).attr('id');	
+
+				var excersise_detail = document.createElement("div");
+				excersise_detail.id = ("excersise_detail_" + id);
+				excersise_detail.className = "excersise_detail";
+				
+				excersise_detail.innerHTML += ("<h3>" + document.getElementById("excersise_name_" + id).innerText + "</h3");
+				excersise_detail.innerHTML += "</ br>"
+				excersise_detail.innerHTML +=  document.getElementById("excersise_diffculty_" + id).innerText;
+
+				//var nameTag = document.createElement("h3");
+				//nameTag.innerText = document.getElementById("excersise_name_" + id).innerText;
+
+				//excersise_detail.appendChild(nameTag);
+
+				//excersise_detail.appendChild(document.createElement('br'));
+
+				//excersise_detail.innerText += document.getElementById("excersise_diffculty_" + id).innerText;
+
+				document.getElementById("current_group_details").appendChild(excersise_detail);
+
+				i += 1;
+			}
+
+			});
 }
 
 function HSBtoRGB(h, s, l)

@@ -90,6 +90,11 @@ function update_column_title_color()
 
 function update_colors()
 {
+	// Make sure the color range is split over enough
+	// of a range to give a smmoth color change
+	var max_range = current_group;
+	if( max_range < 10 ) max_range = 10;
+
 	// Caclulate what current excersise the header is over and get its id
 	var scrolled = $(document).scrollTop();
 	var currentExcersise = parseInt(scrolled / 100);
@@ -99,7 +104,7 @@ function update_colors()
 	// Update the color of the header so it matches the first excersise background
 	var first = $("#excersises").children("a").first();
 	var first_group = document.getElementById("excersise_group_" + first.attr('id')).innerText;
-	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / current_group ), 0.68, 0.7);
+	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / max_range ), 0.68, 0.7);
 
 	$("#header").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 	$("#column_titles").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
@@ -108,7 +113,7 @@ function update_colors()
 	$("#excersises").children("a").each(function() {
 			var group = document.getElementById("excersise_group_" + this.id).innerText;
 
-			var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / current_group ), 0.68, 0.66);
+			var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / max_range ), 0.68, 0.66);
 			$("#excersise_"+this.id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 
 			if( this.id == currentId ) $("#excersise_" + this.id).promise().done( function() {

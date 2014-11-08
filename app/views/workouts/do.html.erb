@@ -29,6 +29,8 @@ $(document).ready( function() {
 				if( index == excersiseGroupOrder.length - 1 ) 
 				{
 					rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / max_range), 0.68, 0.7);
+					$("#current_group_details").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+					rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / max_range), 0.68, 0.72);
 					$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 				}
 
@@ -139,12 +141,17 @@ function HSBtoRGB(h, s, l)
 
 </script>
 
+<div id="container">
 <div id="excersises">
 	<% @excersises.reverse.each do |excersise| %>
 		<a id="<%= excersise.id %>" class="excersise_container">
 			<div id="excersise_<%= excersise.id %>" class="excersise">
 				<div id="excersise_name_<%= excersise.id %>" class="excersise_name">
 					<span></span><%= excersise.name %>
+				</div>
+
+				<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
+					<span></span><%= "#{excersise.diffculty} #{excersise.get_units}" %>
 				</div>
 				
 				<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets">
@@ -160,6 +167,17 @@ function HSBtoRGB(h, s, l)
 				</div>
 			</div>
 		</a>
+	<% end %>
+</div>
+</div>
+
+<div id="current_group_details">
+	<% @groups[@excersises[0].group].each do |excersise| %>
+		<div id="excersise_detail_<%= excersise.id %>" class="excersise_detail">
+			<h3><%=  excersise.name %></h3>
+			</ br>
+			<%= "#{excersise.diffculty} #{excersise.get_units}" %>
+		</div>
 	<% end %>	
 </div>
 

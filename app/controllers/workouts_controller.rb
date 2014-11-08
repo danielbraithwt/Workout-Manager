@@ -43,20 +43,20 @@ class WorkoutsController < ApplicationController
 		@workout = Workout.find(params[:id])
 		@excersises = @workout.excersises.order("position asc")
 		
-		groups = {}
+		@groups = {}
 		excersise_frequency = {}
 		@excersise_order = []
 
 		# Sort the excersises into there groups
 		@excersises.each do |excersise|
-			groups[excersise.group] = [] if groups[excersise.group] == nil
+			@groups[excersise.group] = [] if @groups[excersise.group] == nil
 
-			groups[excersise.group] << excersise
+			@groups[excersise.group] << excersise
 		end
 
 		# Itterate through the groups and 
-		groups.keys.sort.each do |group|
-			excersise_group = groups[group]
+		@groups.keys.sort.each do |group|
+			excersise_group = @groups[group]
 			group_finished = false
 			
 			# Untill all the excersises have been added the ammout they should

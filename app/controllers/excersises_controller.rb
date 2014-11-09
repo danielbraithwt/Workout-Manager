@@ -14,8 +14,8 @@ class ExcersisesController < ApplicationController
 			excersise.name = "Name"
 			excersise.excersisetype = 1
 			excersise.diffculty = 1.0
-			excersise.sets = 0
-			excersise.reps = 0
+			excersise.sets = 1
+			excersise.reps = 1
 			excersise.group = params[:group]
 
 	  		if excersise.save

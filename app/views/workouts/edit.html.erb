@@ -14,7 +14,6 @@ $(function() {
 					update_column_title_color();
 					update_positions();
 					}});
-		//$("#excersises").disableSelection();
 		});
 
 $(window).bind("load", function() {
@@ -120,8 +119,6 @@ function update_colors()
 					update_column_title_color();
 					});
 			});
-
-	//update_column_title_color();
 }
 
 function create_new_excersise()
@@ -236,7 +233,7 @@ function create_new_excersise()
 
 			excersiseSets.id = ("excersise_sets_" + id);
 			excersiseSets.className = "excersise_sets";
-			excersiseSets.innerText = "0";
+			excersiseSets.innerText = "1";
 			excersiseSets.contentEditable = 'true';
 
 			excersiseContainer.appendChild(excersiseSets);
@@ -245,7 +242,7 @@ function create_new_excersise()
 
 			excersiseReps.id = ("excersise_reps_" + id);
 			excersiseReps.className = "excersise_reps";
-			excersiseReps.innerText = "0";
+			excersiseReps.innerText = "1";
 			excersiseReps.contentEditable = "true";
 
 			excersiseContainer.appendChild(excersiseReps);
@@ -253,12 +250,6 @@ function create_new_excersise()
 			newA.appendChild(excersiseContainer);
 			
 			excersises.appendChild(newA);
-
-			// Set the color of the newley created div
-			//var group = document.getElementById("excersise_group_" + id).innerText;
-
-			//var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / current_group ), 0.68, 0.66);
-			//$("#excersise_"+id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 
 			update_colors();
 			update_positions();

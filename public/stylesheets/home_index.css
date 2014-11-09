@@ -1,16 +1,85 @@
-.workout_container {
-	height: 100px;
+body {
+	background-color: #F5F5F5;
+}
+
+#container {
+	position: absolute;
+	top: 0;
+	left: 0;
+
 	width: 100%;
+	height: 100%;
+}
+
+#header {
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	height: 180px;
+	width: 100%;
+	
+	font-size: 5em;
+	text-align: left;
+
+	background-color: #EEEEEE;
+
+	box-shadow: 5px 5px 10px #888888;
+}
+
+#workouts {
+	margin-top: 180px;
+	width: 100%;
+
+}
+
+#buttons {
+	height: 100%;
 }
 
 .workout {
 	height: 100px;
 	width: 100%;
+
+	text-align: center;
 }
 
 .workout_name {
-	height: 100px;
+	height: 100%;
+	width: 50%;
+
+	float:left;
+
+	font-size: 2.5em;
+}
+
+.button {
+	display: block;
+
+	color: black;
+	text-decoration: none;
+}
+
+.workout_button {
+	height: 100%;
+	width: 25%;
+
+	display: block;
+
+	float: left;
+	
+	font-size: 3em;
+}
+
+#button_new_workout {
 	width: 100%;
+	height: 50px;
+
+	font-size: 2em;
+
+	text-align: center;
+
+	background-color: #0091EA;
 }
 
 span {

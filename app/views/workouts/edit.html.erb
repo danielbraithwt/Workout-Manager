@@ -9,7 +9,7 @@ var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.gr
 
 $(function() {
 		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y', 
-				cancel: '.excersise_group,.excersise_name,.excersise_type,.excersise_diffculty,.excersise_sets,.excersise_reps,.excersise_delete',
+				cancel: '.excersise_group,.excersise_name,.excersise_type,.excersise_diffculty,.excersise_sets,.excersise_reps,.excersise_delete,.message',
 				stop: function(event, ui) { 
 					update_column_title_color();
 					update_positions();
@@ -529,7 +529,7 @@ function destroy_excersise(id)
 
 <div id="excersises">
 	<% if @excersises.size == 0 %>
-		<p>There are currently no excersises in this workout</p>
+		<p class="message">There are currently no excersises in this workout</p>
 	<% else %>
 		<% @excersises.each do |excersise| %>
 

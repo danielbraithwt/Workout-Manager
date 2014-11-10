@@ -9,7 +9,7 @@ var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.gr
 
 $(function() {
 		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y', 
-				cancel: '.excersise_group,.excersise_name,.excersise_type,.excersise_diffculty,.excersise_sets,.excersise_reps',
+				cancel: '.excersise_group,.excersise_name,.excersise_type,.excersise_diffculty,.excersise_sets,.excersise_reps,.excersise_delete',
 				stop: function(event, ui) { 
 					update_column_title_color();
 					update_positions();
@@ -450,6 +450,33 @@ function unblockfy()
 				$("#" + this.id).css({display: "inline"});
 			});
 }
+
+function destroy_excersise(id)
+{
+	// Creates a AJAX request to remove the excersise from the database
+	var xmlhttp;
+
+	if( window.XMLHttpRequest )
+	{
+		xmlhttp = new XMLHttpRequest();
+	}
+	else
+	{
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	xmlhttp.onreadystatechange = function()
+	{
+		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
+		{
+			$("#" + id).remove();
+		}
+	}
+
+	xmlhttp.open("GET", "/excersises/destroy?id=" + id, true);
+	xmlhttp.send();
+	
+}
 </script>
 
 <div id="container">
@@ -539,6 +566,10 @@ function unblockfy()
 
 					<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps" contentEditable='true'>
 						<%= excersise.reps %>
+					</div>
+
+					<div id="excersise_delete_<%= excersise.id %>" class="excersise_delete" onclick="destroy_excersise(<%= excersise.id %>)">
+						<span></span>X
 					</div>
 
 				</div>

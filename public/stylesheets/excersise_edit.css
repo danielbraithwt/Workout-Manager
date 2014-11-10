@@ -98,7 +98,7 @@ body {
 }
 
 .excersise_handle {
-	width: 10%;
+	width: 5%;
 	height: 100%;
 
 	float: left;
@@ -167,6 +167,13 @@ body {
 
 /* Excersise reps styling */
 .excersise_reps {
+	width: 5%;
+	height: 100%;
+
+	float: left;
+}
+
+.excersise_delete {
 	width: 5%;
 	height: 100%;
 

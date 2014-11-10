@@ -70,7 +70,9 @@ class ExcersisesController < ApplicationController
 	##
 	# Destroy action takes a given excersise and removes it from the database
 	##
-	def destory
+	def destroy
+		@excersise = Excersise.find(params[:id])
+		@excersise.destroy
   	end
 
 	##

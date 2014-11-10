@@ -34,6 +34,11 @@ $(document).ready( function() {
 					$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 				}
 
+				if( index == 0 )
+				{
+					$("body").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+				}
+
 				index += 1;
 				});			
 
@@ -44,13 +49,14 @@ function next()
 	// If there are no more excersises to do
 	if( excersiseOrder.length == 0 )
 	{
-		document.getElementById("excersises").innerHTML = "Finished!";
+		document.getElementById("container").innerHTML = "<div id='finished'><span></span>Finished!</div>";
+		document.getElementById("controll_bar").innerHTML = "<a id='home_button' href='/'><span></span>HOME!</a>";
+		document.getElementById("current_group_details").innerHTML = "";
 		return;
 	}
 
 	var next = excersiseOrder.shift();
 
-	// Dont need to do anything if the excersise hasnt changed
 	var children = $("#excersises").children();
  
 	if( next < current_excersise )

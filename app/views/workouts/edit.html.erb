@@ -313,6 +313,31 @@ function edit_excersise(id)
 	xmlhttp.send();
 }
 
+function update_name()
+{
+	var xmlhttp;
+
+	if( window.XMLHttpRequest )
+	{
+		xmlhttp = new XMLHttpRequest();
+	}
+	else
+	{
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	xmlhttp.onreadystatechange = function()
+	{
+		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
+		{
+			// Nothing needed
+		}
+	}
+
+	xmlhttp.open("GET", "/workouts/update_name?id=" + workout_id + "&name=" + document.getElementById("workout_name").innerText, true);
+	xmlhttp.send();
+}
+
 function change_units_event(event)
 {
 	var s = event.srcElement.id.split("_");
@@ -412,7 +437,7 @@ function unblockfy()
 			</div>
 		</a>
 
-		<div id="workout_name">
+		<div id="workout_name" onkeyup="update_name()" contentEditable='true'>
 			<%= @workout.name %>
 		</div>
 	</div>

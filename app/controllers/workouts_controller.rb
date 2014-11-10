@@ -35,6 +35,19 @@ class WorkoutsController < ApplicationController
 
 	end
 
+	def update_name
+		puts "Updating Workout Name: => #{params[:id]}"
+
+		@workout = Workout.find(params[:id])
+		@workout.name = params[:name]
+
+		puts params[:name]
+
+		@id = @workout.id
+
+		@id = -1 if !@workout.save
+	end
+
 	def do
 		puts "Doing Workout : #{params[:id]}"
 

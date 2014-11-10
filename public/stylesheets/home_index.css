@@ -62,13 +62,20 @@ body {
 
 .workout_button {
 	height: 100%;
-	width: 25%;
+	width: 22.5%;
 
 	display: block;
 
 	float: left;
 	
 	font-size: 3em;
+}
+
+.delete_button {
+	height: 100%;
+	width: 5%;
+	
+	float: left;
 }
 
 #button_new_workout {

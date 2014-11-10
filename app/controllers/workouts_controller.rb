@@ -41,7 +41,30 @@ class WorkoutsController < ApplicationController
 
 		@workout = Workout.find(params[:id])
 		@excersises = @workout.excersises.order("position asc")
+	end
+	
+	##
+	# Delete action loads the workout that the user said they wanted
+	# to delete
+	##
+	def delete
+		@workout = Workout.find(params[:id])
+	end
+	
+	##
+	# Destroy action removes a workout from the database and all its
+	# related excersises
+	##
+	def destroy
+		@workout = Workout.find(params[:id])
+		
+		@workout.excersises.each do |excersise|
+			excersise.destroy
+		end
 
+		@workout.destroy
+
+		redirect_to :controller => "home", :action => "index"
 	end
 	
 	##

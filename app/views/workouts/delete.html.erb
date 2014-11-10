@@ -1,0 +1,24 @@
+<%= stylesheet_link_tag "workout_delete.css" %>
+
+<div id="container">
+	<div id="info_box">
+		<div id="header">
+			WARNING!
+		</div>
+
+		<div id="message">
+			You are about to delete the workout called <%= @workout.name %>. this action
+			is irreversible action are you sure you want to continue?
+		</div>
+
+		<div id="buttons">
+			<a id="yes" href="/workouts/destroy?id=<%= @workout.id %>">
+				YES
+			</a>
+
+			<a id="no" href="/">
+				NO
+			</a>
+		</div>
+	</div>
+</div>

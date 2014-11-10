@@ -5,13 +5,18 @@ class WorkoutsController < ApplicationController
 	def show
 		@workout = Workout.find(params[:id])
 		@excersises = @workout.excersises
-
 	end
 
   	def new
 		
   	end
-
+	
+	##
+	# Create action creates a new workout object and will then redirect you to the page
+	# to edit it, if it cant create the new workout it will just redirect to the home page
+	#
+	# TODO: Should make home page display message if it fails
+	##
  	def create
 		puts "Creating workout with '#{params[:workout]}'"
 
@@ -26,7 +31,11 @@ class WorkoutsController < ApplicationController
 			redirect_to :controller => "home", :action => "index"
 		end
   	end
-
+	
+	##
+	# Edit action loads the workout and loads the excersises in ascending order
+	# by there position
+	##
 	def edit
 		puts "Editing Workout : #{params[:id]}"
 
@@ -34,7 +43,14 @@ class WorkoutsController < ApplicationController
 		@excersises = @workout.excersises.order("position asc")
 
 	end
-
+	
+	##
+	# Update Name action takes a workout id and new name for that workout and updates
+	# that workout in the databse
+	#
+	# Error Codes:
+	#  -1 : if the workout dident save scussfully
+	##
 	def update_name
 		puts "Updating Workout Name: => #{params[:id]}"
 
@@ -47,7 +63,11 @@ class WorkoutsController < ApplicationController
 
 		@id = -1 if !@workout.save
 	end
-
+	
+	##
+	# Do action retreves the specified workout and related excersises so that
+	# it can be processed to get the order in which the excersises are to be done
+	##
 	def do
 		puts "Doing Workout : #{params[:id]}"
 
@@ -73,9 +93,12 @@ class WorkoutsController < ApplicationController
 			group_finished = false
 			
 			# Untill all the excersises have been added the ammout they should
+			# IE if you are doing 3 sets of something it should be added three times
 			while !group_finished
 				group_finished = true
-
+				
+				# for the current excersise group go through the excersises and add them
+				# if they still need to be added
 				excersise_group.each do |excersise|
 					excersise_frequency[excersise.id] = 0 if excersise_frequency[excersise.id] == nil
 					
@@ -99,23 +122,6 @@ class WorkoutsController < ApplicationController
 		# Get the largest group
 		@largest_group = @excersises.inject(0) { |memo, item| if item.group != nil && item.group > memo then item.group; else memo; end }
 
-		#index = 0
-
-		#while index < @excersises.length
-
-			#excersise_frequency[index] = 0 if excersise_frequency[index] == nil
-			#excersise_frequency[index] += 1
-			#@excersise_order << index
-
-			#if index != 0 && @excersises[index-1].group == @excersises[index].group && excersise_frequency[index-1] != @excersises[index-1].sets
-			#	index -= 1
-			#elsif index < @excersises.length-1 && @excersises[index+1].group != @excersises[index].group
-
-			#else
-			#	index += 1
-			#end
-		#end
-		
 		## just for testing
 		############################
 		puts "\nWorkout Schedule: "

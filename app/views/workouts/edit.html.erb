@@ -16,14 +16,21 @@ $(function() {
 					}});
 		});
 
+// Function runs when the page loads and it updates
+// the colors of the excersises
 $(window).bind("load", function() {
 			update_colors();
 		});
 
+// Fuction runs when the user scrolls down the page
+// it updates the color of the title bar to be the same
+// as the excersise it is currently over
 $(document).scroll( function() {
 			update_column_title_color();
 			});
 
+// Function runs when the page loads or is resized
+// and makes sure the container is correctly positioned
 $(window).on("load resize", function() {
 			var widthDiffrence = $(window).width() - 950;
 
@@ -39,10 +46,12 @@ $(window).on("load resize", function() {
 				
 			});
 
+
 function update_positions()
 {
+	// Itterates through all the excersises and for each one make an AJAX
+	// call to the excersises update_position action to save its location
 	var pos = 0;
-	
 	$("#excersises").children("a").each(function() {
 				var xmlhttp;
 
@@ -123,6 +132,8 @@ function update_colors()
 
 function create_new_excersise()
 {
+	// Create an AJAX request to the creat action in the excersise controller to create
+	// a new excersise in the databse adnd spend it to the specified workout
 	var xmlhttp;
 
 	if( window.XMLHttpRequest )
@@ -134,6 +145,7 @@ function create_new_excersise()
 		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 	}
 
+	// When the AJAX request returns scusseful then add the new excersise to the webpage
 	xmlhttp.onreadystatechange = function()
 	{
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
@@ -262,6 +274,8 @@ function create_new_excersise()
 
 function edit_excersise_event(event)
 {
+	// If the action listener detects a key press and its not a tab then
+	// run the edit excersise function for the excersise
 	if( event.keyCode != 9 )
 	{
 		var s = event.srcElement.id.split("_");
@@ -273,9 +287,11 @@ function edit_excersise_event(event)
 
 function edit_excersise(id)
 {
+	// Tell the user that the workout isnt saved by changing the color of the header
 	$("#column_titles").animate({backgroundColor: "#EEEEEE"});
 	$("#header").animate({backgroundColor: "#EEEEEE"});
-
+	
+	// Get all the information about the excersise that needs to be saved
 	var group = document.getElementById("excersise_group_" + id).innerText;
 	var name = document.getElementById("excersise_name_" + id).innerText;
 	var type_select = document.getElementById("excersise_type_select_" + id);
@@ -314,7 +330,8 @@ function edit_excersise(id)
 }
 
 function update_name()
-{
+{	
+	// Creates an AJAX request to update the name of the workout if it is changed
 	var xmlhttp;
 
 	if( window.XMLHttpRequest )
@@ -340,6 +357,8 @@ function update_name()
 
 function change_units_event(event)
 {
+	// Calls the change units function if the action listener
+	// is what is picking up the change
 	var s = event.srcElement.id.split("_");
 	var id = s[s.length-1];
 
@@ -348,6 +367,8 @@ function change_units_event(event)
 
 function change_units(id)
 {
+	// Based on what type the excersise is it sets the units of the
+	// excersise diffculty
 	var type_select = document.getElementById("excersise_type_select_" + id);
 
 	if( type_select[type_select.selectedIndex].value == "Weight Based" )
@@ -415,6 +436,8 @@ function HSBtoRGB(h, s, l)
 
 function blockfy()
 {
+	// Sets all the excersise divs to have the display style block
+	// this is so they can be dragged around
 	$("#excersises").children("a").each(function() {
 				$("#" + this.id).css({display: "block"});
 			});
@@ -422,6 +445,7 @@ function blockfy()
 
 function unblockfy()
 {
+	// Un does what blockfy does
 	$("#excersises").children("a").each(function() {
 				$("#" + this.id).css({display: "inline"});
 			});

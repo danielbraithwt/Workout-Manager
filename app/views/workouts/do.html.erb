@@ -12,20 +12,24 @@ var current_excersise = 0;
 var max_range = 0;
 
 $(document).ready( function() {
-
+		
+		// Get the first excersise that is to be done
 		current_excersise = excersiseOrder.shift();
 
 		// Make sure the color range is split over enough
 		// of a range to give a smmoth color change
 		max_range = largest_group;
 		if( max_range < 10 ) max_range = 10;
-
+		
+		// Itterate through all the excersises in the excersises div and update there background color
 		var index = 0;
 		$("#excersises").children().each(function() {
 
 				var rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / max_range), 0.68, 0.66);
 				$(this).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-
+				
+				// If the excersise you are currently looking at is to be the first one displayed then
+				// update the controll bar and the information bar
 				if( index == excersiseGroupOrder.length - 1 ) 
 				{
 					rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / max_range), 0.68, 0.7);
@@ -33,7 +37,9 @@ $(document).ready( function() {
 					rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / max_range), 0.68, 0.72);
 					$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 				}
-
+				
+				// If the current excersise is the one to be displayed last then set the background color
+				// of the body to be the same color
 				if( index == 0 )
 				{
 					$("body").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
@@ -46,7 +52,8 @@ $(document).ready( function() {
 
 function next()
 {
-	// If there are no more excersises to do
+	// If there are no more excersises to do then remove everything in the container and display 'finished' aswell
+	// as replacing the next link to be a link to the home page and then exit out of the function
 	if( excersiseOrder.length == 0 )
 	{
 		document.getElementById("container").innerHTML = "<div id='finished'><span></span>Finished!</div>";
@@ -54,14 +61,19 @@ function next()
 		document.getElementById("current_group_details").innerHTML = "";
 		return;
 	}
-
+	
+	// Get the position of the next excersise to be displayed
 	var next = excersiseOrder.shift();
 
+	// Get all the excersises
 	var children = $("#excersises").children();
- 
+
+	// If the next excersise to be displayed is back one
 	if( next < current_excersise )
 	{
-
+		// If the next excersise to be displayed isnt the current one (this would occor if you had a group of size 1)
+		// then you want to toggle the height of the prevous excersise and update the color of the
+		// controll bar 
 		if( next != current_excersise ) 
 		{
 			$(children[(children.length-1) - next]).animate({height: "toggle"});
@@ -69,30 +81,37 @@ function next()
 			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.72);
 			$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 		}
-
+		
+		// And finally decrement the sets left to do for the excersise just completed
 		var child =  $(children[(children.length-1) - current_excersise]);
 		var reps_left = parseInt(document.getElementById("excersise_sets_" + child.attr('id')).innerText.split(":")[1]);
 		document.getElementById("excersise_sets_" + child.attr('id')).innerHTML = "<span></span>Sets Left: " + (reps_left-1);
 	}
+	// If the next excersise to be displayed is the next one
 	else
 	{
+		// If the excersise  to be displayed isnt the current one
 		if( next != current_excersise )  
 		{
 			$(children[(children.length-1) - current_excersise]).animate({height: "toggle"});
 
 			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.72);
 			$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-
+			
+			// If the next excersise to be displayed is a diffrent group than the one just completed then we also want
+			// to update the group details bar
 			if( excersiseGroupOrder[(children.length-1) - next] != excersiseGroupOrder[(children.length-1) - current_excersise] )
 			{
-
+				// Update the color
 				rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.7);
 				$("#current_group_details").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-
+				
+				// Call the function to update the excersises in the bar
 				update_current_group_bar(excersiseGroupOrder[(children.length-1)-next]);
 			}
 		}
-
+		
+		// Decrement the sets left on the excersise just completed
 		var child = $(children[(children.length-1) - current_excersise]);
 		var reps_left = parseInt(document.getElementById("excersise_sets_" + child.attr('id')).innerText.split(":")[1]);
 		document.getElementById("excersise_sets_" + child.attr('id')).innerHTML = "<span></span>Sets Left: " + (reps_left-1);
@@ -104,10 +123,14 @@ function next()
 
 function update_current_group_bar(group)
 {
-	var i = 0;
+	// clear the group details bar
 	document.getElementById("current_group_details").innerHTML = "";
+
+	// Itterate through all the excersises
+	var i = 0;
 	$("#excersises").children('a').each( function() {
-			
+
+			// If the excersise is in the specified group then add it to the group detals bar
 			if( excersiseGroupOrder[i] == group )
 			{
 				var id = $(this).attr('id');	
@@ -119,15 +142,6 @@ function update_current_group_bar(group)
 				excersise_detail.innerHTML += ("<h3>" + document.getElementById("excersise_name_" + id).innerText + "</h3");
 				excersise_detail.innerHTML += "</ br>"
 				excersise_detail.innerHTML +=  document.getElementById("excersise_diffculty_" + id).innerText;
-
-				//var nameTag = document.createElement("h3");
-				//nameTag.innerText = document.getElementById("excersise_name_" + id).innerText;
-
-				//excersise_detail.appendChild(nameTag);
-
-				//excersise_detail.appendChild(document.createElement('br'));
-
-				//excersise_detail.innerText += document.getElementById("excersise_diffculty_" + id).innerText;
 
 				document.getElementById("current_group_details").appendChild(excersise_detail);
 

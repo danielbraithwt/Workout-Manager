@@ -56,8 +56,9 @@ function HSBtoRGB(h, s, l)
 	return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 }
 
-function text_field_change() {
-
+function text_field_change() 
+{
+	// Updates the page background based on what is in the name text field
 	var value = $("#workout_name").val();
 	var string_num = 0;
 

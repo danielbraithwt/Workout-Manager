@@ -19,7 +19,10 @@ $(function() {
 // Function runs when the page loads and it updates
 // the colors of the excersises
 $(window).bind("load", function() {
+		if( current_group != 0 )
+		{
 			update_colors();
+		}
 		});
 
 // Fuction runs when the user scrolls down the page

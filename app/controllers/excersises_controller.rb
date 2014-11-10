@@ -1,5 +1,7 @@
 class ExcersisesController < ApplicationController
-	
+
+	before_action :confirm_logged_in
+
 	layout false
 
 	##
@@ -92,4 +94,17 @@ class ExcersisesController < ApplicationController
 		  	@id = -1;
 	  	end
   	end
+
+	private
+
+	def confirm_logged_in
+		unless session[:user_id]
+			flash[:notice] = "You must be logged in"
+			redirect_to(:controller => 'access', :action => 'login')
+			return false
+		else
+			return true
+		end
+	end
+
 end

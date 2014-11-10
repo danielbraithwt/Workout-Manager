@@ -1,15 +1,23 @@
 Rails.application.routes.draw do
-  get 'excersises/create'
+  get 'users/create'
 
-  get 'excersises/update'
+  #get 'access/index'
 
-  get 'excersises/destory'
+  #get 'access/login'
 
-  get 'workouts/edit'
+  #get 'excersises/create'
+
+  #get 'excersises/update'
+
+  #get 'excersises/destory'
+
+  #get 'workouts/edit'
 
   #get 'workouts/new'
 
  	root 'home#index'
+
+	get 'signup', to: 'home#signup'
 
 	match ':controller(/:action(/:id))', :via => [:get, :post]
 

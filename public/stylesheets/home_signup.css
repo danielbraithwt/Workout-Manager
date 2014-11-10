@@ -1,0 +1,47 @@
+#container {
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	height: 100%;
+}
+
+#signup_form {
+	width: 30%;
+	height: 50;
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 25%;
+}
+
+#name_field {
+	width: 100%;
+	height: 24%;
+}
+
+#first_name {
+	width: 100%;
+	height: 50%;
+}
+
+#last_name {
+	width: 100%;
+	height: 50%;
+}
+
+#email_field {
+	width: 100%;
+	height: 24%;
+}
+
+#password_field {
+	width: 100%;
+	height: 24%;
+}
+
+#submit_button {
+	width: 100%;
+	height: 4%;
+}

@@ -1,0 +1,28 @@
+<div id="container">
+<div id="signup_form">
+	<%= form_tag(:controller => "users", :action => "create") do %>
+		
+		<div id="name_field">
+			<div id="first_name">
+				<%= text_field_tag(:first_name) %>
+			</div>
+			<div id="last_name">
+				<%= text_field_tag(:last_name) %>
+			</div>
+		</div>
+
+		<div id="email_field">
+			<%= email_field_tag(:email) %>
+		</div>
+
+		<div id="password_field">
+			<%= password_field_tag(:password) %>
+		</div>
+
+		<div id="submit_button">
+			<%= submit_tag("Sign Up") %>
+		</div>
+
+	<% end %>
+</div>
+</div>

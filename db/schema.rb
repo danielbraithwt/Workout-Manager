@@ -29,10 +29,10 @@ ActiveRecord::Schema.define(version: 20141018064805) do
   add_index "excersises", ["workout_id"], name: "index_excersises_on_workout_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "first_name", limit: 200
-    t.string   "last_name",  limit: 200
-    t.string   "email",      limit: 200
-    t.string   "password",   limit: 40
+    t.string   "first_name",      limit: 200
+    t.string   "last_name",       limit: 200
+    t.string   "email",           limit: 200
+    t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

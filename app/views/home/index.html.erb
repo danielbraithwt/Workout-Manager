@@ -81,9 +81,23 @@ function HSBtoRGB(h, s, l)
 
 <div id="container">
 
-<div id="header">
-	<span></span>Workouts
-</div>
+	<div id="header">
+		<div id="title"><span></span>Workouts</div>
+
+		<div id="user">
+			<div id="username">
+				<span></span><%= session[:name] %>
+			</div>
+			<div id="buttons">
+				<a id="logout_button" class="user_button" href="/access/logout">
+					<span></span>L
+				</a>
+				<a id="update_button" class="user_button" href="#">
+					<span></span>U
+				</a>
+			</div>
+		</div>
+	</div>
 
 <div id="workouts">
 	<% @workouts.each do |workout| %>

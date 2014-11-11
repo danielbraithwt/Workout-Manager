@@ -36,6 +36,10 @@ class AccessController < ApplicationController
 		redirect_to(:action => 'login')
   	end
 
+	def not_authorised
+		
+	end
+
 	private
 	
 	def confirm_logged_in

@@ -6,6 +6,12 @@ class WorkoutsController < ApplicationController
 
 	def show
 		@workout = Workout.find(params[:id])
+
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(@workout)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
 		@excersises = @workout.excersises
 	end
 
@@ -21,9 +27,11 @@ class WorkoutsController < ApplicationController
 	##
  	def create
 		puts "Creating workout with '#{params[:workout]}'"
-
-		# TODO: Make so can do mass assignment
+		
+		# Create new workout with specified name and then assign the new
+		# workout to the current user
 		w = Workout.new(:name => params[:workout][:name])
+		w.user = User.find(session[:user_id])
 		w.save
 
 		if w.save
@@ -42,6 +50,13 @@ class WorkoutsController < ApplicationController
 		puts "Editing Workout : #{params[:id]}"
 
 		@workout = Workout.find(params[:id])
+
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(@workout)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
+
 		@excersises = @workout.excersises.order("position asc")
 	end
 	
@@ -51,6 +66,12 @@ class WorkoutsController < ApplicationController
 	##
 	def delete
 		@workout = Workout.find(params[:id])
+
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(@workout)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
 	end
 	
 	##
@@ -59,6 +80,11 @@ class WorkoutsController < ApplicationController
 	##
 	def destroy
 		@workout = Workout.find(params[:id])
+
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(@workout)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
 		
 		@workout.excersises.each do |excersise|
 			excersise.destroy
@@ -80,6 +106,12 @@ class WorkoutsController < ApplicationController
 		puts "Updating Workout Name: => #{params[:id]}"
 
 		@workout = Workout.find(params[:id])
+
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(@workout)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
 		@workout.name = params[:name]
 
 		puts params[:name]
@@ -99,6 +131,12 @@ class WorkoutsController < ApplicationController
 		@encouragements = ["Lets Do It", "Go For It!"]
 
 		@workout = Workout.find(params[:id])
+
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(@workout)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
 		@excersises = @workout.excersises.order("position asc")
 		
 		@groups = {}
@@ -167,6 +205,14 @@ class WorkoutsController < ApplicationController
 			return false
 		else
 			return true
+		end
+	end
+
+	def confirm_user_auth(workout)
+		if workout.user.id == session[:user_id]
+			return true
+		else
+			return false
 		end
 	end
 

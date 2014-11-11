@@ -15,6 +15,11 @@ class ExcersisesController < ApplicationController
 		# Make sure the passed workout id is valid
 		workout = Workout.find_by_id(params[:workoutid])
 
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth_workout(workout)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
 		if workout != nil
 
 	  		#TODO: Need to permit mass assignment
@@ -52,6 +57,11 @@ class ExcersisesController < ApplicationController
   	def update
 		 excersise = Excersise.find(params[:id])
 
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(excersise)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
 	  	#TODO: Allow mass assignment
 
 	  	excersise.group = params[:group]
@@ -74,6 +84,12 @@ class ExcersisesController < ApplicationController
 	##
 	def destroy
 		@excersise = Excersise.find(params[:id])
+
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(@excersise)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
 		@excersise.destroy
   	end
 
@@ -85,6 +101,12 @@ class ExcersisesController < ApplicationController
 	##
   	def update_position
 		excersise = Excersise.find(params[:id])
+		
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(excersise)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
 
 	  	excersise.position = params[:position]
 
@@ -106,5 +128,22 @@ class ExcersisesController < ApplicationController
 			return true
 		end
 	end
+
+	def confirm_user_auth(excersise)
+		if excersise.workout.user.id == session[:user_id]
+			return true
+		else
+			return false
+		end
+	end
+
+	def confirm_user_auth_workout(workout)
+		if workout.user.id == session[:user_id]
+			return true
+		else
+			return false
+		end
+	end
+
 
 end

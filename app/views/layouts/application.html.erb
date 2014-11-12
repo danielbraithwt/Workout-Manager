@@ -2,26 +2,56 @@
 <html>
 <head>
 <%= stylesheet_link_tag "header.css" %>
+<%= stylesheet_link_tag "flash_notice.css" %>
+<%= javascript_include_tag "jquery-2.1.1.min.js" %>
+<%= javascript_include_tag "jquery-ui.min.js" %>
+
+<script>
+var message = "<%= flash[:notice] %>";
+
+
+$(document).ready( function() {
+		
+		// If there is no message then there is nothing to do
+		// so quit out of function
+		if( message == "" ) return;
+
+		var notice = document.createElement("div");
+		notice.id = "notice";
+		notice.innerText = message;	
+
+		document.body.appendChild(notice);
+
+		$("#notice").css( 'visibility', "visible").animate({opacity: 0.9}, 500).delay(4000).css( 'visibility', "visible").animate({opacity: 0.0}, 500);
+
+		//$("#notice").fadeIn(200);
+
+		});
+
+</script>
+
 <title>Workout Manager</title>
 </head>
 <body>
 
 <div id="header">
 		<div id="title"><span></span>LOGO</div>
-
-		<div id="user">
-			<div id="username">
-				<span></span><%= session[:name] %>
+		
+		<% if session[:user_id] != nil %>
+			<div id="user">
+				<div id="username">
+					<span></span><%= session[:name] %>
+				</div>
+				<div id="buttons">
+					<a id="logout_button" class="user_button" href="/access/logout">
+						<span></span>L
+					</a>
+					<a id="update_button" class="user_button" href="/users/edit">
+						<span></span>U
+					</a>
+				</div>
 			</div>
-			<div id="buttons">
-				<a id="logout_button" class="user_button" href="/access/logout">
-					<span></span>L
-				</a>
-				<a id="update_button" class="user_button" href="/users/edit">
-					<span></span>U
-				</a>
-			</div>
-		</div>
+		<% end %>	
 	</div>
 
 <%= yield %>

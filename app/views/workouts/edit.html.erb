@@ -34,20 +34,20 @@ $(document).scroll( function() {
 
 // Function runs when the page loads or is resized
 // and makes sure the container is correctly positioned
-$(window).on("load resize", function() {
-			var widthDiffrence = $(window).width() - 950;
-
-			if( widthDiffrence > 0 )
-			{
-				var newLeft = widthDiffrence/2;
-				$("#container").css({left: newLeft});
-			}
-			else
-			{
-				$("#container").css({left: 0});
-			}
+//$(window).on("load resize", function() {
+//			var widthDiffrence = $(window).width() - 950;
+//
+//			if( widthDiffrence > 0 )
+//			{
+//				var newLeft = widthDiffrence/2;
+//				$("#container").css({left: newLeft});
+//			}
+//			else
+//			{
+//				$("#container").css({left: 0});
+//			}
 				
-			});
+//			});
 
 
 function update_positions()
@@ -86,7 +86,7 @@ function update_column_title_color()
 {
 	// Caclulate what current excersise the header is over
 	var scrolled = $(document).scrollTop();
-	var currentExcersise = parseInt(scrolled / 100);
+	var currentExcersise = parseInt( ( scrolled - 20 ) / 100);
 
 	// Get the <a> tag containing the excersise we want
 	var element = $("#excersises a:nth-child(" + (currentExcersise+1) + ")").get(0);
@@ -94,7 +94,7 @@ function update_column_title_color()
 	if( $("#column_titles").css("background-color") != $("#excersise_" + element.id).css("background-color") )
 	{
 		// Set the color of the column header to the color of that excersise
-		$("#header").animate({backgroundColor: $("#excersise_" + element.id).css("background-color")});
+		$("#workout_header").animate({backgroundColor: $("#excersise_" + element.id).css("background-color")});
 		$("#column_titles").animate({backgroundColor: $("#excersise_" + element.id).css("background-color")});
 	}
 }
@@ -117,7 +117,7 @@ function update_colors()
 	var first_group = document.getElementById("excersise_group_" + first.attr('id')).innerText;
 	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / max_range ), 0.68, 0.7);
 
-	$("#header").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+	$("#workout_header").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 	$("#column_titles").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 
 	// Update the colors of the excersises
@@ -483,17 +483,9 @@ function destroy_excersise(id)
 </script>
 
 <div id="container">
-<div id="header">
-	<div id="title">
-		<a href="/">
-			<div id="home">
-				H
-			</div>
-		</a>
-
-		<div id="workout_name" onkeyup="update_name()" contentEditable='true'>
-			<%= @workout.name %>
-		</div>
+<div id="workout_header">
+	<div id="workout_name" onkeyup="update_name()" contentEditable='true'>
+		<%= @workout.name %>
 	</div>
 
 	<div id="column_titles">
@@ -526,6 +518,10 @@ function destroy_excersise(id)
 	</div>
 
 </div>
+
+<a id="create_excersise_button" onclick="create_new_excersise()">
+	<%= image_tag "plus.gif" %>
+</a>
 
 <div id="excersises">
 	<% if @excersises.size == 0 %>
@@ -581,10 +577,4 @@ function destroy_excersise(id)
 	<% end %>
 </div>
 
-<a onclick="create_new_excersise()">
-	<div id="create_new_excersise_button">
-		<span></span>Create New Excersise
-	</div>
-</a>
-</div>
 

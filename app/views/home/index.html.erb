@@ -133,24 +133,6 @@ function HSBtoRGB(h, s, l)
 
 <div id="container">
 
-	<div id="header">
-		<div id="title"><span></span>LOGO</div>
-
-		<div id="user">
-			<div id="username">
-				<span></span><%= session[:name] %>
-			</div>
-			<div id="buttons">
-				<a id="logout_button" class="user_button" href="/access/logout">
-					<span></span>L
-				</a>
-				<a id="update_button" class="user_button" href="/users/edit">
-					<span></span>U
-				</a>
-			</div>
-		</div>
-	</div>
-	
 	<a id="create_workout_button" href="/workouts/new">
 		<%= image_tag "plus.gif" %>
 	</a>

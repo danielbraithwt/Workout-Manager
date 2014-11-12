@@ -2,8 +2,6 @@ class HomeController < ApplicationController
 	
 	before_action :confirm_logged_in, :except => [:signup]
 
-	layout false
-
 	##
 	# Index action justs loads all the workouts asociated with a given user
 	# so they can be displayed by the view

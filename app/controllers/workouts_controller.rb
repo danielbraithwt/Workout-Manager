@@ -2,7 +2,7 @@ class WorkoutsController < ApplicationController
 	
 	before_action :confirm_logged_in
 		
-	layout false
+	layout 'application', :except => :do
 
 	def show
 		@workout = Workout.find(params[:id])

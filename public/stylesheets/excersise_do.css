@@ -59,6 +59,18 @@
 	font-size: 2.5em;
 }
 
+.excersise_diffculty_number {
+	width: 50%;
+	text-align: right;
+	float: left;
+}
+
+.excersise_diffculty_units {
+	width: 50%;
+	text-align: left;
+	float: left;
+}
+
 .excersise_sets {
 	width: 100%;
 	height: 20%;

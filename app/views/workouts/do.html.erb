@@ -215,7 +215,12 @@ function HSBtoRGB(h, s, l)
 				</div>
 
 				<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-					<span></span><%= "#{excersise.diffculty} #{excersise.get_units}" %>
+					<div id="excersise_diffculty_number_<%= excersise.id %>" class="excersise_diffculty_number" contentEditable='true'>
+						<%= "#{excersise.diffculty}" %>
+					</div>
+					<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">
+						<%= excersise.get_units %>
+					</div>
 				</div>
 				
 				<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets">

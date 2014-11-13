@@ -1,8 +1,6 @@
 class WorkoutsController < ApplicationController
-	
+	layout "application", except: :do	
 	before_action :confirm_logged_in
-		
-	layout 'application', :except => :do
 
 	def show
 		@workout = Workout.find(params[:id])
@@ -194,6 +192,8 @@ class WorkoutsController < ApplicationController
 		end
 		puts "\n"
 		###########################
+		render layout: false
+
 	end
 
 	private

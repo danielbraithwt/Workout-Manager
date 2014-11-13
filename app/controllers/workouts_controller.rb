@@ -196,6 +196,34 @@ class WorkoutsController < ApplicationController
 
 	end
 
+	def create_record
+		puts "Creating Record"
+		workout = Workout.find(params[:id]);
+
+		# Confirm that the user has access to this workout
+		allowed = confirm_user_auth(workout)
+		redirect_to :controller => "access", :action => "not_authorised" if !allowed
+
+		# Create the record for the workout
+		workout_record = WorkoutRecord.new
+		workout_record.workout = workout
+
+		workout.excersises.each do |excersise|
+			excersise_record = ExcersiseRecord.new
+
+			excersise_record.diffculty = params["#{excersise.id}"]
+			excersise_record.sets = excersise.sets
+			excersise_record.reps = excersise.reps
+
+			excersise_record.excersise = excersise
+			excersise_record.save
+			
+			workout_record.excersise_records << excersise_record
+		end
+
+		workout_record.save
+	end
+
 	private
 
 	def confirm_logged_in

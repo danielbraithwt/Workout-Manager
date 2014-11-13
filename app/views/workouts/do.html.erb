@@ -4,6 +4,7 @@
 
 <script>
 
+var workout_id = <%= @workout.id %>
 var excersiseOrder = <%= @excersise_order.to_json %>;
 var excersiseGroupOrder = <%= @excersise_group_order.reverse.to_json %>
 var largest_group = <%= @largest_group %>
@@ -56,6 +57,34 @@ function next()
 	// as replacing the next link to be a link to the home page and then exit out of the function
 	if( excersiseOrder.length == 0 )
 	{
+		// Create an AJAX request that will generate a record of the workout being
+		// compleated
+
+		var currentParamaters = "";
+		$("#excersises").children("a").each( function() {
+					if( currentParamaters != "" ) currentParamaters += "&";
+					
+					var id = $(this).attr('id');
+					var diffculty = document.getElementById("excersise_diffculty_number_" + id).innerText;
+
+					currentParamaters += ( id + "=" + diffculty.trim() );
+					});
+
+		
+		var xmlhttp;
+
+		if( window.XMLHttpRequest )
+		{
+			xmlhttp = new XMLHttpRequest();
+		}
+		else
+		{
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		xmlhttp.open("GET", "/workouts/create_record?id=" + workout_id + "&"  + currentParamaters, true);
+		xmlhttp.send();
+
 		document.getElementById("container").innerHTML = "<div id='finished'><span></span>Finished!</div>";
 		document.getElementById("controll_bar").innerHTML = "<a id='home_button' href='/'><span></span>HOME!</a>";
 		document.getElementById("current_group_details").innerHTML = "";

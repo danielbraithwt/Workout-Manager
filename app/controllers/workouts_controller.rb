@@ -224,6 +224,15 @@ class WorkoutsController < ApplicationController
 		workout_record.save
 	end
 
+	def track
+		workout = Workout.find(params[:id]);
+
+		# Confirm that the user has access to this workout
+		allowed = confirm_user_auth(workout)
+		redirect_to :controller => "access", :action => "not_authorised" if !allowed
+		
+	end
+
 	private
 
 	def confirm_logged_in

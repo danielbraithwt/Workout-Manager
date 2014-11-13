@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141018064805) do
+ActiveRecord::Schema.define(version: 20141113013101) do
+
+  create_table "excersise_records", force: true do |t|
+    t.integer  "workout_record_id"
+    t.integer  "excersise_id"
+    t.integer  "sets"
+    t.integer  "reps"
+    t.float    "diffculty",         limit: 24
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "excersise_records", ["excersise_id"], name: "index_excersise_records_on_excersise_id", using: :btree
+  add_index "excersise_records", ["workout_record_id"], name: "index_excersise_records_on_workout_record_id", using: :btree
 
   create_table "excersises", force: true do |t|
     t.integer  "workout_id"
@@ -36,6 +49,14 @@ ActiveRecord::Schema.define(version: 20141018064805) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "workout_records", force: true do |t|
+    t.integer  "workout_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "workout_records", ["workout_id"], name: "index_workout_records_on_workout_id", using: :btree
 
   create_table "workouts", force: true do |t|
     t.integer  "user_id"

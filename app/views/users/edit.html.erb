@@ -1,17 +1,17 @@
+<%= stylesheet_link_tag "user_edit.css" %>
+
 <div id="container">
 	<div id="update_form">
-		<%= form_tag(:action => "update") do %>
-			<div id="email">
+		<div id="form_header">
+			Update Details
+		</div>
+
+		<div  id="form">	
+			<%= form_tag(:action => "update") do %>
 				<%= email_field_tag :email %>
-			</div>
-
-			<div id="password">
 				<%= password_field_tag :password %>
-			</div>
-
-			<div id="submit_button">
 				<%= submit_tag "Update Details" %>
-			</div>
-		<% end %>
+			<% end %>
+		</div>
 	</div>
 </div>

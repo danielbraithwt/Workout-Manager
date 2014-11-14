@@ -8,40 +8,72 @@
 }
 
 #signup_form {
-	width: 30%;
-	height: 50;
+	width: 45%;
+	height: 60%;
 
+	margin-top: 150px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 25%;
+
+	padding-left: 7%;
+	padding-top: 1%;
+
+	background-color: #E0E0E0;
+
+	box-shadow: 2px 2px 10px #888888;
 }
 
-#name_field {
-	width: 100%;
-	height: 24%;
+#form_header {
+	width: 80%;
+	height: 50px;
+
+	font-size: 2em;
+
+	color: rgba(0,0,0,0.8);
 }
 
-#first_name {
-	width: 100%;
-	height: 50%;
+#form {
+	height: auto;
 }
 
-#last_name {
-	width: 100%;
-	height: 50%;
+
+/* Styling For The Form */
+
+*:focus {
+	outline: none;
 }
 
-#email_field {
-	width: 100%;
-	height: 24%;
+input {
+	width: 80%;
+	height: 50px;
+
+	margin-top: 20px;
+	margin-bottom: 20px;
+	
+	padding-left: 10px;
+
+	-moz-transition: padding .25s;
+	-webkit-transition: padding .25s;
+	-o-transition: padding .25s;
+	transition: padding .25s;
+
+	border-radius: 2px;
+
+	box-shadow: 0px 0px 3px #CCC, 0 10px 15px #EEE inset;
 }
 
-#password_field {
-	width: 100%;
-	height: 24%;
+input:focus {
+	box-shadow 0 0 3px #AAA;
 }
 
-#submit_button {
-	width: 100%;
-	height: 4%;
+input:focus:invalid {
+	background: #FFF;
+	box-shadow: 0 0 5px #D45252;
+	border-color: #B03535;
+}
+
+input:required:valid {
+	background: #FFF;
+	box-shadow: 0 0 5px #5CD053;
+	border-color: #28921F;
 }

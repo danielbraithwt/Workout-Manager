@@ -11,7 +11,7 @@ var records = [];
 <% end %>
 
 var range = <%= @range %>
-var max_diffculty = <%= @max_range %>
+var max_diffculty = <%= @max_diffculty %>
 
 $(document).ready( function() {
 		
@@ -69,7 +69,8 @@ function draw_data(c2d)
 			{
 				if( records[i][j][0] == day )
 				{
-					var y = ((c2d.canvas.height - 20) / range) * records[i][j][1];
+					var y = ((c2d.canvas.height - 20.0) / max_diffculty) * (max_diffculty - records[i][j][1]);
+					alert(y);
 
 					c2d.beginPath();
 					c2d.lineWidth = 2;

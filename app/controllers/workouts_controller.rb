@@ -1,4 +1,6 @@
 class WorkoutsController < ApplicationController
+	require 'date'
+
 	layout "application", except: :do	
 	before_action :confirm_logged_in
 
@@ -226,10 +228,54 @@ class WorkoutsController < ApplicationController
 
 	def track
 		workout = Workout.find(params[:id]);
+		
+		@range = 30
+		@max_diffculty = 0;
+
+		dates = []
+		month_ago = Date.today - @range
+		
+		i = 0
+		while i <= @range
+			dates << (month_ago + i)
+			i += 1
+		end
+
+		puts dates
 
 		# Confirm that the user has access to this workout
 		allowed = confirm_user_auth(workout)
 		redirect_to :controller => "access", :action => "not_authorised" if !allowed
+
+		# For each of the workkout records we want to record the time stamp and the
+		# numbber of repitions and diffculty
+		@records = {}
+
+		workout.workout_records.order('created_at DESC').each do |record|
+			
+			truncated_time = Date.parse(record.created_at.change(:seconds => 0, :minute => 0, :hour => 0).to_s.split(" ")[0])
+			puts truncated_time
+
+			position = dates.index truncated_time
+			puts position
+			next if position == nil
+
+			record.excersise_records.each do |excersise_record|
+				e = []
+				e << position
+				e << excersise_record.diffculty
+				e << (excersise_record.sets * excersise_record.reps)
+
+				@max_diffculty = excersise_record.diffculty if excersise_record.diffculty > @max_diffculty
+
+				@records[excersise_record.excersise.name] = [] if @records[excersise_record.excersise.name] == nil
+
+				@records[excersise_record.excersise.name] << e
+			end
+
+		end
+
+		puts @records
 		
 	end
 

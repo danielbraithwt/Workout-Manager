@@ -15,6 +15,19 @@ var max_diffculty = <%= @max_diffculty %>
 
 $(document).ready( function() {
 		
+		// Make sure that the color range is split up over the correct range
+		var max_range = excersise_names.length;
+		if( max_range < 10 ) max_range = 10;
+
+		var i = 1;
+		$("#key").children("div").each( function() {
+				
+				var rgb = HSBtoRGB((100.0/max_range) * i, 0.66, 0.68);
+				$("#color_key_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});				
+				i += 1;
+
+				});
+		
 		var canvas = document.getElementById("canvas");
 
 		// Size the canvas correctly
@@ -179,7 +192,20 @@ function HSBtoRGB(h, s, l)
 
 <div id="container">
 	<div id="key">
-		KEY
+		<% i = 1 %>
+		<% @records.keys.each do |key| %>
+			<div id="excersise_key_<%= i %>" class="excersise_key">
+				<div id="color_key_<%= i %>" class="color_key">
+
+				</div>
+
+				<div id="name_key_<%= i %>" class="name_key">
+					<%= key %>
+				</div>
+			</div>
+
+			<% i += 1 %>
+		<% end %>
 	</div>
 
 	<div id="graph">

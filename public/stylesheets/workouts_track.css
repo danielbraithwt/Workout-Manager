@@ -1,20 +1,52 @@
 #container {
 	width:100%;
-	height: 70%;
+	height: auto;
 
-	padding-top: 100px;
+	padding-top: 120px;
 }
 
 #key {
-	width: 20%;
-	height: 100%;
+	width: 100%;
+	height: auto;
+
+	padding-left: 100px;
+
+	padding-bottom: 100px;
+}
+
+.excersise_key {
+	width: 200px;
+	height: auto;
 
 	float: left;
+
+	text-align: center;
+}
+
+.color_key {
+	width: 50px;
+	height: 50px;
+
+	margin-left: auto;
+	margin-right: auto;
+
+	margin-bottom: 20px;
+
+	border-radius: 50%;
+
+	clear: both;
+	display: block;
+
+
+}
+
+.name_key {
+
+	font-weight: bold;
+
 }
 
 #graph {
-	width: 80%;
-	height: 100%;
-	
-	float: left;
+	width: 100%;
+	height: auto;
 }

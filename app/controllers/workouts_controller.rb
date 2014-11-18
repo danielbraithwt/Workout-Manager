@@ -231,7 +231,7 @@ class WorkoutsController < ApplicationController
 		
 		@range = 30
 		@max_diffculty = 0;
-
+		
 		dates = []
 		month_ago = Date.today - @range
 		

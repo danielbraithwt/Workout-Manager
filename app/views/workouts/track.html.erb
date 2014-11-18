@@ -46,6 +46,25 @@ function draw_axys(c2d)
 	//c2d.moveTo(10, 0);
 	//c2d.lineTo(10, c2d.canvas.height);
 	//c2d.stroke();
+
+	for( var i = 0; i < 1; i += 0.25 )
+	{
+		var x = 20;
+		var y = 20 + i * ( c2d.canvas.height - 20 );
+
+		// Draw the text
+		c2d.fillStyle = "black";
+		c2d.font = "10px Times Roman";
+		c2d.fillText(parseInt(max_diffculty * (1 - parseInt(y-20)/c2d.canvas.height)), x - 20, y + 5);
+
+		// Draw the lines
+		c2d.beginPath();
+		c2d.lineWidth = 2;
+		c2d.strokeStyle = "rgba(0, 0, 0, 0.3)";
+		c2d.moveTo(x, y);
+		c2d.lineTo(c2d.canvas.width - 20, y);
+		c2d.stroke();
+	}
 }
 
 function draw_data(c2d)
@@ -59,10 +78,10 @@ function draw_data(c2d)
 	var positions = []
 	for( var i = 0; i < records.length; i += 1 )
 	{
-		positions.push([10, c2d.canvas.height - 20]);
+		positions.push([20, c2d.canvas.height - 20]);
 	}
 
-	for( position = 10; position <= c2d.canvas.width; position += ((c2d.canvas.width - 40)/range) )
+	for( position = 20; position <= c2d.canvas.width; position += ((c2d.canvas.width - 40)/range) )
 	{
 		// Draw small point
 		c2d.beginPath();
@@ -75,7 +94,7 @@ function draw_data(c2d)
 		// Draw the text
 		c2d.fillStyle = "black";
 		c2d.font = "10px Times Roman";
-		c2d.fillText(parseInt(position/20) + 1, position - 2, c2d.canvas.height - 10 );
+		c2d.fillText(parseInt(position/20), position - 2, c2d.canvas.height - 10 );
 
 		for( var i = 0; i < records.length; i += 1 )
 		{
@@ -85,7 +104,7 @@ function draw_data(c2d)
 			{
 				if( records[i][j][0] == day )
 				{
-					var y = ((c2d.canvas.height - 20.0) / max_diffculty) * (max_diffculty - records[i][j][1]);
+					var y = 20 + ((c2d.canvas.height - 20.0) / max_diffculty) * (max_diffculty - records[i][j][1]);
 
 					c2d.beginPath();
 					c2d.strokeStyle = ("rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")");
@@ -164,7 +183,7 @@ function HSBtoRGB(h, s, l)
 	</div>
 
 	<div id="graph">
-		<canvas id="canvas" width="600px" height="300px">
+		<canvas id="canvas" width="650px" height="300px">
 			Your browser doesnt support the HTML5 canvas
 		</canvas>
 	</div>

@@ -2,7 +2,12 @@
 	width:100%;
 	height: auto;
 
+	max-width: 934px;
+
 	padding-top: 120px;
+
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #key {
@@ -11,7 +16,7 @@
 
 	padding-left: 100px;
 
-	padding-bottom: 100px;
+	padding-bottom: 150px;
 }
 
 .excersise_key {

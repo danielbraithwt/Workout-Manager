@@ -18,7 +18,9 @@ $(document).ready( function() {
 		// Make sure that the color range is split up over the correct range
 		var max_range = excersise_names.length;
 		if( max_range < 10 ) max_range = 10;
+		
 
+		// Color the key elements
 		var i = 1;
 		$("#key").children("div").each( function() {
 				
@@ -30,9 +32,11 @@ $(document).ready( function() {
 		
 		var canvas = document.getElementById("canvas");
 
-		// Size the canvas correctly
-		//$("#canvas").height($("#graph").css("height"));
-		//$("#canvas").width($("#graph").css("width"));
+		// Set the cnavas size correctly, make the width fill the container div
+		// and make the height equal to the width multiplted by Daniels Graph Constant ( 0.46153846 )
+		canvas.width = $("body").width();
+		if( canvas.width > 934 ) canvas.width = 934;
+		canvas.height = parseInt(canvas.width * 0.46153846);
 
 		var c2d = canvas.getContext("2d");
 		c2d.fillStyle = "#FFFFFF";
@@ -52,13 +56,6 @@ function draw_axys(c2d)
 	c2d.moveTo(0, c2d.canvas.height - 20);
 	c2d.lineTo(c2d.canvas.width, c2d.canvas.height - 20);
 	c2d.stroke();	
-
-	// Draw the y axys
-	//c2d.beginPath();
-	//c2d.lineWidth = 2;
-	//c2d.moveTo(10, 0);
-	//c2d.lineTo(10, c2d.canvas.height);
-	//c2d.stroke();
 
 	for( var i = 0; i < 1; i += 0.25 )
 	{

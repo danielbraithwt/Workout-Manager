@@ -257,12 +257,11 @@ class WorkoutsController < ApplicationController
 			puts truncated_time
 
 			position = dates.index truncated_time
-			puts position
 			next if position == nil
 
 			record.excersise_records.each do |excersise_record|
 				e = []
-				e << position
+				e << position + 1
 				e << excersise_record.diffculty
 				e << (excersise_record.sets * excersise_record.reps)
 

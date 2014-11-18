@@ -91,7 +91,7 @@ function draw_data(c2d)
 		positions.push([20, c2d.canvas.height - 20]);
 	}
 	
-	for( position = 20; position <= c2d.canvas.width; position += ((c2d.canvas.width - 40)/range) )
+	for( position = 20; position <= c2d.canvas.width && day <= 30; position += ((c2d.canvas.width - 40)/range) )
 	{
 		// Draw small point
 		c2d.beginPath();

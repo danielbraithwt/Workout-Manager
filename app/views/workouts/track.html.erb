@@ -90,7 +90,7 @@ function draw_data(c2d)
 	{
 		positions.push([20, c2d.canvas.height - 20]);
 	}
-
+	
 	for( position = 20; position <= c2d.canvas.width; position += ((c2d.canvas.width - 40)/range) )
 	{
 		// Draw small point
@@ -104,7 +104,7 @@ function draw_data(c2d)
 		// Draw the text
 		c2d.fillStyle = "black";
 		c2d.font = "10px Times Roman";
-		c2d.fillText(parseInt(position/20), position - 2, c2d.canvas.height - 10 );
+		c2d.fillText(day, position - 2, c2d.canvas.height - 10 );
 
 		for( var i = 0; i < records.length; i += 1 )
 		{

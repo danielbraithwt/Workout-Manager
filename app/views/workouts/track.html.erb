@@ -17,6 +17,10 @@ $(document).ready( function() {
 		
 		var canvas = document.getElementById("canvas");
 
+		// Size the canvas correctly
+		//$("#canvas").height($("#graph").css("height"));
+		//$("#canvas").width($("#graph").css("width"));
+
 		var c2d = canvas.getContext("2d");
 		c2d.fillStyle = "#FFFFFF";
 		c2d.fillRect(0, 0, c2d.canvas.width, c2d.canvas.height);
@@ -46,6 +50,10 @@ function draw_axys(c2d)
 
 function draw_data(c2d)
 {
+	// Make sure that the color range is split up over the correct range
+	var max_range = excersise_names.length;
+	if( max_range < 10 ) max_range = 10;
+
 	var day = 1;
 
 	var positions = []
@@ -65,14 +73,16 @@ function draw_data(c2d)
 
 		for( var i = 0; i < records.length; i += 1 )
 		{
+			var rgb = HSBtoRGB((100/max_range) * i, 0.66, 0.68);
+
 			for( var j = 0; j < records[i].length; j += 1 )
 			{
 				if( records[i][j][0] == day )
 				{
 					var y = ((c2d.canvas.height - 20.0) / max_diffculty) * (max_diffculty - records[i][j][1]);
-					alert(y);
 
 					c2d.beginPath();
+					c2d.strokeStyle = ("rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")");
 					c2d.lineWidth = 2;
 					c2d.moveTo(positions[i][0], positions[i][1]);
 					c2d.lineTo(position, y);
@@ -87,6 +97,59 @@ function draw_data(c2d)
 	}
 }
 
+function HSBtoRGB(h, s, l)
+{
+	var C = (1 - Math.abs(2 * l - 1)) * s;
+	var Hp = h/60.0;
+	var x = C * ( 1 - Math.abs(Hp%2 - 1));
+
+	var r;
+	var g;
+	var b;
+
+	if( Hp >= 0 && Hp < 1 )
+	{
+		r = C;
+		g = x;
+		b = 0;
+	}
+	else if( Hp >= 1 && Hp < 2 )
+	{
+		r = x;
+		g = C;
+		b = 0;
+	}
+	else if( Hp >= 2 && Hp < 3 )
+	{
+		r = 0;
+		g = C;
+		b = x;
+	}
+	else if( Hp >= 3 && Hp < 4 )
+	{
+		r = 0;
+		g = x;
+		b = C;
+	}
+	else if( Hp >= 4 && Hp < 5 )
+	{
+		r = x;
+		g = 0;
+		b = C;
+	}	
+	else if( Hp >= 5 && Hp < 6 )
+	{
+		r = C;
+		g = 0;
+		b = x;
+	}
+
+	m = l - (1/2.0) * C;
+
+	return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
+}
+
+
 </script>
 
 <div id="container">
@@ -95,7 +158,7 @@ function draw_data(c2d)
 	</div>
 
 	<div id="graph">
-		<canvas id="canvas">
+		<canvas id="canvas" width="600px" height="300px">
 			Your browser doesnt support the HTML5 canvas
 		</canvas>
 	</div>

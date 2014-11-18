@@ -41,11 +41,11 @@ function draw_axys(c2d)
 	c2d.stroke();	
 
 	// Draw the y axys
-	c2d.beginPath();
-	c2d.lineWidth = 2;
-	c2d.moveTo(10, 0);
-	c2d.lineTo(10, c2d.canvas.height);
-	c2d.stroke();
+	//c2d.beginPath();
+	//c2d.lineWidth = 2;
+	//c2d.moveTo(10, 0);
+	//c2d.lineTo(10, c2d.canvas.height);
+	//c2d.stroke();
 }
 
 function draw_data(c2d)
@@ -62,14 +62,20 @@ function draw_data(c2d)
 		positions.push([10, c2d.canvas.height - 20]);
 	}
 
-	for( position = 10; position <= c2d.canvas.width; position += ((c2d.canvas.width - 10)/range) )
+	for( position = 10; position <= c2d.canvas.width; position += ((c2d.canvas.width - 40)/range) )
 	{
 		// Draw small point
 		c2d.beginPath();
+		c2d.strokeStyle = "#000000";
 		c2d.lineWidth = 2;
 		c2d.moveTo(position, c2d.canvas.height - 20);
-		c2d.lineTo(position, c2d.canvas.height - 21);
+		c2d.lineTo(position, c2d.canvas.height - 23);
 		c2d.stroke();
+
+		// Draw the text
+		c2d.fillStyle = "black";
+		c2d.font = "10px Times Roman";
+		c2d.fillText(parseInt(position/20) + 1, position - 2, c2d.canvas.height - 10 );
 
 		for( var i = 0; i < records.length; i += 1 )
 		{

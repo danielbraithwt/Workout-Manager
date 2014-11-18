@@ -13,6 +13,8 @@ var records = [];
 var range = <%= @range %>
 var max_diffculty = <%= @max_diffculty %>
 
+var highlighted = "";
+
 $(document).ready( function() {
 		
 		// Make sure that the color range is split up over the correct range
@@ -38,14 +40,22 @@ $(document).ready( function() {
 		if( canvas.width > 934 ) canvas.width = 934;
 		canvas.height = parseInt(canvas.width * 0.46153846);
 
-		var c2d = canvas.getContext("2d");
-		c2d.fillStyle = "#FFFFFF";
-		c2d.fillRect(0, 0, c2d.canvas.width, c2d.canvas.height);
+		draw();
+	});
 
-		draw_axys(c2d);	
 
-		draw_data(c2d);
-		});
+function draw()
+{
+	var c2d = document.getElementById("canvas").getContext("2d");
+	c2d.fillStyle = "#FFFFFF";
+	c2d.fillRect(0, 0, c2d.canvas.width, c2d.canvas.height);
+
+	draw_axys(c2d);	
+
+	draw_data(c2d);	
+
+	highlighted = "";
+}
 
 
 function draw_axys(c2d)
@@ -116,8 +126,12 @@ function draw_data(c2d)
 				{
 					var y = 20 + ((c2d.canvas.height - 20.0) / max_diffculty) * (max_diffculty - records[i][j][1]);
 
+					// Calculate the opacity for the line
+					var opacity = 1;
+					if( highlighted != "" && highlighted != excersise_names[i] ) opacity = 0.4;
+
 					c2d.beginPath();
-					c2d.strokeStyle = ("rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")");
+					c2d.strokeStyle = ("rgba(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ", " + opacity  + ")");
 					c2d.lineWidth = 2;
 					c2d.moveTo(positions[i][0], positions[i][1]);
 					c2d.lineTo(position, y);
@@ -130,6 +144,12 @@ function draw_data(c2d)
 
 		day += 1;
 	}
+}
+
+function highlight(excersise_name)
+{
+	highlighted = excersise_name;
+	draw();
 }
 
 function HSBtoRGB(h, s, l)
@@ -188,10 +208,10 @@ function HSBtoRGB(h, s, l)
 </script>
 
 <div id="container">
-	<div id="key">
+	<div id="key" onmouseout="draw()">
 		<% i = 1 %>
 		<% @records.keys.each do |key| %>
-			<div id="excersise_key_<%= i %>" class="excersise_key">
+			<div id="excersise_key_<%= i %>" class="excersise_key" onmouseover="highlight('<%= key %>')">
 				<div id="color_key_<%= i %>" class="color_key">
 
 				</div>

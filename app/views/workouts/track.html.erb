@@ -62,6 +62,7 @@ function draw_axys(c2d)
 {
 	// Draw the x axys
 	c2d.beginPath();
+	c2d.strokeStyle = "#000000";
 	c2d.lineWidth = 2
 	c2d.moveTo(0, c2d.canvas.height - 20);
 	c2d.lineTo(c2d.canvas.width, c2d.canvas.height - 20);
@@ -98,7 +99,8 @@ function draw_data(c2d)
 	var positions = []
 	for( var i = 0; i < records.length; i += 1 )
 	{
-		positions.push([20, c2d.canvas.height - 20]);
+		//positions.push([20, c2d.canvas.height - 20]);
+		positions.push([-1, -1]);
 	}
 	
 	for( position = 20; position <= c2d.canvas.width && day <= 30; position += ((c2d.canvas.width - 40)/range) )
@@ -125,6 +127,11 @@ function draw_data(c2d)
 				if( records[i][j][0] == day )
 				{
 					var y = 20 + ((c2d.canvas.height - 20.0) / max_diffculty) * (max_diffculty - records[i][j][1]);
+					
+					if( positions[i][0] == -1 )
+					{	
+						positions[i] = [position, y];
+					}	
 
 					// Calculate the opacity for the line
 					var opacity = 1;

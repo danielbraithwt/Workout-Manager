@@ -251,6 +251,10 @@ class WorkoutsController < ApplicationController
 		# numbber of repitions and diffculty
 		@records = {}
 
+		# We want to have a hash of the diffcultys for each excersise which we can use
+		# to calculate varaious stats about excersise progression
+		diffcultys = {}
+
 		workout.workout_records.order('created_at DESC').each do |record|
 			
 			truncated_time = Date.parse(record.created_at.change(:seconds => 0, :minute => 0, :hour => 0).to_s.split(" ")[0])
@@ -264,17 +268,38 @@ class WorkoutsController < ApplicationController
 				e << position + 1
 				e << excersise_record.diffculty
 				e << (excersise_record.sets * excersise_record.reps)
-
+				
+				# If the current diffculty is the biggest then update the max diffculty
 				@max_diffculty = excersise_record.diffculty if excersise_record.diffculty > @max_diffculty
-
+				
+				# Add the record to the records hash, if nothing has been added for this excersise yet then initilise
+				# it to an empty array
 				@records[excersise_record.excersise.name] = [] if @records[excersise_record.excersise.name] == nil
-
 				@records[excersise_record.excersise.name] << e
+
+				# Add the diffculty to the diffcultys hash
+				diffcultys[excersise_record.excersise.name] = [] if diffcultys[excersise_record.excersise.name] == nil
+				diffcultys[excersise_record.excersise.name] << excersise_record.diffculty
 			end
 
 		end
 
-		puts @records
+		# Using the diffcultys calculate various stastics
+		#
+		# To Be Calculated :
+		#  1) Total change : newest diffculty - oldest diffculty
+		
+		@total_changes = []
+
+		@records.keys.each do |key|
+			# Sort all the array of diffcultys
+			d = diffcultys[key].sort
+				
+			# Add the change to the array
+			@total_changes << (d[d.length-1] - d[0])
+		end
+
+		puts @total_changes
 		
 	end
 

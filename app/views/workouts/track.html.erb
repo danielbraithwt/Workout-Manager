@@ -219,6 +219,10 @@ function HSBtoRGB(h, s, l)
 				<div id="name_key_<%= i %>" class="name_key">
 					<%= key %>
 				</div>
+
+				<div id="stats_key_<%= i %>" class="stats_key">
+					Total Change: <%= @total_changes[i-1] %>
+				</div>
 			</div>
 
 			<% i += 1 %>

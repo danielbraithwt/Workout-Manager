@@ -10,7 +10,7 @@
 	margin-right: auto;
 }
 
-#key {
+.key {
 	width: 100%;
 	height: auto;
 
@@ -51,7 +51,9 @@
 
 }
 
-#graph {
+.graph {
 	width: 100%;
 	height: auto;
+
+	margin-bottom: 100px;
 }

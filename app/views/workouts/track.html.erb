@@ -4,14 +4,17 @@
 
 var excersise_names = [];
 var records = [];
+var excersise_types = []
 
 <% @records.keys.each do |key| %>
 	excersise_names.push("<%= key %>");
 	records.push(<%= @records[key].to_json %>);
+	excersise_types.push(<%= @excersise_types[key] %>);
 <% end %>
 
 var range = <%= @range %>
-var max_diffculty = <%= @max_diffculty %>
+var max_diffculty_weight = <%= @max_diffculty_weight %>
+var max_diffculty_time = <%= @max_diffculty_time %>
 
 var highlighted = "";
 
@@ -24,21 +27,36 @@ $(document).ready( function() {
 
 		// Color the key elements
 		var i = 1;
-		$("#key").children("div").each( function() {
+		$("#key_weight").children("div").each( function() {
+
 				
 				var rgb = HSBtoRGB((100.0/max_range) * i, 0.66, 0.68);
 				$("#color_key_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});				
 				i += 1;
 
 				});
+
+		$("#key_time").children("div").each( function() {
+				var rgb = HSBtoRGB((100.0/max_range) * i, 0.66, 0.68);
+				$("#color_key_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});				
+				i += 1;
+
+				});
 		
-		var canvas = document.getElementById("canvas");
+		var canvas_weight = document.getElementById("canvas_weight");
+		var canvas_time = document.getElementById("canvas_time");
 
 		// Set the cnavas size correctly, make the width fill the container div
-		// and make the height equal to the width multiplted by Daniels Graph Constant ( 0.46153846 )
-		canvas.width = $("body").width();
-		if( canvas.width > 934 ) canvas.width = 934;
-		canvas.height = parseInt(canvas.width * 0.46153846);
+		// and make the height equal to the width multiplted by Daniels Graph Constant ( 0.46153846 ) :P
+		var w = $("body").width();
+		if( w > 934 ) w = 934;
+		var h = parseInt(w * 0.46153846);
+
+		canvas_weight.width = w;
+		canvas_time.width = w;
+
+		canvas_weight.height = h;
+		canvas_time.height = h;
 
 		draw();
 	});
@@ -46,21 +64,26 @@ $(document).ready( function() {
 
 function draw()
 {
-	var c2d = document.getElementById("canvas").getContext("2d");
-	c2d.fillStyle = "#FFFFFF";
-	c2d.fillRect(0, 0, c2d.canvas.width, c2d.canvas.height);
+	var c2d_weight = document.getElementById("canvas_weight").getContext("2d");
+	c2d_weight.fillStyle = "#FFFFFF";
+	c2d_weight.fillRect(0, 0, c2d_weight.canvas.width, c2d_weight.canvas.height);
 
-	draw_axys(c2d);	
+	var c2d_time  = document.getElementById("canvas_time").getContext("2d");
+	c2d_time.fillStyle = "#FFFFFF";
+	c2d_time.fillRect(0, 0, c2d_time.canvas.width, c2d_time.canvas.height);
 
-	draw_data(c2d);	
+	draw_axys(c2d_weight, max_diffculty_weight);	
+	draw_axys(c2d_time, max_diffculty_time);
+
+	draw_data(c2d_weight);	
 
 	highlighted = "";
 }
 
 
-function draw_axys(c2d)
+function draw_axys(c2d, max_diffculty)
 {
-	// Draw the x axys
+	// Draw the x axys for the weight graph
 	c2d.beginPath();
 	c2d.strokeStyle = "#000000";
 	c2d.lineWidth = 2
@@ -88,7 +111,7 @@ function draw_axys(c2d)
 	}
 }
 
-function draw_data(c2d)
+function draw_data(c2d_weight)
 {
 	// Make sure that the color range is split up over the correct range
 	var max_range = excersise_names.length;
@@ -103,20 +126,20 @@ function draw_data(c2d)
 		positions.push([-1, -1]);
 	}
 	
-	for( position = 20; position <= c2d.canvas.width && day <= 30; position += ((c2d.canvas.width - 40)/range) )
+	for( position = 20; position <= c2d_weight.canvas.width && day <= 30; position += ((c2d_weight.canvas.width - 40)/range) )
 	{
 		// Draw small point
-		c2d.beginPath();
-		c2d.strokeStyle = "#000000";
-		c2d.lineWidth = 2;
-		c2d.moveTo(position, c2d.canvas.height - 20);
-		c2d.lineTo(position, c2d.canvas.height - 23);
-		c2d.stroke();
+		c2d_weight.beginPath();
+		c2d_weight.strokeStyle = "#000000";
+		c2d_weight.lineWidth = 2;
+		c2d_weight.moveTo(position, c2d_weight.canvas.height - 20);
+		c2d_weight.lineTo(position, c2d_weight.canvas.height - 23);
+		c2d_weight.stroke();
 
 		// Draw the text
-		c2d.fillStyle = "black";
-		c2d.font = "10px Times Roman";
-		c2d.fillText(day, position - 2, c2d.canvas.height - 10 );
+		c2d_weight.fillStyle = "black";
+		c2d_weight.font = "10px Times Roman";
+		c2d_weight.fillText(day, position - 2, c2d_weight.canvas.height - 10 );
 
 		for( var i = 0; i < records.length; i += 1 )
 		{
@@ -126,7 +149,13 @@ function draw_data(c2d)
 			{
 				if( records[i][j][0] == day )
 				{
-					var y = 20 + ((c2d.canvas.height - 20.0) / max_diffculty) * (max_diffculty - records[i][j][1]);
+					// Depedning on the excersise type set the canvas that will be drawn to
+					if( excersise_types[i] == 1 )
+					{
+						var current_canvas = c2d_weight;
+					}
+
+					var y = 20 + ((current_canvas.canvas.height - 20.0) / max_diffculty_weight) * (max_diffculty_weight - records[i][j][1]);
 					
 					if( positions[i][0] == -1 )
 					{	
@@ -137,12 +166,12 @@ function draw_data(c2d)
 					var opacity = 1;
 					if( highlighted != "" && highlighted != excersise_names[i] ) opacity = 0.4;
 
-					c2d.beginPath();
-					c2d.strokeStyle = ("rgba(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ", " + opacity  + ")");
-					c2d.lineWidth = 2;
-					c2d.moveTo(positions[i][0], positions[i][1]);
-					c2d.lineTo(position, y);
-					c2d.stroke();
+					current_canvas.beginPath();
+					current_canvas.strokeStyle = ("rgba(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ", " + opacity  + ")");
+					current_canvas.lineWidth = 2;
+					current_canvas.moveTo(positions[i][0], positions[i][1]);
+					current_canvas.lineTo(position, y);
+					current_canvas.stroke();
 
 					positions[i] = [position, y];
 				}	
@@ -215,9 +244,10 @@ function HSBtoRGB(h, s, l)
 </script>
 
 <div id="container">
-	<div id="key" onmouseout="draw()">
+	<div id="key_weight" class="key" onmouseout="draw()">
 		<% i = 1 %>
 		<% @records.keys.each do |key| %>
+			<% if @excersise_types[key] == 1 %>
 			<div id="excersise_key_<%= i %>" class="excersise_key" onmouseover="highlight('<%= key %>')">
 				<div id="color_key_<%= i %>" class="color_key">
 
@@ -233,12 +263,48 @@ function HSBtoRGB(h, s, l)
 			</div>
 
 			<% i += 1 %>
+
+			<% end %>
 		<% end %>
 	</div>
-
-	<div id="graph">
-		<canvas id="canvas" width="650px" height="300px">
+	
+	<% if @max_diffculty_weight != -1 %>
+	<div id="graph_weight" class="graph">
+		<canvas id="canvas_weight" width="650px" height="300px">
 			Your browser doesnt support the HTML5 canvas
 		</canvas>
 	</div>
+	<% end %>
+
+	<div id="key_time" class="key" onmouseout="draw()">
+		<% @records.keys.each do |key| %>
+			<% if @excersise_types[key] == 2 %>
+			<div id="excersise_key_<%= i %>" class="excersise_key" onmouseover="highlight('<%= key %>')">
+				<div id="color_key_<%= i %>" class="color_key">
+
+				</div>
+
+				<div id="name_key_<%= i %>" class="name_key">
+					<%= key %>
+				</div>
+
+				<div id="stats_key_<%= i %>" class="stats_key">
+					Total Change: <%= @total_changes[i-1] %>
+				</div>
+			</div>
+
+			<% i += 1 %>
+			<% end %>
+
+		<% end %>
+	</div>
+
+
+	<% if @max_diffculty_time != -1 %>
+	<div id="graph_time" class="graph">
+		<canvas id="canvas_time" width="650px" height="300px">
+			Your browser dosnt support the HTML5 canvas
+		</canvas>
+	</div>
+	<% end %> 
 </div>

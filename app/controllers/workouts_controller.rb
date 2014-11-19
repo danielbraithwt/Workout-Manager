@@ -230,7 +230,8 @@ class WorkoutsController < ApplicationController
 		workout = Workout.find(params[:id]);
 		
 		@range = 30
-		@max_diffculty = 0;
+		@max_diffculty_weight = -1;
+		@max_diffculty_time = -1;
 		
 		dates = []
 		month_ago = Date.today - @range
@@ -255,6 +256,9 @@ class WorkoutsController < ApplicationController
 		# to calculate varaious stats about excersise progression
 		diffcultys = {}
 
+		# We need to store what type of exersise each one is
+		@excersise_types = {}
+
 		workout.workout_records.order('created_at DESC').each do |record|
 			
 			truncated_time = Date.parse(record.created_at.change(:seconds => 0, :minute => 0, :hour => 0).to_s.split(" ")[0])
@@ -269,9 +273,16 @@ class WorkoutsController < ApplicationController
 				e << excersise_record.diffculty
 				e << (excersise_record.sets * excersise_record.reps)
 				
-				# If the current diffculty is the biggest then update the max diffculty
-				@max_diffculty = excersise_record.diffculty if excersise_record.diffculty > @max_diffculty
-				
+				if excersise_record.excersise.excersisetype == 1	
+					# If the current diffculty is the biggest then update the max diffculty
+					@max_diffculty_weight = excersise_record.diffculty if excersise_record.diffculty > @max_diffculty_weight
+				elsif excersise_record.excersise.excersisetype == 2
+					# If the current diffculty is the biggest then update the max diffculty
+					@max_diffculty_time = excersise_record.diffculty if excersise_record.diffculty > @max_diffculty_time
+				end
+
+				@excersise_types[excersise_record.excersise.name] = excersise_record.excersise.excersisetype
+					
 				# Add the record to the records hash, if nothing has been added for this excersise yet then initilise
 				# it to an empty array
 				@records[excersise_record.excersise.name] = [] if @records[excersise_record.excersise.name] == nil

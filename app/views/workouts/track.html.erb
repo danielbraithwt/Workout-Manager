@@ -75,7 +75,7 @@ function draw()
 	draw_axys(c2d_weight, max_diffculty_weight);	
 	draw_axys(c2d_time, max_diffculty_time);
 
-	draw_data(c2d_weight);	
+	draw_data(c2d_weight, c2d_time);	
 
 	highlighted = "";
 }
@@ -111,7 +111,7 @@ function draw_axys(c2d, max_diffculty)
 	}
 }
 
-function draw_data(c2d_weight)
+function draw_data(c2d_weight, c2d_time)
 {
 	// Make sure that the color range is split up over the correct range
 	var max_range = excersise_names.length;
@@ -128,6 +128,7 @@ function draw_data(c2d_weight)
 	
 	for( position = 20; position <= c2d_weight.canvas.width && day <= 30; position += ((c2d_weight.canvas.width - 40)/range) )
 	{
+		// Add the lines 
 		// Draw small point
 		c2d_weight.beginPath();
 		c2d_weight.strokeStyle = "#000000";
@@ -141,6 +142,21 @@ function draw_data(c2d_weight)
 		c2d_weight.font = "10px Times Roman";
 		c2d_weight.fillText(day, position - 2, c2d_weight.canvas.height - 10 );
 
+
+		// Add the lines for the time based excersise graph
+		// Draw small point
+		c2d_time.beginPath();
+		c2d_time.strokeStyle = "#000000";
+		c2d_time.lineWidth = 2;
+		c2d_time.moveTo(position, c2d_time.canvas.height - 20);
+		c2d_time.lineTo(position, c2d_time.canvas.height - 23);
+		c2d_time.stroke();
+
+		// Draw the text
+		c2d_time.fillStyle = "black";
+		c2d_time.font = "10px Times Roman";
+		c2d_time.fillText(day, position - 2, c2d_time.canvas.height - 10 );
+
 		for( var i = 0; i < records.length; i += 1 )
 		{
 			var rgb = HSBtoRGB((100/max_range) * i, 0.66, 0.68);
@@ -149,13 +165,22 @@ function draw_data(c2d_weight)
 			{
 				if( records[i][j][0] == day )
 				{
+					var current_canvas;
+					var current_max_diffculty;
+
 					// Depedning on the excersise type set the canvas that will be drawn to
 					if( excersise_types[i] == 1 )
 					{
-						var current_canvas = c2d_weight;
+						current_canvas = c2d_weight;
+						current_max_diffculty = max_diffculty_weight;
+					}
+					else if( excersise_types[i] == 2 )
+					{
+						current_canvas = c2d_time;
+						current_max_diffculty = max_diffculty_time;
 					}
 
-					var y = 20 + ((current_canvas.canvas.height - 20.0) / max_diffculty_weight) * (max_diffculty_weight - records[i][j][1]);
+					var y = 20 + ((current_canvas.canvas.height - 20.0) / current_max_diffculty) * (current_max_diffculty - records[i][j][1]);
 					
 					if( positions[i][0] == -1 )
 					{	
@@ -166,11 +191,13 @@ function draw_data(c2d_weight)
 					var opacity = 1;
 					if( highlighted != "" && highlighted != excersise_names[i] ) opacity = 0.4;
 
+
 					current_canvas.beginPath();
 					current_canvas.strokeStyle = ("rgba(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ", " + opacity  + ")");
 					current_canvas.lineWidth = 2;
 					current_canvas.moveTo(positions[i][0], positions[i][1]);
 					current_canvas.lineTo(position, y);
+					current_canvas.arc(position, y, 2 ,0, 2 * Math.PI, false);
 					current_canvas.stroke();
 
 					positions[i] = [position, y];

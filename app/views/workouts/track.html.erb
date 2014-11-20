@@ -271,8 +271,15 @@ function HSBtoRGB(h, s, l)
 </script>
 
 <div id="container">
+	<% i = 1 %>
+	
+	<% if @max_diffculty_weight != -1 %>
+
+	<div class="title">
+		Weight Based Excersises
+	</div>
+	
 	<div id="key_weight" class="key" onmouseout="draw()">
-		<% i = 1 %>
 		<% @records.keys.each do |key| %>
 			<% if @excersise_types[key] == 1 %>
 			<div id="excersise_key_<%= i %>" class="excersise_key" onmouseover="highlight('<%= key %>')">
@@ -295,13 +302,19 @@ function HSBtoRGB(h, s, l)
 		<% end %>
 	</div>
 	
-	<% if @max_diffculty_weight != -1 %>
 	<div id="graph_weight" class="graph">
 		<canvas id="canvas_weight" width="650px" height="300px">
 			Your browser doesnt support the HTML5 canvas
 		</canvas>
 	</div>
 	<% end %>
+
+	
+	<% if @max_diffculty_time != -1 %>
+
+	<div class="title">
+		Time Based Excersises
+	</div>
 
 	<div id="key_time" class="key" onmouseout="draw()">
 		<% @records.keys.each do |key| %>
@@ -326,12 +339,14 @@ function HSBtoRGB(h, s, l)
 		<% end %>
 	</div>
 
-
-	<% if @max_diffculty_time != -1 %>
 	<div id="graph_time" class="graph">
 		<canvas id="canvas_time" width="650px" height="300px">
 			Your browser dosnt support the HTML5 canvas
 		</canvas>
 	</div>
 	<% end %> 
+
+	<% if @max_diffculty_time == -1 && @max_diffculty_weight == -1 %>
+		No records for this workout
+	<% end %>
 </div>

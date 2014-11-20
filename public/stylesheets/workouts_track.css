@@ -11,10 +11,12 @@
 }
 
 .key {
-	width: 100%;
+	width: auto;
 	height: auto;
 
-	padding-left: 100px;
+	max-width: 934px;
+
+	margin-left: 100px;
 
 	padding-bottom: 150px;
 }
@@ -49,6 +51,15 @@
 
 	font-weight: bold;
 
+}
+
+.title {
+	font-size: 2em;
+	font-style: bold;
+
+	padding-left: 15px;
+
+	margin-bottom: 50px;
 }
 
 .graph {

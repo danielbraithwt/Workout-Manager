@@ -62,20 +62,60 @@ class ExcersisesController < ApplicationController
 		allowed = confirm_user_auth(excersise)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
 
-	  	#TODO: Allow mass assignment
+		# Even though the JS function wont send a request if all the fields
+		# arnt present, it dosnt stop people from sending requests form another means
+		# so it pays to check anyway
+		
+		if !params[:group].present? || !params[:name].present? || !params[:diffculty].present? || !params[:sets].present? || !params[:reps].present?
+			@m = "nc"
+			return false
+		end
 
-	  	excersise.group = params[:group]
-	  	excersise.name = params[:name]
-	  	excersise.diffculty = params[:diffculty]
+		# Make sure that all the paramaters are valid, if one isnt then return the respective error code
+		# and quit the action
+
+		if is_numeric?(params[:group]) && params[:group].to_i > 0
+			excersise.group = params[:group]
+		else
+			@m = "group"
+			return false
+		end
+		
+		if params[:name].length < 30
+	  		excersise.name = params[:name]
+		else
+			@m = "name"
+			return false
+		end
+		
+		if is_numeric?(params[:diffculty]) && params[:diffculty].to_f > 0
+	  		excersise.diffculty = params[:diffculty]
+		else
+			@m = "diffculty"
+			return false
+		end
+
 	  	excersise.excersisetype = params[:type]
-	  	excersise.sets = params[:sets]
-	  	excersise.reps = params[:reps]
+
+		if is_numeric?(params[:sets]) && params[:sets].to_i > 0
+			excersise.sets = params[:sets]
+		else
+			@m = "sets"
+			return false
+		end
+
+		if is_numeric?(params[:reps]) && params[:reps].to_i > 0
+	  		excersise.reps = params[:reps]
+		else
+			@m = "reps"
+			return false
+		end
 
 	  	# If the excersise saves then output the id of the excersise
 	  	if excersise.save
-			@id = excersise.id
+			@m = excersise.id
 	  	else
-		 	@id = -1
+		 	@m = -1
 	  	end
   	end
 
@@ -118,6 +158,10 @@ class ExcersisesController < ApplicationController
   	end
 
 	private
+
+	def is_numeric?(str)
+		str.to_i.to_s == str || str.to_f.to_s == str
+	end
 
 	def confirm_logged_in
 		unless session[:user_id]

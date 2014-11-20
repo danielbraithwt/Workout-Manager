@@ -20,3 +20,26 @@
 
 	-webkit-border-radius: 10px;
 }
+
+#error_notice {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+
+	width: auto;
+	height: 50px;
+	
+	padding-left: 10px;
+	padding-right: 10px;
+
+	visibility: hidden;
+	opacity: 0.0;
+
+	background-color: #F44336;
+	color: white;
+	
+	font-size: 1.5em;
+	line-height: 50px;
+
+	-webkit-border-radius: 10px;
+}

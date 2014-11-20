@@ -15,18 +15,41 @@ $(document).ready( function() {
 		// If there is no message then there is nothing to do
 		// so quit out of function
 		if( message == "" ) return;
-
-		var notice = document.createElement("div");
-		notice.id = "notice";
-		notice.innerText = message;	
-
-		document.body.appendChild(notice);
-
-		$("#notice").css( 'visibility', "visible").animate({opacity: 0.9}, 500).delay(4000).css( 'visibility', "visible").animate({opacity: 0.0}, 500);
-
-		//$("#notice").fadeIn(200);
+		show_message(message);
 
 		});
+
+function show_message(message)
+{
+	if( document.getElementById("notice") != null )
+	{
+		$("#notice").remove();
+	}
+
+	var notice = document.createElement("div");
+	notice.id = "notice";
+	notice.innerText = message;	
+
+	document.body.appendChild(notice);
+
+	$("#notice").css( 'visibility', "visible").animate({opacity: 0.9}, 500).delay(4000).css( 'visibility', "visible").animate({opacity: 0.0}, 500);
+}
+
+function show_error(message)
+{
+	if( document.getElementById("error_notice") != null )
+	{
+		$("#error_notice").remove();
+	}
+
+	var error_notice = document.createElement("div");
+	error_notice.id = "error_notice";
+	error_notice.innerText = message;	
+
+	document.body.appendChild(error_notice);
+
+	$("#error_notice").css( 'visibility', "visible").animate({opacity: 0.9}, 500).delay(4000).css( 'visibility', "visible").animate({opacity: 0.0}, 500);
+}
 
 </script>
 

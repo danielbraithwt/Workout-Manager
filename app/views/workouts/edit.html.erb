@@ -307,6 +307,13 @@ function edit_excersise(id)
 	var sets = document.getElementById("excersise_sets_" + id).innerText;
 	var reps = document.getElementById("excersise_reps_" + id).innerText;
 
+	// If any of the fields dont have a value then dont send the AJAX
+	// request
+	if( group == "" || name == "" || type == 0 || diffculty == "" || sets == "" || reps == "" )
+	{
+		return;
+	}
+
 	// AJAX For saving exversise
 	var xmlhttp;
 
@@ -323,7 +330,10 @@ function edit_excersise(id)
 	{
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
 		{
-			// Nothing needed
+			if( id.toString() != xmlhttp.responseText.trim() && xmlhttp.responseText != "nc" )
+			{
+				show_error("An Error Occored While Saving, Check Fields");	
+			}	
 		}
 	}
 

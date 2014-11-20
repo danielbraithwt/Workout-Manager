@@ -228,7 +228,11 @@ class WorkoutsController < ApplicationController
 
 	def track
 		workout = Workout.find(params[:id]);
-		
+
+		# Make sure that the user has access to this workout
+		allowed = confirm_user_auth(@workout)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
 		@range = 30
 		@max_diffculty_weight = -1;
 		@max_diffculty_time = -1;

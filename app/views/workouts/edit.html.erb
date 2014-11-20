@@ -290,9 +290,20 @@ function edit_excersise_event(event)
 
 function edit_excersise(id)
 {
+
+	// Make sure the color range is split over enough
+	// of a range to give a smmoth color change
+	var max_range = current_group;
+	if( max_range < 10 ) max_range = 10;
+
 	// Tell the user that the workout isnt saved by changing the color of the header
-	$("#column_titles").animate({backgroundColor: "#EEEEEE"});
-	$("#header").animate({backgroundColor: "#EEEEEE"});
+	//$("#column_titles").animate({backgroundColor: "#EEEEEE"});
+	//$("#header").animate({backgroundColor: "#EEEEEE"});
+	//$("#workout_header").animate({backgroundColor: "#EEEEEE"});
+	if( $("#excersise_" + id).css("background-color") != "rgb(236, 238, 238)" )
+	{
+		$("#excersise_" + id).animate({backgroundColor: "#EEEEEE"}, 50);
+	}
 	
 	// Get all the information about the excersise that needs to be saved
 	var group = document.getElementById("excersise_group_" + id).innerText;
@@ -334,6 +345,11 @@ function edit_excersise(id)
 			{
 				show_error("An Error Occored While Saving, Check Fields");	
 			}	
+			else
+			{
+				var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / max_range ), 0.68, 0.66);
+				$("#excersise_" + id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"}, 50);
+			}
 		}
 	}
 

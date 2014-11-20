@@ -3,9 +3,15 @@ class UsersController < ApplicationController
 	before_action :confirm_logged_in, :except => [:create]
 
   	def create
-		user = User.new
+		# Make sure that the email isnt allready signed up
+		found_user = User.where(:email => params[:email])
+		if found_user != nil
+			flash[:notice] = "There is allready an account regestered to that email"
+			redirect_to :controller => "access", :action => "login"
+			return false
+		end
 	
-		# TODO: Make sure that a user by that email isnt allready signed up
+		user = User.new
 
 	  	user.first_name = params[:first_name]
 	  	user.last_name = params[:last_name]
@@ -13,10 +19,10 @@ class UsersController < ApplicationController
 		user.password = params[:password]
 
 		if user.save
-			flash[:message] = "User account created"
+			flash[:notice] = "User account created"
 			redirect_to :controller => 'access', :action => 'login'
 		else
-			flash[:message] = "Something went wrong sorry"
+			flash[:notice] = "Something went wrong sorry"
 			redirect_to :controller => 'home', :action =>'signup'
 		end
   	end
@@ -32,10 +38,10 @@ class UsersController < ApplicationController
 		user.password = params[:password] if params[:password].present?
 
 		if user.save
-			flash[:message] = "User account updated scussfully"
+			flash[:notice] = "User account updated scussfully"
 			redirect_to :controller => "home", :action => "index"
 		else
-			flash[:message] = "An error occored while updating"
+			flash[:notice] = "An error occored while updating"
 			redirect_to :action => "index"
 		end
 	end

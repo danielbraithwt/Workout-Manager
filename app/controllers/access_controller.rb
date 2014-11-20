@@ -21,8 +21,6 @@ class AccessController < ApplicationController
 			session[:user_id] = user.id
 			session[:name] = user.first_name + " " + user.last_name
 
-
-
 			redirect_to(:controller => 'home', :action => 'index')
 		else
 			flash[:notice] = "Invalid username/password combination."

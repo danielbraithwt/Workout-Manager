@@ -140,6 +140,15 @@ class WorkoutsController < ApplicationController
 		@encouragements = ["Lets Do It", "Go For It!"]
 
 		@workout = Workout.find(params[:id])
+	
+		# Make sure that there is atleast one excersise, other wise
+		# redirect to the index page with a message
+
+		if @workout.excersises.length == 0
+			flash[:notice] = "You cant DO a workout with no excersises"
+			redirect_to :controller => "home", :action => "index"
+			return false;
+		end
 
 		# Makesure that the user can access that workout if they dont redirect them to the
 		# login page

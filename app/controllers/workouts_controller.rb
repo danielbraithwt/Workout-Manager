@@ -233,15 +233,25 @@ class WorkoutsController < ApplicationController
 		# Create the record for the workout
 		workout_record = WorkoutRecord.new
 		workout_record.workout = workout
+		workout_record.completion_time = params[:time]
+ 
+		puts params[:time] 
 
 		workout.excersises.each do |excersise|
 			excersise_record = ExcersiseRecord.new
+			data = JSON.parse(params["#{excersise.id}"])
 
-			excersise_record.diffculty = params["#{excersise.id}"]
-			excersise_record.sets = excersise.sets
-			excersise_record.reps = excersise.reps
+			data.each do |record|
+				set = ExcersiseSet.new
 
-			excersise_record.excersise = excersise
+				set.reps = record[0]
+				set.diffculty = record[1]
+
+				set.save
+
+				excersise_record.excersise_sets << set  
+			end	
+
 			excersise_record.save
 			
 			workout_record.excersise_records << excersise_record

@@ -2,6 +2,7 @@ class CreateWorkoutRecords < ActiveRecord::Migration
   	def change
     	create_table :workout_records do |t|
 			t.integer "workout_id"	
+			t.integer "completion_time"
 
       		t.timestamps
     	end

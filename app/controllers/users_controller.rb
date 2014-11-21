@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   	def create
 		# Make sure that the email isnt allready signed up
 		found_user = User.where(:email => params[:email])
-		if found_user != nil
+		if found_user == nil
 			flash[:notice] = "There is allready an account regestered to that email"
 			redirect_to :controller => "access", :action => "login"
 			return false

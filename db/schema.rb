@@ -11,20 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141113013101) do
+ActiveRecord::Schema.define(version: 20141121081521) do
 
   create_table "excersise_records", force: true do |t|
     t.integer  "workout_record_id"
     t.integer  "excersise_id"
-    t.integer  "sets"
-    t.integer  "reps"
-    t.float    "diffculty",         limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "excersise_records", ["excersise_id"], name: "index_excersise_records_on_excersise_id", using: :btree
   add_index "excersise_records", ["workout_record_id"], name: "index_excersise_records_on_workout_record_id", using: :btree
+
+  create_table "excersise_sets", force: true do |t|
+    t.integer  "excersise_record_id"
+    t.integer  "reps"
+    t.float    "diffculty",           limit: 24
+    t.integer  "completion_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "excersise_sets", ["excersise_record_id"], name: "index_excersise_sets_on_excersise_record_id", using: :btree
 
   create_table "excersises", force: true do |t|
     t.integer  "workout_id"
@@ -52,6 +60,7 @@ ActiveRecord::Schema.define(version: 20141113013101) do
 
   create_table "workout_records", force: true do |t|
     t.integer  "workout_id"
+    t.integer  "completion_time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

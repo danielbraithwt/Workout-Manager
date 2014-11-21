@@ -114,6 +114,12 @@ class WorkoutsController < ApplicationController
 	def update_name
 		puts "Updating Workout Name: => #{params[:id]}"
 
+		# Make sure the workout name passed to the controller is valid
+		if params[:workout][:name].length > 20 || params[:workout][:name].length < 5 || params[:workout][:name].index(/[^\w\s]/)
+			@m = "error"
+			return false
+		end
+
 		@workout = Workout.find(params[:id])
 
 		# Makesure that the user can access that workout if they dont redirect them to the
@@ -125,9 +131,9 @@ class WorkoutsController < ApplicationController
 
 		puts params[:name]
 
-		@id = @workout.id
+		@m = @workout.id
 
-		@id = -1 if !@workout.save
+		@m = -1 if !@workout.save
 	end
 	
 	##

@@ -8,10 +8,29 @@ var workout_id = <%= @workout.id %>;
 var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.group != nil && item.group > memo then item.group; else memo; end } %>
 
 $(function () {
-		
+
 		$(document).tooltip();
 
 		});
+
+// Add action listeners to the workout name so it is saved when it is edited
+// also we want to stop the enter key from adding a line return when the enter
+// key is pressed
+$(function () {
+	$("#workout_header").keydown( function(e) {
+			if( e.keyCode == 13 )
+			{
+				e.preventDefault();
+			}
+
+			});
+
+	$("#workout_header").keyup( function(e) {
+			
+			update_name();
+
+			});
+	});
 
 $(function() {
 		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y', 
@@ -371,6 +390,17 @@ function edit_excersise(id)
 
 function update_name()
 {	
+	var name = document.getElementById("workout_name").innerText;
+
+	// Verify that the name has appriate length and only contains letters, numbers
+	// and white space
+	if( name.length > 20 || name.length < 5 || name.search(/[^\w\s]/) != -1 )
+	{
+		//$("#workout_name").tooltip().mouseover();
+		show_error("That isnt a valid name!");
+		return false;
+	}
+
 	// Creates an AJAX request to update the name of the workout if it is changed
 	var xmlhttp;
 
@@ -391,7 +421,7 @@ function update_name()
 		}
 	}
 
-	xmlhttp.open("GET", "/workouts/update_name?id=" + workout_id + "&name=" + document.getElementById("workout_name").innerText, true);
+	xmlhttp.open("GET", "/workouts/update_name?id=" + workout_id + "&name=" + name, true);
 	xmlhttp.send();
 }
 
@@ -521,7 +551,7 @@ function destroy_excersise(id)
 
 <div id="container">
 <div id="workout_header">
-	<div id="workout_name" onkeyup="update_name()" contentEditable='true'>
+	<div id="workout_name" contentEditable='true' title="Edit the name of the workout, name must be between 5 and 20 charactors and no special charactors">
 		<%= @workout.name %>
 	</div>
 

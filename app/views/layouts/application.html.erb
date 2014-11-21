@@ -42,6 +42,8 @@ function show_error(message)
 {
 	if( document.getElementById("error_notice") != null )
 	{
+		// If it is currentley visible then cancle this action
+		if( $("#error_notice").css('visibility') == "visible" && $("#error_notice").css("opacity") > 0 ) return false;
 		$("#error_notice").remove();
 	}
 

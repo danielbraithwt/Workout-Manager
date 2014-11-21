@@ -7,6 +7,12 @@
 var workout_id = <%= @workout.id %>;
 var current_group = <%= @workout.excersises.inject (0) { |memo, item| if item.group != nil && item.group > memo then item.group; else memo; end } %>
 
+$(function () {
+		
+		$(document).tooltip();
+
+		});
+
 $(function() {
 		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y', 
 				cancel: '.excersise_group,.excersise_name,.excersise_type,.excersise_diffculty,.excersise_sets,.excersise_reps,.excersise_delete,.message',
@@ -186,6 +192,7 @@ function create_new_excersise()
 
 			excersiseGroup.id = ("excersise_group_" + id);
 			excersiseGroup.className = "excersise_group";
+			excersiseGroup.title = "To link excersises together as a super set, set there group to be the same";
 			excersiseGroup.innerText = current_group;
 			excersiseGroup.contentEditable = 'true';
 
@@ -194,6 +201,7 @@ function create_new_excersise()
 			var excersiseName = document.createElement('div');
 			excersiseName.id = ("excersise_name_" + id);
 			excersiseName.className = "excersise_name";
+			excersiseName.title = "what should the excersise be called";
 			excersiseName.innerText = "Name";
 			excersiseName.contentEditable = 'true';
 
@@ -229,6 +237,7 @@ function create_new_excersise()
 
 			excersiseDiffcultyMagnitude.id = ("excersise_diffculty_magnitude_" + id);
 			excersiseDiffcultyMagnitude.className = "excersise_diffculty_magnitude";
+			excersiseDiffcultyMagnitude.title = "For a weight based excersise this is where you put the KG's you are lifting, should be a number greater than 0";
 			excersiseDiffcultyMagnitude.innerText = "1.0";
 			excersiseDiffcultyMagnitude.contentEditable = 'true';
 
@@ -248,6 +257,7 @@ function create_new_excersise()
 
 			excersiseSets.id = ("excersise_sets_" + id);
 			excersiseSets.className = "excersise_sets";
+			excersiseSets.title = "How many times will you repeat this excersise, should be an integer greater than 0";
 			excersiseSets.innerText = "1";
 			excersiseSets.contentEditable = 'true';
 
@@ -257,6 +267,7 @@ function create_new_excersise()
 
 			excersiseReps.id = ("excersise_reps_" + id);
 			excersiseReps.className = "excersise_reps";
+			excersiseReps.title = "How many times will you do this excersise every set, should be an integer greater than 0";
 			excersiseReps.innerText = "1";
 			excersiseReps.contentEditable = "true";
 
@@ -545,7 +556,7 @@ function destroy_excersise(id)
 
 </div>
 
-<a id="create_excersise_button" onclick="create_new_excersise()">
+<a id="create_excersise_button" onclick="create_new_excersise()" title="New Excersise">
 	<%= image_tag "plus.gif" %>
 </a>
 
@@ -561,11 +572,11 @@ function destroy_excersise(id)
 						H
 					</div>
 
-					<div id="excersise_group_<%= excersise.id %>" class="excersise_group" contentEditable='true'>
+					<div id="excersise_group_<%= excersise.id %>" class="excersise_group" contentEditable='true' title="To link excersises together as a super set, set there group to be the same">
 						<%= excersise.group %>
 					</div>
 
-					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true'>
+					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true' title="what should the excersise be called">
 						<%= excersise.name %>
 					</div>
 
@@ -577,7 +588,7 @@ function destroy_excersise(id)
 					</div>
 
 					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" contentEditable='true'>
+						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" contentEditable='true' title="For a weight based excersise this is where you put the KG's you are lifting, should be a number greater than 0">
 							<%= excersise.diffculty %>
 						</div>
 						<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">
@@ -585,11 +596,11 @@ function destroy_excersise(id)
 						</div>
 					</div>
 
-					<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets" contentEditable='true'>
+					<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets" contentEditable='true' title="How many times will you repeat this excersise, should be an integer greater than 0">
 						<%= excersise.sets %>
 					</div>
 
-					<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps" contentEditable='true'>
+					<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps" contentEditable='true' title="How many times will you do this excersise every set, should be an integer greater than 0">
 						<%= excersise.reps %>
 					</div>
 

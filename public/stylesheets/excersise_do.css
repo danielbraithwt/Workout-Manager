@@ -51,8 +51,11 @@
 }
 
 .excersise_diffculty {
-	width: 100%;
+	width: 200;
 	height: 9%;
+
+	margin-left: auto;
+	margin-right: auto;
 	
 	text-align: center;
 
@@ -60,14 +63,16 @@
 }
 
 .excersise_diffculty_number {
-	width: 50%;
-	text-align: right;
+
+	width: 150px;
+
+	text-align: left;
 	float: left;
 }
 
 .excersise_diffculty_units {
-	width: 50%;
-	text-align: left;
+	width: 50px;
+	text-align: center;
 	float: left;
 }
 

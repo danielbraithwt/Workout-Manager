@@ -2,6 +2,8 @@
 <%= javascript_include_tag "jquery-ui.min.js" %>
 <%= stylesheet_link_tag "excersise_do.css" %>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+
 <script>
 
 var workout_id = <%= @workout.id %>
@@ -11,6 +13,10 @@ var largest_group = <%= @largest_group %>
 
 var current_excersise = 0;
 var max_range = 0;
+
+$(function () {
+		$(document).tooltip();
+		});
 
 $(document).ready( function() {
 		
@@ -244,7 +250,7 @@ function HSBtoRGB(h, s, l)
 				</div>
 
 				<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-					<div id="excersise_diffculty_number_<%= excersise.id %>" class="excersise_diffculty_number" contentEditable='true'>
+					<div id="excersise_diffculty_number_<%= excersise.id %>" class="excersise_diffculty_number" onkeypress="return ( this.innerText.length < 6 )" contentEditable='true' title="Edit this to the diffcult that you just did the excersise at">
 						<%= "#{excersise.diffculty}" %>
 					</div>
 					<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">

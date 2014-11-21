@@ -2,6 +2,7 @@ class WorkoutsController < ApplicationController
 	require 'date'
 
 	layout "application", except: :do	
+
 	before_action :confirm_logged_in
 
 	def show
@@ -27,7 +28,13 @@ class WorkoutsController < ApplicationController
 	##
  	def create
 		puts "Creating workout with '#{params[:workout]}'"
-		
+			
+		# Make sure the workout name passed to the controller is valid
+		if params[:workout][:name].length > 20 || params[:workout][:name].length < 5 || params[:workout][:name].index(/[^\w\s]/)
+			flash[:notice] = "Workout Name Invalid"
+			redirect_to :action => "new"
+		end
+
 		# Create new workout with specified name and then assign the new
 		# workout to the current user
 		w = Workout.new(:name => params[:workout][:name])

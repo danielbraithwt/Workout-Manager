@@ -4,6 +4,10 @@
 
 <script>
 
+$( function () {
+		$(document).tooltip();
+		});
+
 function HSBtoRGB(h, s, l)
 {
 	var C = (1 - Math.abs(2 * l - 1)) * s;
@@ -75,20 +79,38 @@ function text_field_change()
 	}
 }
 
+function verify_form()
+{
+	var str = $("#workout_name").val();
+
+	// Verify that the string has appriate length and only contains letters, numbers
+	// and white space
+	if( str.length > 20 || str.length < 5 || str.search(/[^\w\s]/) != -1 )
+	{
+		$("#workout_name").tooltip().mouseover();
+		return false;
+	}
+
+	return true;
+
+}
+
 </script>
 
 <div id="container">
 	<div id="form_box">
 		<h1>Create New Workout</h1>
-
-		<%= form_tag({:action => 'create'}, :id  => 'workout_name_form') do %>
-
-			<%= text_field_tag('workout[name]', value = "Workout Name", options = {:id => "workout_name", :onkeyup => "text_field_change()"}) %>
+		
+		<div id="form">
+		<%= form_tag({:action => 'create'}, :id  => 'workout_name_form',:onsubmit => "return verify_form();") do %>
+			<%= label_tag "Workout Name" %>
+			<%= text_field_tag('workout[name]', value = "", options = {:id => "workout_name", :onkeyup => "text_field_change()", :title => "The workout name, between 5 and 20 charactors and cant contain special charactors"}) %>
 
 			</ br>
 
-			<%= submit_tag("Create Workout") %>
+			<%= submit_tag("Create") %>
 
 		<% end %>
+		</div>
 	</div>
 </div>

@@ -92,6 +92,8 @@ class WorkoutsController < ApplicationController
 
 		@workout.destroy
 
+		flash[:notice] = @workout.name + " was removed"
+
 		redirect_to :controller => "home", :action => "index"
 	end
 	

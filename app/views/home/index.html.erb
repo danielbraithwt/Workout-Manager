@@ -4,6 +4,10 @@
 
 <script>
 
+$(function () {
+		$(document).tooltip();
+		});
+
 $(document).ready( function () {
 		
 		var children = $("#workouts").children("div");
@@ -133,7 +137,7 @@ function HSBtoRGB(h, s, l)
 
 <div id="container">
 
-	<a id="create_workout_button" href="/workouts/new">
+	<a id="create_workout_button" href="/workouts/new" title="Create New Workout">
 		<%= image_tag "plus.gif" %>
 	</a>
 
@@ -156,15 +160,15 @@ function HSBtoRGB(h, s, l)
 					</div>
 
 					<div class="buttons">
-						<a class="button workout_button" href="/workouts/edit/<%= workout.id %>">
+						<a class="button workout_button" href="/workouts/edit/<%= workout.id %>" title="Edit This Workout">
 							<span></span>EDIT!
 						</a>
 
-						<a class="button workout_button" href="/workouts/do?id=<%= workout.id %>">
+						<a class="button workout_button" href="/workouts/do?id=<%= workout.id %>" title="Do This Workout">
 							<span></span>DO!
 						</a>
 
-						<a class="button delete_button" href="/workouts/delete?id=<%= workout.id %>">
+						<a class="button delete_button" href="/workouts/delete?id=<%= workout.id %>" title="Delete This Workout">
 							<span></span>X
 						</a>
 					</div>

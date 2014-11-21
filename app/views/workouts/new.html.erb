@@ -87,7 +87,8 @@ function verify_form()
 	// and white space
 	if( str.length > 20 || str.length < 5 || str.search(/[^\w\s]/) != -1 )
 	{
-		$("#workout_name").tooltip().mouseover();
+		//$("#workout_name").tooltip().mouseover();
+		show_error("That isnt a valid name!");
 		return false;
 	}
 

@@ -1,0 +1,70 @@
+#container {
+	width:100%;
+	height: auto;
+
+	max-width: 934px;
+
+	padding-top: 120px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.key {
+	width: auto;
+	height: auto;
+
+	max-width: 934px;
+
+	margin-left: 100px;
+
+	padding-bottom: 150px;
+}
+
+.excersise_key {
+	width: 200px;
+	height: auto;
+
+	float: left;
+
+	text-align: center;
+}
+
+.color_key {
+	width: 50px;
+	height: 50px;
+
+	margin-left: auto;
+	margin-right: auto;
+
+	margin-bottom: 20px;
+
+	border-radius: 50%;
+
+	clear: both;
+	display: block;
+
+
+}
+
+.name_key {
+
+	font-weight: bold;
+
+}
+
+.title {
+	font-size: 2em;
+	font-style: bold;
+
+	padding-left: 15px;
+
+	margin-bottom: 50px;
+}
+
+.graph {
+	width: 100%;
+	height: auto;
+
+	margin-bottom: 100px;
+}

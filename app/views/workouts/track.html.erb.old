@@ -1,0 +1,352 @@
+<%= stylesheet_link_tag "workouts_track.css" %>
+
+<script>
+
+var excersise_names = [];
+var records = [];
+var excersise_types = []
+
+<% @records.keys.each do |key| %>
+	excersise_names.push("<%= key %>");
+	records.push(<%= @records[key].to_json %>);
+	excersise_types.push(<%= @excersise_types[key] %>);
+<% end %>
+
+var range = <%= @range %>
+var max_diffculty_weight = <%= @max_diffculty_weight %>
+var max_diffculty_time = <%= @max_diffculty_time %>
+
+var highlighted = "";
+
+$(document).ready( function() {
+		
+		// Make sure that the color range is split up over the correct range
+		var max_range = excersise_names.length;
+		if( max_range < 10 ) max_range = 10;
+		
+
+		// Color the key elements
+		var i = 1;
+		$("#key_weight").children("div").each( function() {
+
+				
+				var rgb = HSBtoRGB((100.0/max_range) * i, 0.66, 0.68);
+				$("#color_key_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});				
+				i += 1;
+
+				});
+
+		$("#key_time").children("div").each( function() {
+				var rgb = HSBtoRGB((100.0/max_range) * i, 0.66, 0.68);
+				$("#color_key_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});				
+				i += 1;
+
+				});
+		
+		var canvas_weight = document.getElementById("canvas_weight");
+		var canvas_time = document.getElementById("canvas_time");
+
+		// Set the cnavas size correctly, make the width fill the container div
+		// and make the height equal to the width multiplted by Daniels Graph Constant ( 0.46153846 ) :P
+		var w = $("body").width();
+		if( w > 934 ) w = 934;
+		var h = parseInt(w * 0.46153846);
+
+		canvas_weight.width = w;
+		canvas_time.width = w;
+
+		canvas_weight.height = h;
+		canvas_time.height = h;
+
+		draw();
+	});
+
+
+function draw()
+{
+	var c2d_weight = document.getElementById("canvas_weight").getContext("2d");
+	c2d_weight.fillStyle = "#FFFFFF";
+	c2d_weight.fillRect(0, 0, c2d_weight.canvas.width, c2d_weight.canvas.height);
+
+	var c2d_time  = document.getElementById("canvas_time").getContext("2d");
+	c2d_time.fillStyle = "#FFFFFF";
+	c2d_time.fillRect(0, 0, c2d_time.canvas.width, c2d_time.canvas.height);
+
+	draw_axys(c2d_weight, max_diffculty_weight);	
+	draw_axys(c2d_time, max_diffculty_time);
+
+	draw_data(c2d_weight, c2d_time);	
+
+	highlighted = "";
+}
+
+
+function draw_axys(c2d, max_diffculty)
+{
+	// Draw the x axys for the weight graph
+	c2d.beginPath();
+	c2d.strokeStyle = "#000000";
+	c2d.lineWidth = 2
+	c2d.moveTo(0, c2d.canvas.height - 20);
+	c2d.lineTo(c2d.canvas.width, c2d.canvas.height - 20);
+	c2d.stroke();	
+
+	for( var i = 0; i < 1; i += 0.25 )
+	{
+		var x = 20;
+		var y = 20 + i * ( c2d.canvas.height - 20 );
+
+		// Draw the text
+		c2d.fillStyle = "black";
+		c2d.font = "10px Times Roman";
+		c2d.fillText(parseInt(max_diffculty * (1 - parseInt(y-20)/c2d.canvas.height)), x - 20, y + 5);
+
+		// Draw the lines
+		c2d.beginPath();
+		c2d.lineWidth = 2;
+		c2d.strokeStyle = "rgba(0, 0, 0, 0.3)";
+		c2d.moveTo(x, y);
+		c2d.lineTo(c2d.canvas.width - 20, y);
+		c2d.stroke();
+	}
+}
+
+function draw_data(c2d_weight, c2d_time)
+{
+	// Make sure that the color range is split up over the correct range
+	var max_range = excersise_names.length;
+	if( max_range < 10 ) max_range = 10;
+
+	var day = 1;
+
+	var positions = []
+	for( var i = 0; i < records.length; i += 1 )
+	{
+		//positions.push([20, c2d.canvas.height - 20]);
+		positions.push([-1, -1]);
+	}
+	
+	for( position = 20; position <= c2d_weight.canvas.width && day <= 30; position += ((c2d_weight.canvas.width - 40)/range) )
+	{
+		// Add the lines 
+		// Draw small point
+		c2d_weight.beginPath();
+		c2d_weight.strokeStyle = "#000000";
+		c2d_weight.lineWidth = 2;
+		c2d_weight.moveTo(position, c2d_weight.canvas.height - 20);
+		c2d_weight.lineTo(position, c2d_weight.canvas.height - 23);
+		c2d_weight.stroke();
+
+		// Draw the text
+		c2d_weight.fillStyle = "black";
+		c2d_weight.font = "10px Times Roman";
+		c2d_weight.fillText(day, position - 2, c2d_weight.canvas.height - 10 );
+
+
+		// Add the lines for the time based excersise graph
+		// Draw small point
+		c2d_time.beginPath();
+		c2d_time.strokeStyle = "#000000";
+		c2d_time.lineWidth = 2;
+		c2d_time.moveTo(position, c2d_time.canvas.height - 20);
+		c2d_time.lineTo(position, c2d_time.canvas.height - 23);
+		c2d_time.stroke();
+
+		// Draw the text
+		c2d_time.fillStyle = "black";
+		c2d_time.font = "10px Times Roman";
+		c2d_time.fillText(day, position - 2, c2d_time.canvas.height - 10 );
+
+		for( var i = 0; i < records.length; i += 1 )
+		{
+			var rgb = HSBtoRGB((100/max_range) * i, 0.66, 0.68);
+
+			for( var j = 0; j < records[i].length; j += 1 )
+			{
+				if( records[i][j][0] == day )
+				{
+					var current_canvas;
+					var current_max_diffculty;
+
+					// Depedning on the excersise type set the canvas that will be drawn to
+					if( excersise_types[i] == 1 )
+					{
+						current_canvas = c2d_weight;
+						current_max_diffculty = max_diffculty_weight;
+					}
+					else if( excersise_types[i] == 2 )
+					{
+						current_canvas = c2d_time;
+						current_max_diffculty = max_diffculty_time;
+					}
+
+					var y = 20 + ((current_canvas.canvas.height - 20.0) / current_max_diffculty) * (current_max_diffculty - records[i][j][1]);
+					
+					if( positions[i][0] == -1 )
+					{	
+						positions[i] = [position, y];
+					}	
+
+					// Calculate the opacity for the line
+					var opacity = 1;
+					if( highlighted != "" && highlighted != excersise_names[i] ) opacity = 0.4;
+
+
+					current_canvas.beginPath();
+					current_canvas.strokeStyle = ("rgba(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ", " + opacity  + ")");
+					current_canvas.lineWidth = 2;
+					current_canvas.moveTo(positions[i][0], positions[i][1]);
+					current_canvas.lineTo(position, y);
+					current_canvas.arc(position, y, 2 ,0, 2 * Math.PI, false);
+					current_canvas.stroke();
+
+					positions[i] = [position, y];
+				}	
+			}
+		}
+
+		day += 1;
+	}
+}
+
+function highlight(excersise_name)
+{
+	highlighted = excersise_name;
+	draw();
+}
+
+function HSBtoRGB(h, s, l)
+{
+	var C = (1 - Math.abs(2 * l - 1)) * s;
+	var Hp = h/60.0;
+	var x = C * ( 1 - Math.abs(Hp%2 - 1));
+
+	var r;
+	var g;
+	var b;
+
+	if( Hp >= 0 && Hp < 1 )
+	{
+		r = C;
+		g = x;
+		b = 0;
+	}
+	else if( Hp >= 1 && Hp < 2 )
+	{
+		r = x;
+		g = C;
+		b = 0;
+	}
+	else if( Hp >= 2 && Hp < 3 )
+	{
+		r = 0;
+		g = C;
+		b = x;
+	}
+	else if( Hp >= 3 && Hp < 4 )
+	{
+		r = 0;
+		g = x;
+		b = C;
+	}
+	else if( Hp >= 4 && Hp < 5 )
+	{
+		r = x;
+		g = 0;
+		b = C;
+	}	
+	else if( Hp >= 5 && Hp < 6 )
+	{
+		r = C;
+		g = 0;
+		b = x;
+	}
+
+	m = l - (1/2.0) * C;
+
+	return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
+}
+
+
+</script>
+
+<div id="container">
+	<% i = 1 %>
+	
+	<% if @max_diffculty_weight != -1 %>
+
+	<div class="title">
+		Weight Based Excersises
+	</div>
+	
+	<div id="key_weight" class="key" onmouseout="draw()">
+		<% @records.keys.each do |key| %>
+			<% if @excersise_types[key] == 1 %>
+			<div id="excersise_key_<%= i %>" class="excersise_key" onmouseover="highlight('<%= key %>')">
+				<div id="color_key_<%= i %>" class="color_key">
+
+				</div>
+
+				<div id="name_key_<%= i %>" class="name_key">
+					<%= key %>
+				</div>
+
+				<div id="stats_key_<%= i %>" class="stats_key">
+					Total Change: <%= @total_changes[i-1] %> kg
+				</div>
+			</div>
+
+			<% i += 1 %>
+
+			<% end %>
+		<% end %>
+	</div>
+	
+	<div id="graph_weight" class="graph">
+		<canvas id="canvas_weight" width="650px" height="300px">
+			Your browser doesnt support the HTML5 canvas
+		</canvas>
+	</div>
+	<% end %>
+
+	
+	<% if @max_diffculty_time != -1 %>
+
+	<div class="title">
+		Time Based Excersises
+	</div>
+
+	<div id="key_time" class="key" onmouseout="draw()">
+		<% @records.keys.each do |key| %>
+			<% if @excersise_types[key] == 2 %>
+			<div id="excersise_key_<%= i %>" class="excersise_key" onmouseover="highlight('<%= key %>')">
+				<div id="color_key_<%= i %>" class="color_key">
+
+				</div>
+
+				<div id="name_key_<%= i %>" class="name_key">
+					<%= key %>
+				</div>
+
+				<div id="stats_key_<%= i %>" class="stats_key">
+					Total Change: <%= @total_changes[i-1] %> sec
+				</div>
+			</div>
+
+			<% i += 1 %>
+			<% end %>
+
+		<% end %>
+	</div>
+
+	<div id="graph_time" class="graph">
+		<canvas id="canvas_time" width="650px" height="300px">
+			Your browser dosnt support the HTML5 canvas
+		</canvas>
+	</div>
+	<% end %> 
+
+	<% if @max_diffculty_time == -1 && @max_diffculty_weight == -1 %>
+		No records for this workout
+	<% end %>
+</div>

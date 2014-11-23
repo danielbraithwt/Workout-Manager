@@ -239,6 +239,7 @@ class WorkoutsController < ApplicationController
 
 		workout.excersises.each do |excersise|
 			excersise_record = ExcersiseRecord.new
+			excersise_record.excersise = excersise;
 			data = JSON.parse(params["#{excersise.id}"])
 
 			data.each do |record|
@@ -246,9 +247,10 @@ class WorkoutsController < ApplicationController
 
 				set.reps = record[0]
 				set.diffculty = record[1]
+				set.completion_time = record[2]
 
 				set.save
-
+				
 				excersise_record.excersise_sets << set  
 			end	
 
@@ -261,94 +263,94 @@ class WorkoutsController < ApplicationController
 	end
 
 	def track
-		workout = Workout.find(params[:id]);
+		@workout = Workout.find(params[:id]);
 
 		# Make sure that the user has access to this workout
-		allowed = confirm_user_auth(workout)
+		allowed = confirm_user_auth(@workout)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
 
-		@range = 30
-		@max_diffculty_weight = -1;
-		@max_diffculty_time = -1;
+		#@range = 30
+		#@max_diffculty_weight = -1;
+		#@max_diffculty_time = -1;
 		
-		dates = []
-		month_ago = Date.today - @range
+		#dates = []
+		#month_ago = Date.today - @range
 		
-		i = 0
-		while i <= @range
-			dates << (month_ago + i)
-			i += 1
-		end
+		#i = 0
+		#while i <= @range
+		#	dates << (month_ago + i)
+		#	i += 1
+		#end
 
-		puts dates
+		#puts dates
 
-		# Confirm that the user has access to this workout
-		allowed = confirm_user_auth(workout)
-		redirect_to :controller => "access", :action => "not_authorised" if !allowed
+		#workout.workout_records.where(:created_at => Time.now.beginning_of_month..Time.now.end_of_month).order('created_at DESC').each do |record|
+		#	puts "hello"
+		#end 
 
 		# For each of the workkout records we want to record the time stamp and the
 		# numbber of repitions and diffculty
-		@records = {}
+		#@records = {}
 
 		# We want to have a hash of the diffcultys for each excersise which we can use
 		# to calculate varaious stats about excersise progression
-		diffcultys = {}
+		#diffcultys = {}
 
 		# We need to store what type of exersise each one is
-		@excersise_types = {}
+		#@excersise_types = {}
 
-		workout.workout_records.order('created_at DESC').each do |record|
-			
-			truncated_time = Date.parse(record.created_at.change(:seconds => 0, :minute => 0, :hour => 0).to_s.split(" ")[0])
-			puts truncated_time
+		#workout.workout_records.order('created_at DESC').each do |record|
+		#	
+		#	truncated_time = Date.parse(record.created_at.change(:seconds => 0, :minute => 0, :hour => 0).to_s.split(" ")[0])
+		#	puts truncated_time
 
-			position = dates.index truncated_time
-			next if position == nil
+		#	position = dates.index truncated_time
+		#	next if position == nil
 
-			record.excersise_records.each do |excersise_record|
-				e = []
-				e << position + 1
-				e << excersise_record.diffculty
-				e << (excersise_record.sets * excersise_record.reps)
+		#	record.excersise_records.each do |excersise_record|
+				#e = []
+				#e << position + 1
+				#e << excersise_record.diffculty
+				#e << (excersise_record.sets * excersise_record.reps)
 				
-				if excersise_record.excersise.excersisetype == 1	
+				#if excersise_record.excersise.excersisetype == 1	
 					# If the current diffculty is the biggest then update the max diffculty
-					@max_diffculty_weight = excersise_record.diffculty if excersise_record.diffculty > @max_diffculty_weight
-				elsif excersise_record.excersise.excersisetype == 2
+				#	@max_diffculty_weight = excersise_record.diffculty if excersise_record.diffculty > @max_diffculty_weight
+				#elsif excersise_record.excersise.excersisetype == 2
 					# If the current diffculty is the biggest then update the max diffculty
-					@max_diffculty_time = excersise_record.diffculty if excersise_record.diffculty > @max_diffculty_time
-				end
+				#	@max_diffculty_time = excersise_record.diffculty if excersise_record.diffculty > @max_diffculty_time
+				#end
 
-				@excersise_types[excersise_record.excersise.name] = excersise_record.excersise.excersisetype
+				#@excersise_types[excersise_record.excersise.name] = excersise_record.excersise.excersisetype
 					
 				# Add the record to the records hash, if nothing has been added for this excersise yet then initilise
 				# it to an empty array
-				@records[excersise_record.excersise.name] = [] if @records[excersise_record.excersise.name] == nil
-				@records[excersise_record.excersise.name] << e
+				#@records[excersise_record.excersise.name] = [] if @records[excersise_record.excersise.name] == nil
+				#@records[excersise_record.excersise.name] << e
 
 				# Add the diffculty to the diffcultys hash
-				diffcultys[excersise_record.excersise.name] = [] if diffcultys[excersise_record.excersise.name] == nil
-				diffcultys[excersise_record.excersise.name] << excersise_record.diffculty
-			end
+				#diffcultys[excersise_record.excersise.name] = [] if diffcultys[excersise_record.excersise.name] == nil
+				#diffcultys[excersise_record.excersise.name] << excersise_record.diffculty
+		#	end
 
-		end
+		#end
 
 		# Using the diffcultys calculate various stastics
 		#
 		# To Be Calculated :
 		#  1) Total change : newest diffculty - oldest diffculty
 		
-		@total_changes = []
+		#@total_changes = []
 
-		@records.keys.each do |key|
+		#@records.keys.each do |key|
 			# Sort all the array of diffcultys
-			d = diffcultys[key].sort
+		#	d = diffcultys[key].sort
 				
 			# Add the change to the array
-			@total_changes << (d[d.length-1] - d[0])
-		end
+		#	@total_changes << (d[d.length-1] - d[0])
+		#end
 
-		puts @total_changes
+		#puts @total_changes
 		
 	end
 

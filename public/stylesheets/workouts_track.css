@@ -1,36 +1,69 @@
 #container {
-	width:100%;
+	width: 100%;
 	height: auto;
 
-	max-width: 934px;
+	margin-top: 150px;
 
-	padding-top: 120px;
-
-	margin-left: auto;
-	margin-right: auto;
+	padding-left: 40px;
 }
 
-.key {
+.title { 
+	height: auto;
 	width: auto;
-	height: auto;
 
-	max-width: 934px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 
-	margin-left: 100px;
-
-	padding-bottom: 150px;
+	font-size: 3em;
+	font-weight: bold;
 }
 
-.excersise_key {
+#workout_stats {
+	width: 100%;
+	height: auto;
+	
+}
+
+#stats {
+	height: auto;
+	width: auto;
+}
+
+.workout_stat {
+	height: auto;
+	width: 100%;
+}
+
+#excersise_stats {
+	width: 100%;
+	height: auto;
+}
+
+#excersises {
+	width: 100%;
+	height: auto;
+}
+
+.excersise {
 	width: 200px;
 	height: auto;
 
 	float: left;
 
+	margin-left: 20px;
+	margin-right: 20px;
+
+	padding-top: 20px;
+	padding-bottom: 20px;
+
 	text-align: center;
+
+	background-color: #E0E0E0;
+
+	box-shadow: 2px 2px 30px #888888;
 }
 
-.color_key {
+.excersise_color {
 	width: 50px;
 	height: 50px;
 
@@ -39,32 +72,24 @@
 
 	margin-bottom: 20px;
 
-	border-radius: 50%;
+	border-radius: 50%;	
 
-	clear: both;
-	display: block;
-
-
-}
-
-.name_key {
-
+	color: #FFFFFF;
+	line-height: 50px;
+	font-size: 30px;
 	font-weight: bold;
-
 }
 
-.title {
-	font-size: 2em;
-	font-style: bold;
-
-	padding-left: 15px;
-
-	margin-bottom: 50px;
-}
-
-.graph {
+.excersise_name {
 	width: 100%;
 	height: auto;
 
-	margin-bottom: 100px;
+	font-weight: bold;
+
+	padding-bottom: 10px;
+}
+
+.excersise_stats {
+	width: 100%;
+	height: auto;
 }

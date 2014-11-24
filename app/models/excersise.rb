@@ -29,14 +29,50 @@ class Excersise < ActiveRecord::Base
 		elsif excersisetype == 3
 			stats << ["Avg Rep Time", avg_rep_completion_time/1000.0, "s"]
 			stats << ["Best Rep Time", min_rep_completion_time/1000.0, "s"]
-			stats << ["Average Repetitions", avg_repetitions, "reps"]
+			stats << ["Average Repetitions", avg_num_repetitions, "reps"]
 			stats << ["Max Repetitions", max_repetitions, "reps"]
 		end
 
 		return stats
 	end
 
+	def graphable_data(range)
+		data_sets = {}
+
+		records = records_in_range(range)
+
+		if excersisetype == 1
+			data_sets["Avg Rep Times"] = avg_rep_completion_times records
+			data_sets["Avg Diffcultys"] = avg_diffcultys records
+			data_sets["Avg Tonnages"] = avg_tonnages records
+		elsif excersisetype == 2
+
+		elsif excersisetype == 3
+
+		end
+
+		return data_sets
+	end
+
 	private
+
+	def records_in_range(range)
+		records = []
+
+		date = range.days.ago.beginning_of_day
+
+		(0..range).step(1) do |i|
+			records_for_time = excersise_records.where(:created_at => (date+i.days)..(date+i.days).end_of_day).limit(1)
+			
+			if records_for_time.size != 0
+				records << records_for_time[0]
+			else
+				records << nil
+			end
+		end
+
+		return records
+	end
 
 	def avg_rep_completion_time
 		total_time = 0
@@ -60,6 +96,21 @@ class Excersise < ActiveRecord::Base
 		}
 	end
 
+	def avg_rep_completion_times(records)
+		data_points = []
+
+		records.each do |record|
+			if record != nil
+				data_points << record.avg_time_per_rep
+			else
+				data_points << -1
+			end
+
+		end
+
+		return data_points
+	end
+
 	def avg_tonnage
 		total_tonnage = 0
 
@@ -80,7 +131,22 @@ class Excersise < ActiveRecord::Base
 		}
 	end
 
-	def avg_repetitions
+	def avg_tonnages(records)
+		data_points = []
+
+		records.each do |record|
+			if record != nil
+				data_points << record.tonnage
+			else
+				data_points << -1
+			end
+
+		end
+
+		return data_points
+	end
+
+	def avg_num_repetitions
 		total_repetitions = 0
 
 		excersise_records.each do |record|
@@ -98,6 +164,21 @@ class Excersise < ActiveRecord::Base
 				memo
 			end
 		}
+	end
+
+	def avg_repetitions(data)
+		data_points = []
+
+		records.each do |record|
+			if record != nil
+				data_points << record.total_repetitions
+			else
+				data_points << -1
+			end
+
+		end
+
+		return data_points
 	end
 
 	def avg_diffculty
@@ -118,6 +199,21 @@ class Excersise < ActiveRecord::Base
 				memo
 			end
 		}
+	end
+
+	def avg_diffcultys(records)
+		data_points = []
+
+		records.each do |record|
+			if record != nil
+				data_points << record.avg_diffculty
+			else
+				data_points << -1
+			end
+
+		end
+
+		return data_points
 	end
 
 end 

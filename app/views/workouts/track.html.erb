@@ -110,7 +110,7 @@ function animate_fill(id)
 			<% @workout.excersises.each do |excersise| %>
 			
 				<div id="excersise_<%= i %>" class="excersise" onclick="animate_fill(<%= i %>)">
-					<div id="excersise_color_<%= i %>" class="excersise_color">
+					<div id="excersise_color_<%= i %>" class="excersise_color" href="/excersises/track?id=<%= excersise.id %>">
 						<%= excersise.name[0] %>
 					</div>
 

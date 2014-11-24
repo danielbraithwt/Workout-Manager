@@ -165,6 +165,18 @@ class ExcersisesController < ApplicationController
 	  	end
   	end
 
+	def track
+		@excersise = Excersise.find(params[:id])
+
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(@excersise)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+		
+		@range = 30#30.days.ago.beginning_of_day.to_datetime..Date.today.end_of_day.to_datetime
+		@data = @excersise.graphable_data(@range)
+	end
+
 	private
 
 	def is_numeric?(str)
@@ -175,7 +187,7 @@ class ExcersisesController < ApplicationController
 		unless session[:user_id]
 			flash[:notice] = "You must be logged in"
 			redirect_to(:controller => 'access', :action => 'login')
-			return false
+			return false 
 		else
 			return true
 		end

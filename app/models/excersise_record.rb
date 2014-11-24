@@ -28,7 +28,7 @@ class ExcersiseRecord < ActiveRecord::Base
 
 	def tonnage
 		total_tonnage = 0 
-
+ 
 		excersise_sets.each do |set|
 			total_tonnage += set.tonnage
 		end
@@ -44,5 +44,25 @@ class ExcersiseRecord < ActiveRecord::Base
 		end
 
 		return reps
+	end
+
+	def avg_diffculty
+		total_diffculty = 0
+		
+		excersise_sets.each do |set|
+			total_diffculty += set.diffculty
+		end	
+
+		return total_diffculty / excersise_sets.size
+	end
+
+	def max_diffculty
+		return excersise_sets.inject(0) { |memo, result|
+			if result.diffculty > memo
+				result.diffculty
+			else
+				memo
+			end
+		}
 	end
 end 

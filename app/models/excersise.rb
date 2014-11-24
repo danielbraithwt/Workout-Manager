@@ -24,7 +24,8 @@ class Excersise < ActiveRecord::Base
 			stats << ["Avg Tonnage", avg_tonnage, "kg"]
 			stats << ["Max Tonnage", max_tonnage, "kg"]
 		elsif excersisetype == 2
-
+			stats << ["Average Diffculty", avg_diffculty, "s"]
+			stats << ["Max Diffculty", max_diffculty, "s"]
 		elsif excersisetype == 3
 			stats << ["Avg Rep Time", avg_rep_completion_time/1000.0, "s"]
 			stats << ["Best Rep Time", min_rep_completion_time/1000.0, "s"]
@@ -88,11 +89,31 @@ class Excersise < ActiveRecord::Base
 
 		return total_repetitions / excersise_records.size
 	end
-
+ 
 	def max_repetitions
 		return excersise_records.inject(0) { |memo, result|
 			if result.total_repetitions > memo
 				result.total_repetitions
+			else
+				memo
+			end
+		}
+	end
+
+	def avg_diffculty
+		total_diffculty = 0
+
+		excersise_records.each do |record|
+			total_diffculty += record.avg_diffculty
+		end
+
+		return total_diffculty / excersise_records.size
+	end
+
+	def max_diffculty
+		return excersise_records.inject(0) { |memo, result|
+			if result.max_diffculty > memo
+				result.max_diffculty
 			else
 				memo
 			end

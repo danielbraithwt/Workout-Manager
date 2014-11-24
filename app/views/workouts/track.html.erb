@@ -77,6 +77,11 @@ function HSBtoRGB(h, s, l)
 }
 
 
+function animate_fill(id)
+{
+
+}
+
 </script>
 
 
@@ -104,7 +109,7 @@ function HSBtoRGB(h, s, l)
 			<% i = 1 %>
 			<% @workout.excersises.each do |excersise| %>
 			
-				<div id="excersise_<%= i %>" class="excersise">
+				<div id="excersise_<%= i %>" class="excersise" onclick="animate_fill(<%= i %>)">
 					<div id="excersise_color_<%= i %>" class="excersise_color">
 						<%= excersise.name[0] %>
 					</div>

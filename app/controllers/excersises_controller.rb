@@ -66,8 +66,9 @@ class ExcersisesController < ApplicationController
 		# arnt present, it dosnt stop people from sending requests form another means
 		# so it pays to check anyway
 		
-		if !params[:group].present? || !params[:name].present? || !params[:diffculty].present? || !params[:sets].present? || !params[:reps].present?
+		if !params[:group].present?  || !params[:name].present? || !params[:type].present?  || !params[:diffculty].present? || !params[:sets].present? || !params[:reps].present?
 			@m = "nc"
+			puts "Not Complete"
 			return false
 		end
 
@@ -81,21 +82,28 @@ class ExcersisesController < ApplicationController
 			return false
 		end
 		
-		if params[:name].length < 30
+		if params[:name].length < 30 && params[:name].length >= 4
 	  		excersise.name = params[:name]
 		else
 			@m = "name"
 			return false
 		end
+
+		if is_numeric?(params[:type]) && ( params[:type].to_i == 1 || params[:type].to_i == 2 || params[:type].to_i == 3 )#[1,2,3].includes?(params[:type].to_i)
+			excersise.excersisetype = params[:type]
+		else
+			@m = "type"
+			return false
+		end
 		
 		if is_numeric?(params[:diffculty]) && params[:diffculty].to_f > 0
 	  		excersise.diffculty = params[:diffculty]
+		elsif params[:type].to_i == 3
+			excersise.diffculty = 0
 		else
 			@m = "diffculty"
 			return false
 		end
-
-	  	excersise.excersisetype = params[:type]
 
 		if is_numeric?(params[:sets]) && params[:sets].to_i > 0
 			excersise.sets = params[:sets]

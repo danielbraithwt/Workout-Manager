@@ -220,7 +220,7 @@ function create_new_excersise()
 			var excersiseName = document.createElement('div');
 			excersiseName.id = ("excersise_name_" + id);
 			excersiseName.className = "excersise_name";
-			excersiseName.title = "what should the excersise be called";
+			excersiseName.title = "what should the excersise be called, 4 to 20 charactors";
 			excersiseName.innerText = "Name";
 			excersiseName.contentEditable = 'true';
 
@@ -242,8 +242,11 @@ function create_new_excersise()
 			var timeBasedOption = document.createElement('option');
 			timeBasedOption.innerText = "Time Based";
 			excersiseTypeSelect.appendChild(timeBasedOption);
-			//excersiseType.innerText = "Type";
-			//excersiseType.contentEditable = 'true';
+
+			var bodyWeightBasedOption = document.createElement('option');
+			bodyWeightBasedOption.innerText = "Body Weight";
+			excersiseTypeSelect.appendChild(bodyWeightBasedOption);
+
 			excersiseType.appendChild(excersiseTypeSelect);
 
 			excersiseContainer.appendChild(excersiseType);
@@ -340,7 +343,7 @@ function edit_excersise(id)
 	var name = document.getElementById("excersise_name_" + id).innerText;
 	var type_select = document.getElementById("excersise_type_select_" + id);
 	var type = 0;
-	if( type_select[type_select.selectedIndex].value == "Weight Based" || type_select[type_select.selectedIndex].value == "Time Based")
+	if( type_select[type_select.selectedIndex].value == "Weight Based" || type_select[type_select.selectedIndex].value == "Time Based" || type_select[type_select.selectedIndex].value == "Body Weight")
 	{
 		type = type_select.selectedIndex + 1;	
 	}
@@ -350,7 +353,7 @@ function edit_excersise(id)
 
 	// If any of the fields dont have a value then dont send the AJAX
 	// request
-	if( group == "" || name == "" || type == 0 || diffculty == "" || sets == "" || reps == "" )
+	if( group == "" || ( name.length < 4 ) || type == 0 || diffculty == "" || sets == "" || reps == "" )
 	{
 		return;
 	}
@@ -441,6 +444,8 @@ function change_units(id)
 	// excersise diffculty
 	var type_select = document.getElementById("excersise_type_select_" + id);
 
+	document.getElementById("excersise_diffculty_magnitude_" + id).contentEditable = 'true';
+
 	if( type_select[type_select.selectedIndex].value == "Weight Based" )
 	{
 		document.getElementById("excersise_diffculty_units_" + id).innerHTML = "<span></span>kg";
@@ -448,6 +453,12 @@ function change_units(id)
 	else if(type_select[type_select.selectedIndex].value == "Time Based")
 	{
 		document.getElementById("excersise_diffculty_units_" + id).innerHTML = "<span></span>sec";
+	}
+	else if(type_select[type_select.selectedIndex].value == "Body Weight")
+	{
+		document.getElementById("excersise_diffculty_units_" + id).innerHTML = "";
+		document.getElementById("excersise_diffculty_magnitude_" + id).innerHTML = "0";
+		document.getElementById("excersise_diffculty_magnitude_" + id).contentEditable = 'false';
 	}
 }
 
@@ -606,7 +617,7 @@ function destroy_excersise(id)
 						<%= excersise.group %>
 					</div>
 
-					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true' title="what should the excersise be called">
+					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true' title="what should the excersise be called, 4 to 20 charactors">
 						<%= excersise.name %>
 					</div>
 
@@ -614,11 +625,12 @@ function destroy_excersise(id)
 						<select id="excersise_type_select_<%= excersise.id %>" class="excersise_type_select" onchange="change_units(<%= excersise.id %>)">
 							<option <%= if excersise.excersisetype == 1 then "selected='selected'"; end%>>Weight Based</option>
 							<option <%= if excersise.excersisetype == 2 then "selected='selected'"; end%>>Time Based</option>
+							<option <%= if excersise.excersisetype == 3 then "selected='selected'"; end%>>Body Weight</option>
 						</select>
 					</div>
 
 					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" contentEditable='true' title="For a weight based excersise this is where you put the KG's you are lifting, should be a number greater than 0">
+						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" <%= "contentEditable='true'" if excersise.excersisetype != 3 %> title="For a weight based excersise this is where you put the KG's you are lifting, should be a number greater than 0">
 							<%= excersise.diffculty %>
 						</div>
 						<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">

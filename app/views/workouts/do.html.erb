@@ -327,8 +327,8 @@ return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 			</div>
 
 			<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-				<div id="excersise_diffculty_number_<%= excersise.id %>" class="excersise_diffculty_number" onkeypress="return ( this.innerText.length < 6 )" contentEditable='true' title="Edit this to the diffcult that you just did the excersise at">
-					<%= "#{excersise.diffculty}" %>
+				<div id="excersise_diffculty_number_<%= excersise.id %>" class="excersise_diffculty_number" onkeypress="return ( this.innerText.length < 6 )" <%= "contentEditable='true' title='Edit this to the diffcult that you just did the excersise at'" if excersise.excersisetype != 3 %>>
+					<%= "#{excersise.diffculty == 0 ? '' : excersise.diffculty}" %>
 				</div>
 				<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">
 					<%= excersise.get_units %>

@@ -35,4 +35,14 @@ class ExcersiseRecord < ActiveRecord::Base
 
 		return total_tonnage
 	end
+
+	def total_repetitions
+		reps = 0
+
+		excersise_sets.each do |set|
+			reps += set.reps
+		end
+
+		return reps
+	end
 end 

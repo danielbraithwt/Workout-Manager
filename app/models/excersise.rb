@@ -46,9 +46,10 @@ class Excersise < ActiveRecord::Base
 			data_sets["Avg Diffcultys"] = avg_diffcultys records
 			data_sets["Avg Tonnages"] = avg_tonnages records
 		elsif excersisetype == 2
-
+			data_sets["Avg Diffcultys"] = avg_diffcultys records
 		elsif excersisetype == 3
-
+			data_sets["Avg Rep Times"] = avg_rep_completion_times records
+			data_sets["Avg Reps"] = avg_repetitions records
 		end
 
 		return data_sets

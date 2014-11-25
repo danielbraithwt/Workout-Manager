@@ -2,7 +2,7 @@ class ExcersisesController < ApplicationController
 
 	before_action :confirm_logged_in
 
-	layout false
+	layout 'application', :only => [:track]
 
 	##
 	# Create action creates a new excersise in the database and appends
@@ -173,8 +173,14 @@ class ExcersisesController < ApplicationController
 		allowed = confirm_user_auth(@excersise)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
 		
-		@range = 30#30.days.ago.beginning_of_day.to_datetime..Date.today.end_of_day.to_datetime
+		@range = 30
 		@data = @excersise.graphable_data(@range)
+		@days = (1..@range).to_a
+
+		@graph_names = {}
+		@data.keys.each do |key|
+			@graph_names[key] =  key.gsub(" ", "_").downcase!
+		end
 	end
 
 	private

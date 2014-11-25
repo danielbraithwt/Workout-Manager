@@ -1,9 +1,41 @@
+<%= javascript_include_tag "graphing.js" %>
+
 <script>
 
 var data = {}
+var graph_names = {}
+var days = <%= @days.to_json %>
 
 <% @data.keys.each do |key| %>
-	data["<%= key %>"] = <%= @data[key].to_json %>
+graph_names["<%= key %>"] = "<%= @graph_names[key] %>"
+data["<%= key %>"] = <%= @data[key].to_json %>
 <% end %>
 
-</script> 
+$( function() {
+		
+		var keys = Object.keys(graph_names);
+
+		for( var i = 0; i < keys.length; i += 1 )
+		{
+			var canvas = document.getElementById("canvas_" + graph_names[keys[i]]);
+			graph(days, data[keys[i]], canvas.getContext("2d"), 20);
+		}
+
+		});
+
+</script>
+
+<div id="container">
+	<% @graph_names.keys.each do |key| %>
+		<div id="<%= @graph_names[key] %>" class="graph_container">
+			<div id="graph_title_<%= @graph_names[key] %>" class="graph_title">
+				<%= key %>
+			</div>
+
+			<canvas id="canvas_<%= @graph_names[key] %>" width="600px" height="400px">
+				Your browser dosnt support HTML5 canvas
+			</canvas>
+		</div>
+
+	<% end %>
+</div>

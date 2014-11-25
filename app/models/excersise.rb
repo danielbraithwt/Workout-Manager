@@ -102,7 +102,7 @@ class Excersise < ActiveRecord::Base
 
 		records.each do |record|
 			if record != nil
-				data_points << record.avg_time_per_rep
+				data_points << record.avg_time_per_rep / 1000
 			else
 				data_points << -1
 			end
@@ -167,7 +167,7 @@ class Excersise < ActiveRecord::Base
 		}
 	end
 
-	def avg_repetitions(data)
+	def avg_repetitions(records)
 		data_points = []
 
 		records.each do |record|

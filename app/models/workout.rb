@@ -16,6 +16,16 @@ class Workout < ActiveRecord::Base
 		return stats
 	end
 
+	def largest_group
+		return excersises.inject(0) { |memo, result|
+			if result.group > memo
+				result.group
+			else
+				memo
+			end
+		}
+	end
+
 	private
 
 	def avg_completion_time

@@ -1,15 +1,23 @@
-function graph(x_data, y_data, c2d, border)
+function graph(x_data, y_data, c2d, color, border)
 {
+	clear_canvas(c2d);
+
 	x_max = get_max(x_data);
 	y_max = get_max(y_data);
 
 	draw_axis(c2d, x_max, y_max, border);
-	plot_data(c2d, x_data, x_max, y_data, y_max, border);
+	plot_data(c2d, x_data, x_max, y_data, y_max, color, border);
 }
 
 ///////////////////////
 // Drawing Functions //
 ///////////////////////
+
+function clear_canvas(c2d)
+{
+	c2d.fillStyle = "#FFFFFF";
+	c2d.fillRect(0, 0, c2d.canvas.width, c2d.canvas.height);
+}
 
 function draw_axis(c2d, x_max, y_max, border)
 {
@@ -64,7 +72,7 @@ function draw_axis(c2d, x_max, y_max, border)
 		
 }
 
-function plot_data(c2d, x_data, x_max, y_data, y_max, border)
+function plot_data(c2d, x_data, x_max, y_data, y_max, color, border)
 {
 	// Set up a array of x, y coords so that when we start drawing
 	// data we know the last position that we drew at
@@ -91,7 +99,7 @@ function plot_data(c2d, x_data, x_max, y_data, y_max, border)
 
 		// Draw a line joing the data points
 		c2d.beginPath();
-		c2d.strokeStyle = "#000000"; //TODO: Change this when styling the page
+		c2d.strokeStyle = color;
 		c2d.lineWidth = 2;
 		c2d.moveTo(position[0], position[1]);
 		c2d.lineTo(x, y);

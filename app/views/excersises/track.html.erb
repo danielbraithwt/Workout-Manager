@@ -1,6 +1,12 @@
 <%= javascript_include_tag "graphing.js" %>
+<%= javascript_include_tag "color.js" %>
+
+<%= stylesheet_link_tag "excersise_track.css" %>
 
 <script>
+
+var largest_group = <%= @excersise.workout.largest_group %>;
+var excersise_group = <%= @excersise.group %>;
 
 var data = {}
 var graph_names = {}
@@ -13,12 +19,32 @@ data["<%= key %>"] = <%= @data[key].to_json %>
 
 $( function() {
 		
+		// Set the background color to what it is supose to be
+		var max_range = largest_group;
+		if( max_range < 10 )
+		{
+			max_range = 10;
+		}
+
+		var rgb = HSBtoRGB(parseInt(excersise_group) * ( 100.0 / max_range ), 0.68, 0.80);	
+		$("html body").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+
+		// Set the title color to what it should be
+		rgb = HSBtoRGB(parseInt(excersise_group) * ( 100.0 / max_range ), 0.68, 0.68);	
+		$("#excersise_title").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+
+		// Find the color that the graph lines should be drawn in
+		rgb = HSBtoRGB(parseInt(excersise_group) * ( 100.0 / max_range ), 0.68, 0.66);	
+		var color = ("rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")");
+
+
+		// Draw all the graphs
 		var keys = Object.keys(graph_names);
 
 		for( var i = 0; i < keys.length; i += 1 )
 		{
 			var canvas = document.getElementById("canvas_" + graph_names[keys[i]]);
-			graph(days, data[keys[i]], canvas.getContext("2d"), 20);
+			graph(days, data[keys[i]], canvas.getContext("2d"), color, 20);
 		}
 
 		});
@@ -26,13 +52,24 @@ $( function() {
 </script>
 
 <div id="container">
+
+	<div id="excersise_info">
+		<div id="excersise_title">
+			<%= @excersise.name[0] %>
+		</div>
+
+		<div id="excersise_info">
+			<%= @excersise.name %>
+		</div>
+	</div>
+
 	<% @graph_names.keys.each do |key| %>
 		<div id="<%= @graph_names[key] %>" class="graph_container">
 			<div id="graph_title_<%= @graph_names[key] %>" class="graph_title">
 				<%= key %>
 			</div>
 
-			<canvas id="canvas_<%= @graph_names[key] %>" width="600px" height="400px">
+			<canvas id="canvas_<%= @graph_names[key] %>" width="600px" height="400px" class="canvas">
 				Your browser dosnt support HTML5 canvas
 			</canvas>
 		</div>

@@ -2,10 +2,13 @@
 
 <script>
 
+var largest_group = <%= @workout.largest_group %>
+var groups = <%= @groups.to_json %>
+
 $(document).ready( function() {
 		
 		// Make sure that the color range is split up over the correct range
-		var max_range = $("excersises").children().length
+		var max_range = largest_group
 		if( max_range < 10 ) max_range = 10;
 		
 
@@ -13,10 +16,10 @@ $(document).ready( function() {
 		var i = 1;
 
 		$("#excersises").children("div").each( function() {
-				var rgb = HSBtoRGB((100.0/max_range) * i, 0.66, 0.68);
+				var rgb = HSBtoRGB((100.0/max_range) * groups[i-1], 0.66, 0.68);
 				$("#excersise_color_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});				
 
-				rgb = HSBtoRGB((100.0/max_range) * i, 0.66, 0.80);
+				rgb = HSBtoRGB((100.0/max_range) * groups[i-1], 0.66, 0.80);
 				$("#excersise_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});	
 				i += 1;
 

@@ -268,6 +268,12 @@ class WorkoutsController < ApplicationController
 		# Make sure that the user has access to this workout
 		allowed = confirm_user_auth(@workout)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+		
+		# Collect an array of the groups
+		@groups = []
+		@workout.excersises.each do |excersise|
+			@groups << excersise.group
+		end
 
 		#@range = 30
 		#@max_diffculty_weight = -1;

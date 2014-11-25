@@ -5,6 +5,10 @@
 var largest_group = <%= @workout.largest_group %>
 var groups = <%= @groups.to_json %>
 
+$(function () {
+		$(document).tooltip();
+		});
+
 $(document).ready( function() {
 		
 		// Make sure that the color range is split up over the correct range
@@ -79,12 +83,6 @@ function HSBtoRGB(h, s, l)
 	return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 }
 
-
-function animate_fill(id)
-{
-
-}
-
 </script>
 
 
@@ -112,10 +110,12 @@ function animate_fill(id)
 			<% i = 1 %>
 			<% @workout.excersises.each do |excersise| %>
 			
-				<div id="excersise_<%= i %>" class="excersise" onclick="animate_fill(<%= i %>)">
-					<div id="excersise_color_<%= i %>" class="excersise_color" href="/excersises/track?id=<%= excersise.id %>">
-						<%= excersise.name[0] %>
-					</div>
+				<div id="excersise_<%= i %>" class="excersise">
+					<a href="/excersises/track?id=<%= excersise.id %>" class="link">
+						<div id="excersise_color_<%= i %>" class="excersise_color" title="Click to view more deatailed stastics">
+							<%= excersise.name[0] %>
+						</div>
+					</a>
 
 					<div id="excersise_name_<%= i %>" class="excersise_name">
 						<%= excersise.name %>

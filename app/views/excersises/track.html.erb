@@ -61,6 +61,14 @@ $( function() {
 		<div id="excersise_info">
 			<%= @excersise.name %>
 		</div>
+
+		<div id="excersise_stats">
+			<% @excersise.stastics.each do |stat| %>
+				<div class="stat">
+					<%= "#{stat[0]}: #{stat[1]} #{stat[2]}" %>
+				</div>
+			<% end %>
+		</div>
 	</div>
 
 	<% @graph_names.keys.each do |key| %>

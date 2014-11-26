@@ -237,10 +237,22 @@ function start()
 	if( completion_time == 0 )
 	{
 		start_time = new Date().getTime();
+		setTimeout(increment_time_count, 1000);
 	}
 	else
 	{
 		// We shojld show an error
+	}
+}
+
+function increment_time_count() 
+{
+	if( end_time == 0 )
+	{
+		var currentTime = parseInt( document.getElementById("time").innerText);
+		document.getElementById("time").innerHTML = "<span></span>" + (currentTime + 1);	
+
+		setTimeout(increment_time_count, 1000);
 	}
 }
 

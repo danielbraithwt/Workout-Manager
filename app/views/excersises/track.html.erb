@@ -10,11 +10,13 @@ var excersise_group = <%= @excersise.group %>;
 
 var data = {}
 var graph_names = {}
-var days = <%= @days.to_json %>
+var days = [<%= @days[0].to_json %>]
+days.push("<%= @days[1] %>");
 
 <% @data.keys.each do |key| %>
 graph_names["<%= key %>"] = "<%= @graph_names[key] %>"
-data["<%= key %>"] = <%= @data[key].to_json %>
+data["<%= key %>"] = [<%= @data[key][0].to_json %>];
+data["<%= key %>"].push("<%= @data[key][1] %>");
 <% end %>
 
 $( function() {
@@ -44,7 +46,7 @@ $( function() {
 		for( var i = 0; i < keys.length; i += 1 )
 		{
 			var canvas = document.getElementById("canvas_" + graph_names[keys[i]]);
-			graph(days, data[keys[i]], canvas.getContext("2d"), color, 20);
+			graph(days[0], data[keys[i]][0], [data[keys[i]][1], days[1]], canvas.getContext("2d"), color, 20);
 		}
 
 		});

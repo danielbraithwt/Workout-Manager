@@ -1,12 +1,15 @@
-function graph(x_data, y_data, c2d, color, border)
+function graph(x_data, y_data, units, c2d, color, border)
 {
 	clear_canvas(c2d);
 
 	x_max = get_max(x_data);
 	y_max = get_max(y_data);
 
-	draw_axis(c2d, x_max, y_max, border);
-	plot_data(c2d, x_data, x_max, y_data, y_max, color, border);
+	draw_y_units(c2d, border, units[0]);
+	draw_x_units(c2d, border, units[1]);
+
+	draw_axis(c2d, x_max, y_max, border+20);
+	plot_data(c2d, x_data, x_max, y_data, y_max, color, border+20);
 }
 
 ///////////////////////
@@ -17,6 +20,27 @@ function clear_canvas(c2d)
 {
 	c2d.fillStyle = "#FFFFFF";
 	c2d.fillRect(0, 0, c2d.canvas.width, c2d.canvas.height);
+}
+
+function draw_x_units(c2d, border, unit)
+{
+	var x = c2d.canvas.width / 2;
+	var y = c2d.canvas.height-5;
+
+	c2d.fillStyle = "black";
+	c2d.font = "15px Time Roman";
+	c2d.fillText(unit, x, y);
+
+}
+
+function draw_y_units(c2d, border, unit)
+{
+	var x = 5;
+	var y = c2d.canvas.height / 2;
+
+	c2d.fillStyle = "black";
+	c2d.font = "15px Time Roman";
+	c2d.fillText(unit, x, y);
 }
 
 function draw_axis(c2d, x_max, y_max, border)
@@ -38,7 +62,15 @@ function draw_axis(c2d, x_max, y_max, border)
 		// Draw the text
 		c2d.fillStyle = "black";
 		c2d.font = "10px Times Roman";
-		c2d.fillText(parseInt(x_max * (parseInt(x - border)/(c2d.canvas.width - 2 * border))), x-4, y + border);
+
+		// Get the text to display on the axis refprence point
+		var text = (x_max * ((x - border)/(c2d.canvas.width - 2 *  border)));
+		var num = text.toFixed(1);
+		if( parseInt(num) == parseFloat(num) )
+		{
+			num = parseInt(num).toString();
+		}
+		c2d.fillText(num, x-4, y + (border/2));
 
 		// Draw the line stub
 		c2d.beginPath();
@@ -54,12 +86,18 @@ function draw_axis(c2d, x_max, y_max, border)
 	for( var i = 0; i < 1; i += 0.25 )
 	{
 		var x = border;
-		var y = border + i * (c2d.canvas.height - border);
+		var y = border + i * (c2d.canvas.height - (border));
 		
 		// Draw the text
 		c2d.fillStyle = "black";
 		c2d.font = "10px Times Roman";
-		c2d.fillText(parseInt(y_max * (1 - parseInt(y - border)/c2d.canvas.height)), x - border, y + 5);
+		var text = (y_max * (1 - (y - border)/c2d.canvas.height));
+		var num = text.toFixed(1);
+		if( parseInt(num) == parseFloat(num) )
+		{
+			num = parseInt(num).toString();
+		}
+		c2d.fillText(num, x - (border/2), y + 5);
 
 		// Draw the line
 		c2d.beginPath();

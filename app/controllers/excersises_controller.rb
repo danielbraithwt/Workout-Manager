@@ -175,7 +175,7 @@ class ExcersisesController < ApplicationController
 		
 		@range = 30
 		@data = @excersise.graphable_data(@range)
-		@days = (1..@range).to_a
+		@days = [(1..@range).to_a, "days"]
 
 		@graph_names = {}
 		@data.keys.each do |key|

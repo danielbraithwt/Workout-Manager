@@ -1,7 +1,7 @@
 <%= javascript_include_tag "jquery-2.1.1.min.js" %>
 <%= javascript_include_tag "jquery-ui.min.js" %>
 <%= stylesheet_link_tag "excersise_do.css" %>
-<%= stylesheet_link_tag "jquery_ui.css" %>
+<%= stylesheet_link_tag "jquery-ui.css" %>
 
 <script>
 
@@ -394,7 +394,7 @@ return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 			</div>
 
 			<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-				<div id="excersise_diffculty_number_<%= excersise.id %>" class="excersise_diffculty_number" onkeypress="return ( this.innerText.length < 6 )" <%= "contentEditable='true' title='Edit this to the diffcult that you just did the excersise at'" if excersise.excersisetype != 3 %>>
+			<div id="excersise_diffculty_number_<%= excersise.id %>" class="excersise_diffculty_number" onkeypress="return ( this.innerText.length < 6 )" <%= "contentEditable=true" if excersise.excersisetype != 3 %> title="<%= 'Edit this to the diffcult that you just did the excersise at' if excersise.excersisetype != 3 %>">
 					<%= "#{excersise.diffculty == 0 ? '' : excersise.diffculty}" %>
 				</div>
 				<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">
@@ -410,7 +410,7 @@ return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 				<div class="reps_title">
 					Reps: 
 				</div>
-				<div id="excersise_reps_number_<%= excersise.id %>" class="excersise_reps_number" contentEditable='true'> 
+				<div id="excersise_reps_number_<%= excersise.id %>" class="excersise_reps_number" contentEditable='true' title="Change to the number of reps to did"> 
 					<%= excersise.reps %> 
 				</div>
 			</div>

@@ -167,14 +167,21 @@
 }
 
 #start {
-	width: 40%;
+	width: 35%;
 	height: 100%;	
 
 	float: left; 
 }
 
-#end { 
-	width: 40%;
+#stop { 
+	width: 35%;
+	height: 100%;
+
+	float: left;
+}
+
+#reset {
+	width: 10%;
 	height: 100%;
 
 	float: left;

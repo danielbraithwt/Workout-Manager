@@ -69,6 +69,13 @@ $(document).ready( function() {
 
 function next()
 {	
+	// Make sure that the excersise has been timed
+	if( completion_time == 0 )
+	{
+		// TODO: Display error message
+		return false;
+	}
+
 	var children = $("#excersises").children();
 
 	var current_id = children.get((children.length-1) - current_excersise).id;
@@ -237,6 +244,7 @@ function start()
 	if( completion_time == 0 )
 	{
 		start_time = new Date().getTime();
+		completion_time = 0;
 		setTimeout(increment_time_count, 1000);
 	}
 	else
@@ -247,10 +255,10 @@ function start()
 
 function increment_time_count() 
 {
-	if( end_time == 0 )
+	if( end_time == 0 && start_time != 0 )
 	{
 		var currentTime = parseInt( document.getElementById("time").innerText);
-		document.getElementById("time").innerHTML = "<span></span>" + (currentTime + 1);	
+		document.getElementById("time").innerHTML = "<span></span>" + (currentTime + 1) + " sec";
 
 		setTimeout(increment_time_count, 1000);
 	}
@@ -273,6 +281,14 @@ function stop()
 	{
 
 	}
+}
+
+function reset() 
+{
+	start_time = 0;
+	end_time = 0;
+	completion_time = 0;
+	document.getElementById("time").innerHTML = "<span></span>0 sec";
 }
 
 function HSBtoRGB(h, s, l)
@@ -392,6 +408,10 @@ return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 		<div id="stop" onclick="stop()">
 			<span></span>Stop
 		</div>	
+
+		<div id="reset" onclick="reset()">
+			<span></span>R
+		</div>
 	</div>
 	<div id="next" onclick="next()">
 		<span></span>NEXT!

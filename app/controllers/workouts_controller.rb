@@ -268,7 +268,17 @@ class WorkoutsController < ApplicationController
 		# Make sure that the user has access to this workout
 		allowed = confirm_user_auth(@workout)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
-		
+	
+		# Get the stats about the workout
+		@range = 30
+		@data = @workout.graphable_data(@range)
+		@days = [(1..@range).to_a, "days"]
+
+		@graph_names = {}
+		@data.keys.each do |key|
+			@graph_names[key] =  key.gsub(" ", "_").downcase!
+		end
+
 		# Collect an array of the groups
 		@groups = []
 		@workout.excersises.each do |excersise|

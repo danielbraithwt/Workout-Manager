@@ -1,9 +1,23 @@
+<%= javascript_include_tag "graphing.js" %>
+
 <%= stylesheet_link_tag "workouts_track.css" %>
+
 
 <script>
 
 var largest_group = <%= @workout.largest_group %>
 var groups = <%= @groups.to_json %>
+
+var data = {}
+var graph_names = {}
+var days = [<%= @days[0].to_json %>]
+days.push("<%= @days[1] %>");
+
+<% @data.keys.each do |key| %>
+graph_names["<%= key %>"] = "<%= @graph_names[key] %>"
+data["<%= key %>"] = [<%= @data[key][0].to_json %>];
+data["<%= key %>"].push("<%= @data[key][1] %>");
+<% end %>
 
 $(function () {
 		$(document).tooltip();
@@ -28,6 +42,17 @@ $(document).ready( function() {
 				i += 1;
 
 				});
+
+		// Draw all the graphs
+		var keys = Object.keys(graph_names);
+
+		for( var i = 0; i < keys.length; i += 1 )
+		{
+			var canvas = document.getElementById("canvas_" + graph_names[keys[i]]);
+			graph(days[0], data[keys[i]][0], [data[keys[i]][1], days[1]], canvas.getContext("2d"), "#000000", 20);
+		}
+
+
 		});
 
 
@@ -98,6 +123,20 @@ function HSBtoRGB(h, s, l)
 					<%= "#{stat[0]}: #{stat[1]} #{stat[2]}" %>
 				</div>
 			<% end %>	
+		</div>
+
+		<div id="workout_graphs">
+			<% @graph_names.keys.each do |key| %>
+				<div id="<%= @graph_names[key] %>" class="graph_container">
+					<div id="graph_title_<%= @graph_names[key] %>" class="graph_title">
+						<%= key %>
+					</div>
+
+					<canvas id="canvas_<%= @graph_names[key] %>" width="600px" height="400px" class="canvas">
+						Your browser dosnt support HTML5 canvas
+					</canvas>
+				</div>
+			<% end %>
 		</div>
 	</div>
 	

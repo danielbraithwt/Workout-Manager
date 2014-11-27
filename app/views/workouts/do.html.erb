@@ -1,8 +1,7 @@
 <%= javascript_include_tag "jquery-2.1.1.min.js" %>
 <%= javascript_include_tag "jquery-ui.min.js" %>
 <%= stylesheet_link_tag "excersise_do.css" %>
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<%= stylesheet_link_tag "jquery_ui.css" %>
 
 <script>
 
@@ -93,9 +92,7 @@ function next()
 	records[current_id].push([reps, diffculty, completion_time]);
 
 	// Reset the timing variables
-	start_time = 0;
-	end_time = 0;
-	completion_time = 0;
+	reset();
 
 	// If there are no more excersises to do then remove everything in the container and display 'finished' aswell
 	// as replacing the next link to be a link to the home page and then exit out of the function
@@ -234,8 +231,44 @@ function update_current_group_bar(group)
 			});
 }
 
+function start_countdown()
+{
+	if( start_time != 0 || $("#countdown_timer").css("opacity") != 0 )
+	{
+		// Display Error
+		return false;
+	}
+
+	$("#countdown_timer").css( 'visibility', "visible" ).animate({opacity: 0.9}, 500);
+	setTimeout(decrement_countdown, 1000);
+}
+
+function decrement_countdown()
+{
+
+	var num = parseInt(document.getElementById("countdown_time").innerText);
+	if( num != 1 )
+	{
+		document.getElementById("countdown_time").innerHTML = "<span></span>" + (num - 1);
+		setTimeout(decrement_countdown, 1000);
+	}
+	else
+	{
+		$("#countdown_timer").css( 'visibility', "visible" ).animate({opacity: 0.0}, 500).promise().done( function() {
+				document.getElementById("countdown_time").innerHTML = "<span></span>5";
+		
+				}); 
+		setTimeout(start, 1000);
+		
+		//document.getElementById("countdown_time").innerHTML = "<span></span>5";
+	}
+
+}
+
 function start()
 {
+	
+
 	if( workout_start_time == 0 )
 	{
 		workout_start_time = new Date().getTime();
@@ -345,6 +378,12 @@ return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 
 </script>
 
+<div id="countdown_timer">
+	<div id="countdown_time">
+		<span></span>5
+	</div>
+</div>
+
 <div id="container">
 <div id="excersises">
 <% @excersises.reverse.each do |excersise| %>
@@ -397,12 +436,12 @@ return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 
 <div id="controll_bar">
 	<div id="time_controll">
-		<div id="start" onclick="start()">
+		<div id="start" onclick="start_countdown()">
 			<span></span>Start
 		</div>
 
 		<div id="time">
-			<span></span>0
+			<span></span>0 sec
 		</div>
 
 		<div id="stop" onclick="stop()">

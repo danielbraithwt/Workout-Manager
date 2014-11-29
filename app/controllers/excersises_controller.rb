@@ -201,6 +201,8 @@ class ExcersisesController < ApplicationController
 		@data.keys.each do |key|
 			@graph_names[key] =  key.gsub(" ", "_").downcase!
 		end
+
+		render :layout => "application"
 	end
 
 	private

@@ -337,6 +337,9 @@ function edit_excersise(id)
 	{
 		$("#excersise_" + id).animate({backgroundColor: "#EEEEEE"}, 50);
 	}
+
+	// Ensure that the groups are correct
+	ensure_groups(id);
 	
 	// Get all the information about the excersise that needs to be saved
 	var group = document.getElementById("excersise_group_" + id).innerText;
@@ -388,6 +391,76 @@ function edit_excersise(id)
 
 
 	xmlhttp.open("GET", "/excersises/update?id=" + id + "&group=" + group + "&name=" + name + "&type=" + type + "&diffculty=" + diffculty + "&sets=" + sets + "&reps=" + reps, true);
+	xmlhttp.send();
+}
+
+function ensure_groups(current_id)
+{
+	var i = 0;
+	var max_group = 0;
+	var children = $("#excersises").children();
+	$("#excersises").children().each( function() {
+			
+			var id = $(this).attr('id');
+			var group = document.getElementById("excersise_group_" + id).innerText;
+
+			if( parseInt(group) > max_group )
+			{
+				max_group = parseInt(group);
+			}
+
+			if( group == "" ) return false;
+
+			// If this is the first one make sure that it has group 1
+			if( i == 0 )
+			{
+				if( parseInt(group) != 1 )
+				{
+					document.getElementById("excersise_group_" + id).innerText = 1;
+
+					if( id != current_group ) update_group(id, 1);
+				}
+			}
+			else
+			{
+				// Get the prevous group and ensure that the group sequence is continous
+				var prevId = $(children[i-1]).attr('id');
+				var prevGroup = parseInt(document.getElementById("excersise_group_" + prevId).innerText);
+
+				if( parseInt(group) != prevGroup && parseInt(group) != ( prevGroup + 1 ) )
+				{
+					document.getElementById("excersise_group_" + id).innerText = (prevGroup + 1);
+
+					if( id != current_group ) update_group(id, prevGroup + 1);
+				}
+			}
+
+			i += 1;
+			
+
+
+		});
+
+	current_group = max_group;
+
+	update_colors();
+
+}
+
+function update_group(id, group)
+{
+	var xmlhttp;
+
+	if( window.XMLHttpRequest )
+	{
+		xmlhttp = new XMLHttpRequest();
+	}	
+	else
+	{
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+	xmlhttp.open("GET", "/excersises/update_group?id=" + id + "&group=" + group, true);
 	xmlhttp.send();
 }
 
@@ -551,6 +624,7 @@ function destroy_excersise(id)
 		if( xmlhttp.readyState == 4 && xmlhttp.status == 200 )
 		{
 			$("#" + id).remove();
+			ensure_groups();
 		}
 	}
 

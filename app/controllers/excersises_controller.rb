@@ -2,7 +2,9 @@ class ExcersisesController < ApplicationController
 
 	before_action :confirm_logged_in
 
-	layout 'application', :only => [:track]
+	# Causing Error
+	layout false
+	#layout 'application', :only => [:track]
 
 	##
 	# Create action creates a new excersise in the database and appends
@@ -164,6 +166,24 @@ class ExcersisesController < ApplicationController
 		  	@id = -1;
 	  	end
   	end
+
+	def update_group
+		excersise = Excersise.find(params[:id])
+		
+		# Makesure that the user can access that workout if they dont redirect them to the
+		# login page
+		allowed = confirm_user_auth(excersise)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+		
+		excersise.group = params[:group]
+
+		if excersise.save
+			@id = excersise.id
+		else
+			@id = -1
+		end
+
+	end
 
 	def track
 		@excersise = Excersise.find(params[:id])

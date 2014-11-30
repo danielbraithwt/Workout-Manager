@@ -24,24 +24,77 @@ $(function () {
 		});
 
 $(document).ready( function() {
-		
+
+
+		// Updates the page background based on what is in the name text field
+		var value = $("#workout_title").val();
+		var string_num = 0;
+
+		for( var i = 0; i < value.length; i++ )
+		{
+			string_num += value.charCodeAt(i);
+		}
+
+		// Animate the background color
+		var rgb = HSBtoRGB(string_num % 100, 0.66, 0.88);
+		$("body").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});			
+
+		rgb = HSBtoRGB(string_num % 100, 0.66, 0.68);
+		$("#workout_letter").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});			
+
+
+
 		// Make sure that the color range is split up over the correct range
 		var max_range = largest_group
 		if( max_range < 10 ) max_range = 10;
 		
 
-		// Color the key elements
-		var i = 1;
+		var i = 1 ;
 
-		$("#excersises").children("div").each( function() {
-				var rgb = HSBtoRGB((100.0/max_range) * groups[i-1], 0.66, 0.68);
-				$("#excersise_color_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});				
+		$("#excersises").children().each( function() {
+					
+				var highlightRGB  = HSBtoRGB((100.0/max_range) * i, 0.66, 0.68);
+				var highlightRGBString = "rgb(" + parseInt(highlightRGB[0]) + ", " + parseInt(highlightRGB[1]) + ", " + parseInt(highlightRGB[2]) + ")";
 
-				rgb = HSBtoRGB((100.0/max_range) * groups[i-1], 0.66, 0.80);
-				$("#excersise_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});	
-				i += 1;
+				var mainRGB = HSBtoRGB((100.0/max_range) * i, 0.66, 0.80);
+				var mainRGBString = "rgb(" + parseInt(mainRGB[0]) + ", " + parseInt(mainRGB[1]) + ", " + parseInt(mainRGB[2]) + ")";
+				var j = 0;
+				$(this).children().each( function () {
+					
+					var split_id = $(this).attr('id').split("_");
+					var id = split_id[split_id.length - 1];
 
+					// If this is the first one, i.e. the row title
+					if( j == 0 )
+					{
+					i	//$("#row_title_" + id).animate({backgroundColor: mainRGBString});
+						$("#row_title_header_" + id).animate({backgroundColor: highlightRGBString});
+					}
+					else
+					{
+						$("#excersise_" + id).animate({backgroundColor: mainRGBString});
+						$("#excersise_color_" + id).animate({backgroundColor: highlightRGBString});
+					}
+					
+					j += 1;
+
+					});
+					
+					i += 1;
 				});
+
+		// Color the key elements
+		//var i = 1;
+
+		//$("#excersises").children("div").each( function() {
+		//		var rgb = HSBtoRGB((100.0/max_range) * groups[i-1], 0.66, 0.68);
+		//		$("#excersise_color_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});				
+
+		//		rgb = HSBtoRGB((100.0/max_range) * groups[i-1], 0.66, 0.80);
+		//		$("#excersise_" + i).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});	
+		//		i += 1;
+
+		//		});
 
 		// Draw all the graphs
 		var keys = Object.keys(graph_names);
@@ -112,11 +165,15 @@ function HSBtoRGB(h, s, l)
 
 
 <div id="container">
-	<div id="workout_stats">
-		<div class="title">
-			Workout Stats
-		</div>
+	<div id="workout_letter">
+		<%= @workout.name[0] %>
+	</div>
 
+	<div id="workout_title">
+		<%= @workout.name %>
+	</div>
+
+	<div id="workout_stats">
 		<div id="stats">
 			<% @workout.stastics.each do |stat| %>
 				<div class="workout_stat">
@@ -140,36 +197,45 @@ function HSBtoRGB(h, s, l)
 		</div>
 	</div>
 	
+	<div class="title">
+		Excersises
+	</div>
+
 	<div id="excersise_stats">
-		<div class="title">
-			Excersise Stats
-		</div>
-
 		<div id="excersises">
-			<% i = 1 %>
-			<% @workout.excersises.each do |excersise| %>
-			
-				<div id="excersise_<%= i %>" class="excersise">
-					<a href="/excersises/track?id=<%= excersise.id %>" class="link">
-						<div id="excersise_color_<%= i %>" class="excersise_color" title="Click to view more deatailed stastics">
-							<%= excersise.name[0] %>
+			<% @excersise_groups.keys.each do |key| %>
+				
+				<div id="excersise_group_row_<%= key %>" class="excersise_group_row">
+
+					<div id="row_title_<%= key %>" class="row_title">
+						<div id="row_title_header_<%= key %>" class="row_title_header">
+							<%= key %>
 						</div>
-					</a>
-
-					<div id="excersise_name_<%= i %>" class="excersise_name">
-						<%= excersise.name %>
 					</div>
-
-					<div id="excersise_stats_<%= i %>" class="excersise_stats">
-						<% excersise.stastics.each do |stat| %>
-							<div class="stat">
-								<%= "#{stat[0]}: #{stat[1]} #{stat[2]}"  %>
+					
+					<% @excersise_groups[key].each do |excersise| %>
+					<div id="excersise_<%= excersise.id %>" class="excersise">
+						<a href="/excersises/track?id=<%= excersise.id %>" class="link">
+							<div id="excersise_color_<%= excersise.id %>" class="excersise_color" title="Click to view more deatailed stastics">
+								<%= excersise.name[0] %>
 							</div>
-						<% end %>
-					</div>
-				</div>
+						</a>
 
-				<% i += 1 %>
+						<div id="excersise_name_<%= excersise.id %>" class="excersise_name">
+							<%= excersise.name %>
+						</div>
+
+						<div id="excersise_stats_<%= excersise.id %>" class="excersise_stats">
+							<% excersise.stastics.each do |stat| %>
+								<div class="stat">
+									<%= "#{stat[0]}: #{stat[1]} #{stat[2]}"  %>
+								</div>
+							<% end %>
+						</div>
+					</div>
+					<% end %>
+
+				</div>
 	
 			<% end %>
 		</div>

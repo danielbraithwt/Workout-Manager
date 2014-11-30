@@ -285,6 +285,13 @@ class WorkoutsController < ApplicationController
 			@groups << excersise.group
 		end
 
+		@excersise_groups = {}
+		@workout.excersises.each do |excersise|
+			@excersise_groups[excersise.group] = [] if @excersise_groups[excersise.group] == nil
+
+			@excersise_groups[excersise.group] << excersise
+		end
+
 		#@range = 30
 		#@max_diffculty_weight = -1;
 		#@max_diffculty_time = -1;

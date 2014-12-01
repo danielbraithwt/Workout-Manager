@@ -8,12 +8,20 @@
 		
 		<div id="form">
 			<%= form_tag(:action => "attempt_login") do %>
-	
+				
+				<%= label_tag "Email" %>
 				<%= text_field_tag(:email) %>
+
+				<%= label_tag "Password" %>
 				<%= password_field_tag(:password) %>
+
 				<%= submit_tag("Log In") %>
 
 			<% end %>
+		</div>
+
+		<div id="signup_redirect">
+			Dont have an account? <a href="/signup">Signup Here</a>
 		</div>
 	</div>
 </div> 

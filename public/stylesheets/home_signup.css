@@ -9,7 +9,7 @@
 
 #signup_form {
 	width: 45%;
-	height: 60%;
+	height: auto;
 
 	margin-top: 150px;
 	margin-left: auto;
@@ -17,6 +17,7 @@
 
 	padding-left: 7%;
 	padding-top: 1%;
+	padding-bottom: 70px;
 
 	background-color: #E0E0E0;
 
@@ -39,41 +40,41 @@
 
 /* Styling For The Form */
 
-*:focus {
-	outline: none;
+label {
+	display: inline-block;
+	font-size: 17px;
 }
 
-input {
-	width: 80%;
-	height: 50px;
+input[type=text] {
+	width: 90%;
+	height: 30px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+input[type=email] {
+	width: 90%;
+	height: 30px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+input[type=password] {
+	width: 90%;
+	height: 30px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+input[type=submit] {
+	width: 80px;
+	height: 30px;
+
+	float: left;
 
 	margin-top: 20px;
-	margin-bottom: 20px;
-	
-	padding-left: 10px;
-
-	-moz-transition: padding .25s;
-	-webkit-transition: padding .25s;
-	-o-transition: padding .25s;
-	transition: padding .25s;
-
-	border-radius: 2px;
-
-	box-shadow: 0px 0px 3px #CCC, 0 10px 15px #EEE inset;
-}
-
-input:focus {
-	box-shadow 0 0 3px #AAA;
-}
-
-input:focus:invalid {
-	background: #FFF;
-	box-shadow: 0 0 5px #D45252;
-	border-color: #B03535;
-}
-
-input:required:valid {
-	background: #FFF;
-	box-shadow: 0 0 5px #5CD053;
-	border-color: #28921F;
+	margin-right: 10%;
 }

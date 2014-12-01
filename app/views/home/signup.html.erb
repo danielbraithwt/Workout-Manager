@@ -8,11 +8,19 @@
 
 		<div id="form">
 			<%= form_tag(:controller => "users", :action => "create") do %>
-		
+				
+				<%= label_tag "First Name" %>	
 				<%= text_field_tag(:first_name) %>
+				
+				<%= label_tag "Last Name" %>
 				<%= text_field_tag(:last_name) %>
+				
+				<%= label_tag "Email" %>
 				<%= email_field_tag(:email) %>
+				
+				<%= label_tag "Password" %>
 				<%= password_field_tag(:password) %>
+
 				<%= submit_tag("Sign Up") %>
 
 			<% end %>

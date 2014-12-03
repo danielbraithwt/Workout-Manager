@@ -19,6 +19,8 @@ html {
 	width: 45%;
 	height: auto;
 
+	min-width: 427px;
+
 	margin-top: 200px;
 	margin-left: auto;
 	margin-right: auto;

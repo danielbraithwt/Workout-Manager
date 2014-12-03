@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
 	
 	before_action :confirm_logged_in, :except => [:signup]
+	layout false
 
 	##
 	# Index action justs loads all the workouts asociated with a given user
@@ -12,6 +13,8 @@ class HomeController < ApplicationController
 		@workouts = User.find(session[:user_id]).workouts
 
 	  	puts "There are #{@workouts.size} workouts"
+
+		render "application"
   	end
 
 	def siginup

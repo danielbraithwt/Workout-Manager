@@ -1,3 +1,11 @@
+html {
+	background: url(../images/signin_form_background.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-mos-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
 #container {
 	position: fixed;
 	top: 0;
@@ -11,7 +19,7 @@
 	width: 45%;
 	height: auto;
 
-	margin-top: 300px;
+	margin-top: 200px;
 	margin-left: auto;
 	margin-right: auto;
 
@@ -19,19 +27,18 @@
 	padding-top: 1%;
 
 	padding-bottom: 50px;
-
-	background-color: #E0E0E0;
-
-	box-shadow: 2px 2px 10px #888888;
 }
 
 #form_header {
 	width: 80%;
 	height: 50px;
 
-	font-size: 2em;
+	margin-bottom: 30px;
 
-	color: rgba(0,0,0,0.8);
+	text-align: center;
+	font-size: 50px;
+
+	color: rgba(255,255,255,0.5);
 }
 
 #form {
@@ -50,31 +57,67 @@
 
 label {
 	display: inline-block;
-	font-size: 17px;
+	font-size: 50px;
+
+	color: rgba(255, 255, 255, 0.5);
 }
 
 input[type=text] {
 	width: 90%;
-	height: 30px;
+	height: 80px;
 
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 20px;
+
+	outline: none;
+
+	padding-left: 10px;
+
+	font-size: 30px;
+	
+	border: none;
+	border-bottom-style: solid;
+	border-bottom-color: #7E57C2;
+		
+	color: rgba(255, 255, 255, 0.6);
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
 input[type=password] {
 	width: 90%;
-	height: 30px;
+	height: 80px;
 
 	margin-left: auto;
 	margin-right: auto;
+
+	outline: none;
+
+	padding-left: 10px;
+
+	font-size: 30px;
+	
+	border: none;
+	border-bottom-style: solid;
+	border-bottom-color: #7E57C2;
+
+	background-color: rgba(255, 255, 255, 0.1);
+
 }
 
 input[type=submit] {
-	width: 80px;
-	height: 30px;
+	width: 100px;
+	height: 40px;
 
 	float: left;
 
 	margin-top: 20px;
-	margin-right: 10%;
+
+	border: none;
+
+	font-weight: bold;
+	font-size: 15px;
+
+	color: white;
+	background-color: #9575CD;
 }

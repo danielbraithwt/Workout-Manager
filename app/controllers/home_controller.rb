@@ -14,7 +14,7 @@ class HomeController < ApplicationController
 
 	  	puts "There are #{@workouts.size} workouts"
 
-		render "application"
+		render :layout => "application"
   	end
 
 	def siginup

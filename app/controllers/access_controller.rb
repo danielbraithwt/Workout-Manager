@@ -9,9 +9,18 @@ class AccessController < ApplicationController
   	end
 
   	def login
+		# Redirect to home page if user is allready logged in
+		if session[:user_id] != nil
+			redirect_to(:controller => 'home', :action => 'index')
+		end
   	end
 
   	def attempt_login
+		# Redirect to home page if user is allready logged in
+		if session[:user_id] != nil
+			redirect_to(:controller => 'home', :action => 'index')
+		end
+
 		if params[:email].present? && params[:password].present?
 			found_user = User.where(:email => params[:email]).first
 

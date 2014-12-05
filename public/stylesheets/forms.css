@@ -84,7 +84,7 @@ input[type=email] {
 }
 
 input[type=submit] {
-	width: 100px;
+	width: 120px;
 	height: 40px;
 
 	float: left;

@@ -140,7 +140,7 @@ function update_colors()
 	// Update the color of the header so it matches the first excersise background
 	var first = $("#excersises").children("a").first();
 	var first_group = document.getElementById("excersise_group_" + first.attr('id')).innerText;
-	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / max_range ), 0.68, 0.7);
+	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / max_range ), 0.68, 0.66);
 
 	$("#workout_header").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 	$("#column_titles").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
@@ -333,10 +333,10 @@ function edit_excersise(id)
 	//$("#column_titles").animate({backgroundColor: "#EEEEEE"});
 	//$("#header").animate({backgroundColor: "#EEEEEE"});
 	//$("#workout_header").animate({backgroundColor: "#EEEEEE"});
-	if( $("#excersise_" + id).css("background-color") != "rgb(236, 238, 238)" )
-	{
-		$("#excersise_" + id).animate({backgroundColor: "#EEEEEE"}, 50);
-	}
+	//if( $("#excersise_" + id).css("background-color") != "rgb(236, 238, 238)" )
+	//{
+	//	$("#excersise_" + id).animate({backgroundColor: "#EEEEEE"}, 50);
+	//}
 
 	// Ensure that the groups are correct
 	ensure_groups(id);
@@ -383,8 +383,8 @@ function edit_excersise(id)
 			}	
 			else
 			{
-				var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / max_range ), 0.68, 0.66);
-				$("#excersise_" + id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"}, 50);
+				//var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / max_range ), 0.68, 0.66);
+				//$("#excersise_" + id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"}, 50);
 			}
 		}
 	}

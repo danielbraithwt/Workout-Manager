@@ -189,7 +189,7 @@ body {
 
 /* Excersise sets styling */
 .excersise_sets {
-	width:10%;
+	width: 7.5%;
 	height: 100%;
 	
 	float: left;
@@ -197,7 +197,7 @@ body {
 
 /* Excersise reps styling */
 .excersise_reps {
-	width: 5%;
+	width: 7.5%;
 	height: 100%;
 
 	float: left;

@@ -530,7 +530,7 @@ function change_units(id)
 	else if(type_select[type_select.selectedIndex].value == "Body Weight")
 	{
 		document.getElementById("excersise_diffculty_units_" + id).innerHTML = "";
-		document.getElementById("excersise_diffculty_magnitude_" + id).innerHTML = "0";
+		document.getElementById("excersise_diffculty_magnitude_" + id).innerHTML = "1.0";
 		document.getElementById("excersise_diffculty_magnitude_" + id).contentEditable = 'false';
 	}
 }
@@ -704,7 +704,7 @@ function destroy_excersise(id)
 					</div>
 
 					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" <%= "contentEditable='true'" if excersise.excersisetype != 3 %> title="For a weight based excersise this is where you put the KG's you are lifting, should be a number greater than 0">
+						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" <%= "contentEditable=true" if excersise.excersisetype != 3 %> title="For a weight based excersise this is where you put the KG's you are lifting, should be a number greater than 0">
 							<%= excersise.diffculty %>
 						</div>
 						<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">

@@ -1,9 +1,5 @@
 html {
-	background: url(../images/blured_weights.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-mos-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+	background-color: #2196F3;
 }
 
 #container {
@@ -15,13 +11,26 @@ html {
 	width: 100%;
 }
 
+#title {
+	width: 100%;
+	height: auto;
+
+	color: white;
+
+	padding-top: 50px;
+
+	text-align: center;
+	font-weight: bold;
+	font-size: 500%;
+}
+
 #login_form {
 	width: 45%;
 	height: auto;
 
 	min-width: 427px;
 
-	margin-top: 200px;
+	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
 

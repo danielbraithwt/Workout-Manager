@@ -35,8 +35,8 @@ input[type=text] {
 	border-bottom-style: solid;
 	border-bottom-color: #7E57C2;
 		
-	color: rgba(255, 255, 255, 0.6);
-	background-color: rgba(255, 255, 255, 0.1);
+	color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(255, 255, 255, 0.3);
 }
 
 input[type=password] {
@@ -57,7 +57,7 @@ input[type=password] {
 	border-bottom-style: solid;
 	border-bottom-color: #7E57C2;
 
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.3);
 
 }
 
@@ -79,7 +79,7 @@ input[type=email] {
 	border-bottom-style: solid;
 	border-bottom-color: #7E57C2;
 
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.3);
 
 }
 

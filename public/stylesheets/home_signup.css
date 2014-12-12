@@ -1,9 +1,6 @@
 html {
-	background: url(../images/signin_form_background.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-mos-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+
+	background-color: #2196F3;
 }
 
 #container {
@@ -13,6 +10,19 @@ html {
 
 	width: 100%;
 	height: 100%;
+}
+
+#title {
+	width: 100%;
+	height: auto;
+
+	color: white;
+
+	padding-top: 50px;
+
+	text-align: center;
+	font-weight: bold;
+	font-size: 500%;
 }
 
 #signup_form {

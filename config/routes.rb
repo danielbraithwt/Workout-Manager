@@ -15,9 +15,10 @@ Rails.application.routes.draw do
 
   #get 'workouts/new'
 
- 	root 'home#index'
+ 	root 'index#index'
 
 	get 'signup', to: 'home#signup'
+	get 'login', to: 'access#login'
 
 	match ':controller(/:action(/:id))', :via => [:get, :post]
 

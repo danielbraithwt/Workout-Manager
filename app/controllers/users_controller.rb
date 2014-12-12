@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 
+	layout false
 	before_action :confirm_logged_in, :except => [:create]
 
   	def create

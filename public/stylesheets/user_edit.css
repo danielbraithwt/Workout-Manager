@@ -1,9 +1,18 @@
 html {
-	background: url(../images/signin_form_background.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-mos-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+	background-color: #2196F3;
+}
+
+#title {
+	width: 100%;
+	height: auto;
+
+	color: white;
+
+	padding-top: 50px;
+
+	text-align: center;
+	font-weight: bold;
+	font-size: 500%;
 }
 
 #update_form {
@@ -12,7 +21,7 @@ html {
 
 	min-width: 427;
 
-	margin-top: 150px;
+	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
 

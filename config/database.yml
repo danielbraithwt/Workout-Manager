@@ -52,3 +52,13 @@ production:
   database: workout_manager_production
   username: workout_manager
   password: <%= ENV['WORKOUT_MANAGER_DATABASE_PASSWORD'] %>
+
+livetest:
+    adapter: mysql2
+    encoding: utf8
+    pool: 5
+    database: workout_manager_production
+    username: workoutmanager
+    password: ohkg34h8
+    host: 173.194.83.140
+    port: 3306

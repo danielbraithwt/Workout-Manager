@@ -24,9 +24,6 @@ development:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-test:
-  <<: *default
-  database: workout_manager_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -53,11 +50,11 @@ production:
   username: workout_manager
   password: <%= ENV['WORKOUT_MANAGER_DATABASE_PASSWORD'] %>
 
-livetest:
+test:
     adapter: mysql2
     encoding: utf8
     pool: 5
-    database: workout_manager_production
+    database: workout_manager_test
     username: workoutmanager
     password: ohkg34h8
     host: 173.194.83.140

@@ -4,3 +4,5 @@ When deploying to test server remeber to set the environment variables on the se
 
 Run "figaro install" and then add "TEST_DB_USER: 'username'" and "TEST_DB_PASS: 'pass'"
 to config/application.yml
+
+To run the test server use command 'rvmsudo rails s -p 80 -e test -d'

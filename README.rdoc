@@ -1,5 +1,6 @@
 == README
 
-When deploying to test server remeber to set the environment variables on the server
-1) TEST_DB_USER
-2) TEST_DB_PASS
+When deploying to test server remeber to set the environment variables on the server.
+
+Run "figaro install" and then add "TEST_DB_USER: 'username'" and "TEST_DB_PASS: 'pass'"
+to config/application.yml

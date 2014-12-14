@@ -55,7 +55,7 @@ test:
     encoding: utf8
     pool: 5
     database: workout_manager_test
-    username: workoutmanager
-    password: ohkg34h8
+    username: ENV["TEST_DB_USER"]
+    password: ENV["TEST_DB_PASS"]
     host: 173.194.83.140
     port: 3306

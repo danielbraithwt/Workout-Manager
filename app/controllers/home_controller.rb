@@ -12,9 +12,11 @@ class HomeController < ApplicationController
 
 		@workouts = User.find(session[:user_id]).workouts
 
+		@header_title_name = "Workouts"
+
 	  	puts "There are #{@workouts.size} workouts"
 
-		render :layout => "application"
+		render(:layout => "application")
   	end
 
 	def siginup

@@ -1,62 +1,75 @@
 #header {
-	position: fixed;
+	width: 100%;
+	height: auto;
+
 	top: 0;
 	left: 0;
+	position: absolute;
 
-	z-index: 3;
-	
-	height: 100px;
+
+	background-color: #2196F3;
+
+	color: white;
+}
+
+#header_links {
 	width: 100%;
-	
-	padding-left: 10px;
-
-	text-align: left;
-
-	background-color: #E0E0E0;
-
-	box-shadow: 2px 2px 10px #888888;
-}
-
-#title {
-	width:20%;
 	height: 60px;
-	
-	font-size: 2em;
 
-	float: left;
+	font-size: 20px;
 }
 
-#user {
-	width: 40%;
-	height: 100%;
+#header_links a {
+	width: auto;
+	height: 60px;
+
+	padding-left: 20px;
+	padding-right: 20px;
+
+	line-height: 60px;
+
+	text-decoration: none;	
+
+	color: white;
 
 	float: right;
 }
 
-#username {
+#header_links a:hover {
+	text-decoration: underline;
+}
+
+#header_title {
+	width: 100%;
+	height: 40%;
+	
+	margin-left: auto;
+	margin-right: auto;
+
+	padding-top: 50px;
+	padding-bottom: 50px;
+
+	text-align: center;
+}
+
+#header_title_name {
+	width: 100%;
+	height: 60%;
+
+	font-weight: bold;
+	font-size: 1000%;
+}
+
+#header_title_desc {
 	width: 50%;
-	height: 100%;
+	height: 40%;
 
-	float: left;
+	margin-left: auto;
+	margin-right: auto;
+	
+	padding-top: 70px;
+
+	font-size: 200%;
 }
 
-#buttons {
-	width: 50%;
-	height: 100%;
-
-	float: left;
-}
-
-#logout_button {
-
-}
-
-.user_button {
-	width: 50%;
-	height: 100%;
-
-	float: left;	
-
-	display: block;
-}
 

@@ -3,8 +3,6 @@ class AccessController < ApplicationController
 	before_action :confirm_logged_in, :except => [:login, :attempt_login, :logout]
 
 
-	layout false
-
   	def index
   	end
 
@@ -13,6 +11,11 @@ class AccessController < ApplicationController
 		if session[:user_id] != nil
 			redirect_to(:controller => 'home', :action => 'index')
 		end
+
+		@header_title_name = "Login"
+		@header_title_desc = "Enter your login details"
+		@header_links = []
+		@header_links << ["/", "Home"]
   	end
 
   	def attempt_login

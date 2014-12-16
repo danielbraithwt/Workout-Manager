@@ -11,7 +11,14 @@
 <script>
 var message = "<%= flash[:notice] %>";
 
+// When the page loads set the padding on top of the container to
+// the height of the header
+$(document).ready( function() {
+		
+		var header_height = $("#header").height();
+		$("#container").css("padding-top", ((header_height + 10) + "px"));
 
+		});
 $(document).ready( function() {
 		
 		// If there is no message then there is nothing to do
@@ -57,29 +64,45 @@ function show_error(message)
 
 </script>
 
-<title>Workout Manager</title>
+
+
+<title>WOM</title>
 </head>
 <body>
 
+<% if @header_links == nil %>
+	<% @header_links = [] %>
+	<% @header_links << ["/access/logout", "Logout"] %>
+	<% @header_links << ["/user/edit", "Update"] %>
+<% end %>
+
+<% if @header_links != [] || @header_title_name != nil %>
 <div id="header">
-		<div id="title"><span></span>LOGO</div>
-		
-		<% if session[:user_id] != nil %>
-			<div id="user">
-				<div id="username">
-					<span></span><%= session[:name] %>
-				</div>
-				<div id="buttons">
-					<a id="logout_button" class="user_button" href="/access/logout">
-						<span></span>L
-					</a>
-					<a id="update_button" class="user_button" href="/users/edit">
-						<span></span>U
-					</a>
-				</div>
-			</div>
-		<% end %>	
+	<% if @header_links != [] %>
+	<div id="header_links">
+		<% @header_links.each do |link| %>
+		<a href="<%= link[0] %>">
+			<%= link[1] %>
+		</a>
+		<% end %>
 	</div>
+	<% end %>
+
+	<% if @header_title_name != nil %>
+	<div id="header_title">
+		<div id="header_title_name">
+			<%= @header_title_name %>
+		</div>
+
+		<% if @header_title_desc != nil %>
+		<div id="header_title_desc">
+			<%= @header_title_desc %>
+		</div>
+		<% end %>
+	</div>		
+	<% end %>
+</div>
+<% end %>
 
 <%= yield %>
 

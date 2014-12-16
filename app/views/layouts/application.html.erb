@@ -83,11 +83,20 @@ function show_error(message)
 <div id="header">
 	<% if @header_links != [] %>
 	<div id="header_links">
-		<% @header_links.each do |link| %>
-		<a href="<%= link[0] %>">
-			<%= link[1] %>
-		</a>
-		<% end %>
+		<div id="constant">
+			<a href="/">
+				Home
+			</a>
+
+		</div>
+
+		<div id="variable">
+			<% @header_links.each do |link| %>
+			<a href="<%= link[0] %>">
+				<%= link[1] %>
+			</a>
+			<% end %>
+		</div>
 	</div>
 	<% end %>
 

@@ -33,8 +33,27 @@
 
 	color: white;
 
+	/*float: right;*/
+}
+
+#constant {
+	float:left;
+	width: 50%;
+}
+
+#header_links #constant a {
+	float: left;
+}
+
+#variable {
+	float: right;
+	width: 50%;
+}
+
+#header_links #variable a {
 	float: right;
 }
+
 
 #header_links a:hover {
 	text-decoration: underline;

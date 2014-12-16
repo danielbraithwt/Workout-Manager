@@ -2,7 +2,7 @@
 	width: 90%;
 	height: auto;
 
-	margin-top: 150px;
+	margin-top: 50px;
 
 	padding-left: 5%;
 }
@@ -104,8 +104,11 @@
 
 
 #excersise_stats {
-	width: 100%;
+	width: 700px;
 	height: auto;
+
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #excersises {

@@ -270,6 +270,10 @@ class WorkoutsController < ApplicationController
 		# Make sure that the user has access to this workout
 		allowed = confirm_user_auth(@workout)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
+		# Set up the header
+		@header_title_name = "Track"
+		@header_title_desc = "Here you can view information about how you are improuving with your workout"
 	
 		# Get the stats about the workout
 		@range = 30

@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
 	get 'signup', to: 'home#signup'
 	get 'login', to: 'access#login'
+	get 'logout', to: 'access#logout'
+	get 'update', to: 'users#edit'
 
 	match ':controller(/:action(/:id))', :via => [:get, :post]
 

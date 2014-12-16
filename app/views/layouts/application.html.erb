@@ -73,8 +73,8 @@ function show_error(message)
 
 <% if @header_links == nil %>
 	<% @header_links = [] %>
-	<% @header_links << ["/access/logout", "Logout"] %>
-	<% @header_links << ["/user/edit", "Update"] %>
+	<% @header_links << ["/logout", "Logout"] %>
+	<% @header_links << ["/update", "Update"] %>
 <% end %>
 
 <% puts @header_title_name %>

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-	layout false
+	layout 'application', :only => ["edit"]
 	before_action :confirm_logged_in, :except => [:create]
 
   	def create
@@ -30,6 +30,9 @@ class UsersController < ApplicationController
 
 	def edit
 		@user = User.find(session[:user_id])
+
+		@header_title_name = "Update Details"
+		@header_title_desc = "Update your user details with this form"
 	end
 
 	def update

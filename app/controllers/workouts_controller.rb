@@ -63,6 +63,8 @@ class WorkoutsController < ApplicationController
 		allowed = confirm_user_auth(@workout)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
 
+		@header_title_name = "Edit"
+		@header_title_desc = "Here you can edit your workout by adding and editing excersises"
 
 		@excersises = @workout.excersises.order("position asc")
 	end
@@ -115,7 +117,7 @@ class WorkoutsController < ApplicationController
 		puts "Updating Workout Name: => #{params[:id]}"
 
 		# Make sure the workout name passed to the controller is valid
-		if params[:workout][:name].length > 20 || params[:workout][:name].length < 5 || params[:workout][:name].index(/[^\w\s]/)
+		if params[:name].length > 20 || params[:name].length < 5 || params[:name].index(/[^\w\s]/)
 			@m = "error"
 			return false
 		end

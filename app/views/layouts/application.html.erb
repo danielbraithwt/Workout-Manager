@@ -16,6 +16,7 @@ var message = "<%= flash[:notice] %>";
 $(document).ready( function() {
 		
 		var header_height = $("#header").height();
+		$("#header").css("min-height", (header_height + "px"));
 		$("#container").css("padding-top", ((header_height + 10) + "px"));
 
 		});

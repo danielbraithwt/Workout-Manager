@@ -57,24 +57,6 @@ $(document).scroll( function() {
 			update_column_title_color();
 			});
 
-// Function runs when the page loads or is resized
-// and makes sure the container is correctly positioned
-//$(window).on("load resize", function() {
-//			var widthDiffrence = $(window).width() - 950;
-//
-//			if( widthDiffrence > 0 )
-//			{
-//				var newLeft = widthDiffrence/2;
-//				$("#container").css({left: newLeft});
-//			}
-//			else
-//			{
-//				$("#container").css({left: 0});
-//			}
-				
-//			});
-
-
 function update_positions()
 {
 	// Itterates through all the excersises and for each one make an AJAX
@@ -115,13 +97,6 @@ function update_column_title_color()
 
 	// Get the <a> tag containing the excersise we want
 	var element = $("#excersises a:nth-child(" + (currentExcersise+1) + ")").get(0);
-
-	//if( $("#column_titles").css("background-color") != $("#excersise_" + element.id).css("background-color") )
-	//{
-		// Set the color of the column header to the color of that excersise
-	//	$("#workout_header").animate({backgroundColor: $("#excersise_" + element.id).css("background-color")});
-	//	$("#column_titles").animate({backgroundColor: $("#excersise_" + element.id).css("background-color")});
-	//}
 }
 
 function update_colors()
@@ -131,20 +106,6 @@ function update_colors()
 	var max_range = current_group;
 	if( max_range < 10 ) max_range = 10;
 
-	// Caclulate what current excersise the header is over and get its id
-	var scrolled = $(document).scrollTop();
-	var currentExcersise = parseInt(scrolled / 100);
-	var currentId = $("#excersises a:nth-child(" + (currentExcersise+1) + ")").get(0).id;
-
-
-	// Update the color of the header so it matches the first excersise background
-	var first = $("#excersises").children("a").first();
-	var first_group = document.getElementById("excersise_group_" + first.attr('id')).innerText;
-	var rgb = HSBtoRGB(parseInt(first_group) * ( 100.0 / max_range ), 0.68, 0.66);
-
-	//$("#workout_header").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-	//$("#column_titles").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-
 	// Update the colors of the excersises
 	$("#excersises").children("a").each(function() {
 			var group = document.getElementById("excersise_group_" + this.id).innerText;
@@ -152,9 +113,6 @@ function update_colors()
 			var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / max_range ), 0.68, 0.66);
 			$("#excersise_"+this.id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 
-			if( this.id == currentId ) $("#excersise_" + this.id).promise().done( function() {
-					update_column_title_color();
-					});
 			});
 }
 
@@ -324,15 +282,6 @@ function edit_excersise(id)
 	var max_range = current_group;
 	if( max_range < 10 ) max_range = 10;
 
-	// Tell the user that the workout isnt saved by changing the color of the header
-	//$("#column_titles").animate({backgroundColor: "#EEEEEE"});
-	//$("#header").animate({backgroundColor: "#EEEEEE"});
-	//$("#workout_header").animate({backgroundColor: "#EEEEEE"});
-	//if( $("#excersise_" + id).css("background-color") != "rgb(236, 238, 238)" )
-	//{
-	//	$("#excersise_" + id).animate({backgroundColor: "#EEEEEE"}, 50);
-	//}
-
 	// Ensure that the groups are correct
 	ensure_groups(id);
 	
@@ -378,8 +327,6 @@ function edit_excersise(id)
 			}	
 			else
 			{
-				//var rgb = HSBtoRGB(parseInt(group) * ( 100.0 / max_range ), 0.68, 0.66);
-				//$("#excersise_" + id).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"}, 50);
 			}
 		}
 	}

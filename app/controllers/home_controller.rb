@@ -11,6 +11,7 @@ class HomeController < ApplicationController
 
 		@workouts = User.find(session[:user_id]).workouts
 
+		# Setup the header
 		@header_title_name = "Workouts"
 		@header_title_desc = "Manage your various workouts from this screen"
 
@@ -20,6 +21,7 @@ class HomeController < ApplicationController
 	def signup
 		puts "Home Controller : SIGNUP"
 
+		# Setup the header
 		@header_title_name = "Signup"
 		@header_title_desc = "Enter your details to create an account"
 		@header_links = []

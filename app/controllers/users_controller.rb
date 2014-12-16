@@ -30,14 +30,17 @@ class UsersController < ApplicationController
 
 	def edit
 		@user = User.find(session[:user_id])
-
+		
+		# Setup the header
 		@header_title_name = "Update Details"
 		@header_title_desc = "Update your user details with this form"
 	end
 
 	def update
+		# Get the user object
 		user = User.find(session[:user_id])
 
+		# Update the user object if the items have been changed
 		user.email = params[:email] if params[:email].present?
 		user.password = params[:password] if params[:password].present?
 

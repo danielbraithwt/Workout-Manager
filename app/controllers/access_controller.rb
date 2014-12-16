@@ -11,7 +11,8 @@ class AccessController < ApplicationController
 		if session[:user_id] != nil
 			redirect_to(:controller => 'home', :action => 'index')
 		end
-
+		
+		# Setup the header for this page
 		@header_title_name = "Login"
 		@header_title_desc = "Enter your login details"
 		@header_links = []
@@ -23,7 +24,9 @@ class AccessController < ApplicationController
 		if session[:user_id] != nil
 			redirect_to(:controller => 'home', :action => 'index')
 		end
-
+		
+		# Make sure that both the email and password are present before
+		# searching the database
 		if params[:email].present? && params[:password].present?
 			found_user = User.where(:email => params[:email]).first
 
@@ -31,7 +34,8 @@ class AccessController < ApplicationController
 				user = found_user.authenticate(params[:password])
 			end
 		end
-
+		
+		# If a user was found then update the current session
 		if user
 			session[:user_id] = user.id
 			session[:name] = user.first_name + " " + user.last_name
@@ -44,9 +48,11 @@ class AccessController < ApplicationController
   	end
 
   	def logout
+		# Update the session
 		session[:user_id] = nil
 		session[:username] = nil
-
+		
+		# Set an alert to tell the user they where loged out
 		flash[:notice] = "Logged Out"
 		redirect_to(:action => 'login')
   	end

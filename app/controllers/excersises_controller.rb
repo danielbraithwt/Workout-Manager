@@ -192,6 +192,10 @@ class ExcersisesController < ApplicationController
 		# login page
 		allowed = confirm_user_auth(@excersise)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
+		# Set up the header information
+		@header_title_name = "Track"
+		@header_title_desc = "Here you can view a detailed breakdown about the selected excersise"
 		
 		@range = 30
 		@data = @excersise.graphable_data(@range)

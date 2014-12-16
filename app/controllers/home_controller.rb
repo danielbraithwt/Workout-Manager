@@ -12,6 +12,7 @@ class HomeController < ApplicationController
 		@workouts = User.find(session[:user_id]).workouts
 
 		@header_title_name = "Workouts"
+		@header_title_desc = "Manage your various workouts from this screen"
 
 	  	puts "There are #{@workouts.size} workouts"
   	end

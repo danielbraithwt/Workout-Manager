@@ -1,6 +1,4 @@
 html {
-
-	background-color: #2196F3;
 }
 
 #container {
@@ -10,19 +8,6 @@ html {
 
 	width: 100%;
 	height: 100%;
-}
-
-#title {
-	width: 100%;
-	height: auto;
-
-	color: white;
-
-	padding-top: 50px;
-
-	text-align: center;
-	font-weight: bold;
-	font-size: 500%;
 }
 
 #signup_form {

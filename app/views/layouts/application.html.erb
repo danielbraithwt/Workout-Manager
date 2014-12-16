@@ -76,6 +76,8 @@ function show_error(message)
 	<% @header_links << ["/user/edit", "Update"] %>
 <% end %>
 
+<% puts @header_title_name %>
+
 <% if @header_links != [] || @header_title_name != nil %>
 <div id="header">
 	<% if @header_links != [] %>

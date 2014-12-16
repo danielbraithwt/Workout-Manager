@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
 	
 	before_action :confirm_logged_in, :except => [:signup]
-	layout false
 
 	##
 	# Index action justs loads all the workouts asociated with a given user
@@ -15,12 +14,15 @@ class HomeController < ApplicationController
 		@header_title_name = "Workouts"
 
 	  	puts "There are #{@workouts.size} workouts"
-
-		render(:layout => "application")
   	end
 
-	def siginup
+	def signup
 		puts "Home Controller : SIGNUP"
+
+		@header_title_name = "Signup"
+		@header_title_desc = "Enter your details to create an account"
+		@header_links = []
+		@header_links << ["/", "Home"]
 	end
 
 	private

@@ -1,83 +1,13 @@
 <%= javascript_include_tag "jquery-2.1.1.min.js" %>
 <%= javascript_include_tag "jquery-ui.min.js" %>
 <%= stylesheet_link_tag "workout_new.css" %>
+<%= stylesheet_link_tag "forms.css" %>
 
 <script>
 
 $( function () {
 		$(document).tooltip();
 		});
-
-function HSBtoRGB(h, s, l)
-{
-	var C = (1 - Math.abs(2 * l - 1)) * s;
-	var Hp = h/60.0;
-	var x = C * ( 1 - Math.abs(Hp%2 - 1));
-
-	var r;
-	var g;
-	var b;
-
-	if( Hp >= 0 && Hp < 1 )
-	{
-		r = C;
-		g = x;
-		b = 0;
-	}
-	else if( Hp >= 1 && Hp < 2 )
-	{
-		r = x;
-		g = C;
-		b = 0;
-	}
-	else if( Hp >= 2 && Hp < 3 )
-	{
-		r = 0;
-		g = C;
-		b = x;
-	}
-	else if( Hp >= 3 && Hp < 4 )
-	{
-		r = 0;
-		g = x;
-		b = C;
-	}
-	else if( Hp >= 4 && Hp < 5 )
-	{
-		r = x;
-		g = 0;
-		b = C;
-	}	
-	else if( Hp >= 5 && Hp < 6 )
-	{
-		r = C;
-		g = 0;
-		b = x;
-	}
-
-	m = l - (1/2.0) * C;
-
-	return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
-}
-
-function text_field_change() 
-{
-	// Updates the page background based on what is in the name text field
-	var value = $("#workout_name").val();
-	var string_num = 0;
-
-	for( var i = 0; i < value.length; i++ )
-	{
-		string_num += value.charCodeAt(i);
-	}
-		
-	var rgb = HSBtoRGB(string_num % 100, 0.66, 0.68);
-	
-	if( !$("#container").is(":animated") )
-	{
-		$("#container").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});			
-	}
-}
 
 function verify_form()
 {
@@ -100,11 +30,9 @@ function verify_form()
 
 <div id="container">
 	<div id="form_box">
-		<h1>Create New Workout</h1>
-		
 		<div id="form">
 		<%= form_tag({:action => 'create'}, :id  => 'workout_name_form',:onsubmit => "return verify_form();") do %>
-			<%= label_tag "Workout Name" %>
+			<%= label_tag "Name" %>
 			<%= text_field_tag('workout[name]', value = "", options = {:id => "workout_name", :onkeyup => "text_field_change()", :title => "The workout name, between 5 and 20 charactors and cant contain special charactors"}) %>
 
 			</ br>

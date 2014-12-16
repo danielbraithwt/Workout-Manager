@@ -17,7 +17,8 @@ class WorkoutsController < ApplicationController
 	end
 
   	def new
-		
+		@header_title_name = "New Workout"
+		@header_title_desc = "Here you can set the name for a new workout, you will then be able to edit it"	
   	end
 	
 	##

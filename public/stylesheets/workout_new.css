@@ -4,9 +4,8 @@
 	left: 0;
 
 	width: 100%;
-	height: 100%;
+	height: auto;
 
-	background-color: #F5F5F5;
 }
 
 #form_box {
@@ -14,19 +13,10 @@
 
 	margin-left: auto;
 	margin-right: auto;
-
-	margin-top: 40%;
+	margin-top: 50px;
 
 	height: 170px;
 	width: 45%;
-
-	background-color: #EEEEEE;
-
-	opacity: 0.85;
-
-	box-shadow: 1px 1px 30px #888888;
-
-	border-radius: 5px;
 }
 
 #form {
@@ -38,31 +28,3 @@
 
 	text-align: left;
 }
-
-/* Form Styling */
-
-label {
-	display: inline-block;
-	font-size: 17px;
-}
-
-input[type=text] {
-	width: 90%;
-	height: 30px;
-
-	margin-left: auto;
-	margin-right: auto;
-
-}
-
-input[type=submit] {
-	width: 80px;
-	height: 30px;
-
-	float: right;
-		
-	margin-right: 10%;
-	margin-top: 20px;
-}
-
-

@@ -43,9 +43,9 @@ function toggle_sets(id)
 <div id="container">
 	<div id="excersises">
 		<% @excersises.each do |excersise| %>
-			<div id="excersise_<%= excersise.id %>" class="excersise" onclick="toggle_sets(<%= excersise.id %>)">
+			<div id="excersise_<%= excersise.id %>" class="excersise">
 
-			<div id="excersise_letter_<%= excersise.id %>" class="excersise_letter">
+			<div id="excersise_letter_<%= excersise.id %>" class="excersise_letter" onclick="toggle_sets(<%= excersise.id %>)">
 				<%= excersise.name[0] %>
 			</div>
 			

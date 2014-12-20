@@ -73,6 +73,12 @@ function toggle_sets(id)
 				<div class="rest_text">
 					Rest Now
 				</div>
+
+				<div class="rest_buttons">
+					<div id="next_button_<%= @last_group %>" class="button">
+						NEXT
+					</div>
+				</div>
 			</div>
 
 			<% @last_group = excersise.group %>
@@ -91,6 +97,16 @@ function toggle_sets(id)
 
 				<div id="excersise_usual_<%= excersise.id %>" class="excersise_usual">
 					<%= "Usual set is #{excersise.reps} reps" %> <%= if excersise.excersisetype != 3 then; " at #{excersise.diffculty} #{excersise.get_units}"; end %>
+				</div>
+
+				<div id="excersise_buttons_<%= excersise.id %>" class="excersise_buttons">
+					<div id="go_button_<%= excersise.id %>" class="button">
+						GO!
+					</div>
+
+					<div id="stop_button_<%= excersise.id %>" class="button">
+						STOP
+					</div>
 				</div>
 			</div>
 
@@ -127,6 +143,12 @@ function toggle_sets(id)
 
 			<div class="rest_text">
 				Workout Done
+			</div>
+
+			<div class="rest_buttons">
+				<div id="finish_button" class="button">
+					FINISH
+				</div>
 			</div>
 		</div>
 

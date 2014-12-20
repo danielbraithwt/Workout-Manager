@@ -47,7 +47,10 @@ function toggle_sets(id)
 
 	if( $("#excersise_" + id).width() == 350 )
 	{
-		$("#excersise_" + id).animate({width: "700px", height: (($("#excersise_sets_" + id).height() + 140) + "px")}, 200, function() {
+		var new_height = ($("#excersise_sets_" + id).height() + 140);
+		if( new_height < 300 ) new_height = 300;
+
+		$("#excersise_" + id).animate({width: "700px", height: (new_height + "px")}, 200, function() {
 				$("#excersise_sets_" + id).css({visibility: "visible"});
 				});
 	}

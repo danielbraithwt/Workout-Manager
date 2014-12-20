@@ -15,10 +15,14 @@ $(function () {
 
 	var i = 0;
 	$("#excersises").children().each( function() {
-		var rgb = HSBtoRGB(excersise_group_order[i] * (100.0/max_range), 0.68, 0.66);
-		$(this).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
+		
+		if( $(this).attr('id').indexOf("rest") == -1 )
+		{
+			var rgb = HSBtoRGB(excersise_group_order[i] * (100.0/max_range), 0.68, 0.66);
+			$(this).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 
-		i += 1;
+			i += 1;
+		}
 		});
 
 	});
@@ -42,7 +46,22 @@ function toggle_sets(id)
 
 <div id="container">
 	<div id="excersises">
+		<% @last_group = @excersises[0].group %>
 		<% @excersises.each do |excersise| %>
+			<% if excersise.group != @last_group %>
+			<div id="rest_<%= @last_excersise %>" class="rest">
+				<div id="rest_group_<%= @last_group %>" class="rest_group">
+					<%= @last_group %>
+				</div>
+
+				<div class="rest_text">
+					Rest Now
+				</div>
+			</div>
+
+			<% @last_group = excersise.group %>
+			<% end %>
+
 			<div id="excersise_<%= excersise.id %>" class="excersise">
 
 			<div id="excersise_letter_<%= excersise.id %>" class="excersise_letter" onclick="toggle_sets(<%= excersise.id %>)">
@@ -84,5 +103,16 @@ function toggle_sets(id)
 			</div>
 		</div>
 		<% end %>
+		
+		<div id="rest_done" class="rest">
+			<div id="rest_group_done" class="rest_group">
+				D
+			</div>
+
+			<div class="rest_text">
+				Workout Done
+			</div>
+		</div>
+
 	</div>
 </div>

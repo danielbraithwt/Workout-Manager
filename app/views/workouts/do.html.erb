@@ -8,6 +8,8 @@
 var excersise_group_order = <%= @excersise_group_order.to_json %>;
 var largest_group = <%= @largest_group %>;
 
+var last_toggled = -1;
+
 $(function () {
 	
 	var max_range = largest_group;
@@ -29,6 +31,20 @@ $(function () {
 
 function toggle_sets(id)
 {
+	if( id == last_toggled )
+	{
+		last_toggled = -1;
+	}
+	else if( last_toggled == -1 )
+	{
+		last_toggled = id;
+	}
+	else
+	{
+		toggle_sets(last_toggled);
+		last_toggled = id;
+	}
+
 	if( $("#excersise_" + id).width() == 350 )
 	{
 		$("#excersise_" + id).animate({width: "700px", height: (($("#excersise_sets_" + id).height() + 140) + "px")}, 200, function() {

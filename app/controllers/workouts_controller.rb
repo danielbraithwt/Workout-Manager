@@ -149,26 +149,29 @@ class WorkoutsController < ApplicationController
 		@encouragements = ["Lets Do It", "Go For It!"]
 
 		@workout = Workout.find(params[:id])
-	
-		# Make sure that there is atleast one excersise, other wise
-		# redirect to the index page with a message
-
-		if @workout.excersises.length == 0
-			flash[:notice] = "You cant DO a workout with no excersises"
-			redirect_to :controller => "home", :action => "index"
-			return false;
-		end
 
 		# Makesure that the user can access that workout if they dont redirect them to the
 		# login page
 		allowed = confirm_user_auth(@workout)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
 
+		# Make sure that there is atleast one excersise, other wise
+		# redirect to the index page with a message
+		if @workout.excersises.length == 0
+			flash[:notice] = "You cant DO a workout with no excersises"
+			redirect_to :controller => "home", :action => "index"
+			return false;
+		end
+
+		# Set up the header
+		@header_title_name = "DO"
+		@header_title_desc = "Here is where you do a workout, fill out the sets as you go"
+
 		@excersises = @workout.excersises.order("position asc")
-		
+
 		@groups = {}
-		excersise_frequency = {}
-		@excersise_order = []
+		#excersise_frequency = {}
+		#@excersise_order = []
 
 		# Sort the excersises into there groups
 		@excersises.each do |excersise|
@@ -178,29 +181,29 @@ class WorkoutsController < ApplicationController
 		end
 
 		# Itterate through the groups and 
-		@groups.keys.sort.each do |group|
-			excersise_group = @groups[group]
-			group_finished = false
+		#@groups.keys.sort.each do |group|
+		#	excersise_group = @groups[group]
+		#	group_finished = false
 			
 			# Untill all the excersises have been added the ammout they should
 			# IE if you are doing 3 sets of something it should be added three times
-			while !group_finished
-				group_finished = true
+		#	while !group_finished
+		#		group_finished = true
 				
 				# for the current excersise group go through the excersises and add them
 				# if they still need to be added
-				excersise_group.each do |excersise|
-					excersise_frequency[excersise.id] = 0 if excersise_frequency[excersise.id] == nil
-					
-					if excersise_frequency[excersise.id] < excersise.sets
-						@excersise_order << excersise.position
-						excersise_frequency[excersise.id] += 1
+		#		excersise_group.each do |excersise|
+		#			excersise_frequency[excersise.id] = 0 if excersise_frequency[excersise.id] == nil
+		#			
+		#			if excersise_frequency[excersise.id] < excersise.sets
+		#				@excersise_order << excersise.position
+		#				excersise_frequency[excersise.id] += 1
 
-						group_finished = false
-					end
-				end
-			end
-		end
+		#				group_finished = false
+		#			end
+		#		end
+		#	end
+		#end
 
 		# Get groups into an array
 		@excersise_group_order = []
@@ -214,14 +217,13 @@ class WorkoutsController < ApplicationController
 
 		## just for testing
 		############################
-		puts "\nWorkout Schedule: "
+		#puts "\nWorkout Schedule: "
 
-		@excersise_order.each do |i|
-			puts "Excersise: #{@excersises[i].name}"
-		end
-		puts "\n"
+		#@excersise_order.each do |i|
+		#	puts "Excersise: #{@excersises[i].name}"
+		#end
+		#puts "\n"
 		###########################
-		render layout: false
 
 	end
 

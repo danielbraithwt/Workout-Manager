@@ -1,228 +1,126 @@
-#countdown_timer {
-	top: 40%;
-	left: 40%;
-	position: absolute;
-
-	width: 20%;
-	height: 20%;
-
-	visibility: hidden;
-	opacity: 0;
-
-	box-shadow: 2px 2px 30px #888888;
-
-	border-radius: 50%;
-
-	z-index: 20;
-
-	background-color: #FFFFFF;
-}
-
-#countdown_time {
-	width: 100%;
-	height: 100%;
-	
-	text-align: center;
-	font-size: 7em;
-}
-
 #container {
-	top: 0;
-	left: 0;
-	position: absolute;
-
-	width: 100%;
-	height: 80%;
-}
-
-#finished {
 	width: 100%;
 	height: 100%;
-
-	text-align: center;
-	font-size: 15em;
-}
-
-#home_button {
-	text-decoration: none;
-	color: black;
 }
 
 #excersises {
-	width: 100%;
-	height: 70%;
-}
+	width: 90%;
+	height: 100%;
 
-.excersise_container {
-	left: 0;
-	top: 0;
-	position: fixed;
-
-	width: 100%;
-	height: 70%;
-
-	background-color: #FFFFFF;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .excersise {
-	width: 100%;
-	height: 100%;
+	width: 350px;
+	height: 300px;
+
+	max-width: 700px;
+
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+
+	padding-top: 10px;
+	padding-bottom: 10px;
+
+	float: left;
+
+	box-shadow: 1px 1px 20px #888888;
+}
+
+.excersise_information {
+	width: 350px;
+	height: auto;
+
+	color: white;
+
+	float: left;
+}
+
+.excersise_letter {
+	width: 100px;
+	height: 100px;
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+
+	border-radius: 50%;
+
+	text-align: center;
+	line-height: 100px;
+	font-weight: bold;
+	font-size: 500%;
+
+	color: white;
+	background-color: rgba(255, 255, 255, 0.2);
 }
 
 .excersise_name {
 	width: 100%;
-	height: 40%;
+	height: auto;
 
+	font-size: 300%;
+	font-weight: bold;
 	text-align: center;
-
-	font-size: 10em;
 }
 
-.excersise_diffculty {
-	width: 200;
-	height: 9%;
+.excersise_usual {
+	width: 100%;
+	height: auto;
 
-	margin-left: auto;
-	margin-right: auto;
-	
+	font-size: 100%;
 	text-align: center;
-
-	font-size: 2.5em;
-}
-
-.excersise_diffculty_number {
-
-	width: 150px;
-
-	text-align: left;
-	float: left;
-}
-
-.excersise_diffculty_units {
-	width: 50px;
-	text-align: center;
-	float: left;
 }
 
 .excersise_sets {
-	width: 100%;
-	height: 20%;
-
-	text-align: center;
-
-	font-size: 5em;
-}
-
-.excersise_reps {
-	width: 100%;
-	height: 20%;
-
-	text-align: center;
-
-	font-size: 5em;
-}
-
-.excersise_reps_number {
-	width: 45%;
-	float: left;
-
-	text-align: left;
-}
-
-.reps_title {
-	width: 55%;
-	float: left;
-
-	text-align: right;
-}
-
-.excersise_encouragement {
-	width: 100%;
-	height: 10%;
-
-	text-align: center;
-
-	font-size: 2.5em;
-}
-
-#current_group_details {
-	left: 0;
-	top: 70%;
-	position: fixed;
-
-	width: 100%;;
-	height: 10%;
-}
-
-.excersise_detail {
-	height: 100%;
-	width: 20%;
+	width: 300px;
+	height: auto;
 
 	float: left;
+
+	visibility: hidden;
+}
+
+.excersise_set {
+	width: 100%;
+	height: 40px;
+
+	padding-top: 20px;
+	padding-bottom: 20px;
 
 	text-align: center;
 }
 
-#controll_bar {
-	left: 0;
-	top: 80%;
-	position: fixed;
-
-	width: 100%;
-	height: 20%;
-
-	background-color: #EEEEEE;
-
-	text-align: center;
-
-	/*font-size: 5em;*/
-}
-
-#next {
-	height: 60%;
-	width: 100%;
-
-	display: block;
-
-	font-size: 2.5em;
-}
-
-#time_controll {
-	height: 40%;
-	width: 100%;
-
-	font-size: 2em;
-}
-
-#start {
-	width: 35%;
-	height: 100%;	
-
-	float: left; 
-}
-
-#stop { 
-	width: 35%;
-	height: 100%;
-
-	float: left;
-}
-
-#reset {
-	width: 10%;
-	height: 100%;
-
-	float: left;
-}
-
-#time {
+.excersise_set_number {
 	width: 20%;
 	height: 100%;
 
 	float: left;
 }
 
-span {
+.excersise_set_reps {
+	width: 40%;
 	height: 100%;
-	vertical-align: middle;
-	display: inline-block;
+
+	float: left
+}
+
+.excersise_set_diffculty {
+	width: 30%;
+	height: 100%;
+
+	float: left;
+}
+
+.excersise_set_diffculty_units {
+	width: 10%:
+	height: 100%;
+
+	float: left;	
+}
+
+

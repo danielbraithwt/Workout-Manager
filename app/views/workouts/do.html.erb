@@ -1,458 +1,88 @@
 <%= javascript_include_tag "jquery-2.1.1.min.js" %>
 <%= javascript_include_tag "jquery-ui.min.js" %>
+<%= javascript_include_tag "color.js" %>
 <%= stylesheet_link_tag "excersise_do.css" %>
 <%= stylesheet_link_tag "jquery-ui.css" %>
 
 <script>
-
-var workout_id = <%= @workout.id %>
-var excersiseOrder = <%= @excersise_order.to_json %>;
-var excersiseGroupOrder = <%= @excersise_group_order.reverse.to_json %>
-var largest_group = <%= @largest_group %>
-
-var current_excersise = 0;
-var max_range = 0;
-
-var workout_start_time = 0;
-var workout_finish_time = 0;
-var workout_completion_time = 0;
-
-var start_time = 0;
-var end_time = 0;
-var completion_time = 0;
-
-var records = {}
+var excersise_group_order = <%= @excersise_group_order.to_json %>;
+var largest_group = <%= @largest_group %>;
 
 $(function () {
-		$(document).tooltip();
-		});
-
-$(document).ready( function() {
-		
-		// Get the first excersise that is to be done
-		current_excersise = excersiseOrder.shift();
-
-		// Make sure the color range is split over enough
-		// of a range to give a smmoth color change
-		max_range = largest_group;
-		if( max_range < 10 ) max_range = 10;
-		
-		// Itterate through all the excersises in the excersises div and update there background color
-		var index = 0;
-		$("#excersises").children().each(function() {
-
-				var rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / max_range), 0.68, 0.66);
-				$(this).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-				
-				// If the excersise you are currently looking at is to be the first one displayed then
-				// update the controll bar and the information bar
-				if( index == excersiseGroupOrder.length - 1 ) 
-				{
-					rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / max_range), 0.68, 0.7);
-					$("#current_group_details").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-					rgb = HSBtoRGB(excersiseGroupOrder[index] * (100.0 / max_range), 0.68, 0.72);
-					$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-				}
-				
-				// If the current excersise is the one to be displayed last then set the background color
-				// of the body to be the same color
-				if( index == 0 )
-				{
-					$("body").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-				}
-
-				index += 1;
-				});			
-
-		});
-
-function next()
-{	
-	// Make sure that the excersise has been timed
-	if( completion_time == 0 )
-	{
-		// TODO: Display error message
-		return false;
-	}
-
-	var children = $("#excersises").children();
-
-	var current_id = children.get((children.length-1) - current_excersise).id;
-
-	var diffculty = document.getElementById("excersise_diffculty_number_" + current_id).innerText;
-	var reps = document.getElementById("excersise_reps_number_" + current_id).innerText;
-
-	// Store a record of the current set, if there are currently no records
-	// for the current excersise then create an empty array for them
-	if( records[current_id] == undefined )
-	{
-		records[current_id] = [];
-	}
-
-	records[current_id].push([reps, diffculty, completion_time]);
-
-	// Reset the timing variables
-	reset();
-
-	// If there are no more excersises to do then remove everything in the container and display 'finished' aswell
-	// as replacing the next link to be a link to the home page and then exit out of the function
-	if( excersiseOrder.length == 0 )
-	{
-		// Create an AJAX request that will generate a record of the workout being
-		// compleated
-
-		var currentParamaters = "";
-
-		var keys = Object.keys(records);
-		for( var i = 0; i < keys.length; i += 1 )
-		{
-			if( i != 0 ) currentParamaters += "&";
-
-			var r = records[keys[i]];
-			currentParamaters += keys[i] + "=" + JSON.stringify(r);
-		}
-
-		//$("#excersises").children("a").each( function() {
-		//			if( currentParamaters != "" ) currentParamaters += "&";
-		//			
-		//			var id = $(this).attr('id');
-		//			var diffculty = document.getElementById("excersise_diffculty_number_" + id).innerText;
-		//
-		//			currentParamaters += ( id + "=" + diffculty.trim() );
-		//			});
-
-		
-		var xmlhttp;
-
-		if( window.XMLHttpRequest )
-		{
-			xmlhttp = new XMLHttpRequest();
-		}
-		else
-		{
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-
-		xmlhttp.open("GET", "/workouts/create_record?id=" + workout_id + "&" + "time=" + workout_completion_time + "&"  + currentParamaters, true);
-		xmlhttp.send();
-
-		document.getElementById("container").innerHTML = "<div id='finished'><span></span>Finished!</div>";
-		document.getElementById("controll_bar").innerHTML = "<a id='home_button' href='/'><span></span>HOME!</a>";
-		document.getElementById("current_group_details").innerHTML = "";
-		return;
-	}
 	
-	// Get the position of the next excersise to be displayed
-	var next = excersiseOrder.shift();
+	var max_range = largest_group;
+	if( max_range < 10 ) max_range = 10;
 
-	// Get all the excersises
-	//var children = $("#excersises").children();
-
-	// If the next excersise to be displayed is back one
-	if( next < current_excersise )
-	{
-		// If the next excersise to be displayed isnt the current one (this would occor if you had a group of size 1)
-		// then you want to toggle the height of the prevous excersise and update the color of the
-		// controll bar 
-		if( next != current_excersise ) 
-		{
-			$(children[(children.length-1) - next]).animate({height: "toggle"});
-
-			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.72);
-			$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-		}
-		
-		// And finally decrement the sets left to do for the excersise just completed
-		var child =  $(children[(children.length-1) - current_excersise]);
-		var reps_left = parseInt(document.getElementById("excersise_sets_" + child.attr('id')).innerText.split(":")[1]);
-		document.getElementById("excersise_sets_" + child.attr('id')).innerHTML = "<span></span>Sets Left: " + (reps_left-1);
-	}
-	// If the next excersise to be displayed is the next one
-	else 
-	{ 
-		// If the excersise  to be displayed isnt the current one
-		if( next != current_excersise )  
-		{
-			$(children[(children.length-1) - current_excersise]).animate({height: "toggle"});
-
-			var rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.72);
-			$("#controll_bar").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-			
-			// If the next excersise to be displayed is a diffrent group than the one just completed then we also want
-			// to update the group details bar
-			if( excersiseGroupOrder[(children.length-1) - next] != excersiseGroupOrder[(children.length-1) - current_excersise] )
-			{
-				// Update the color
-				rgb = HSBtoRGB(excersiseGroupOrder[(children.length-1) - next] * (100.0 / max_range), 0.68, 0.7);
-				$("#current_group_details").animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
-				
-				// Call the function to update the excersises in the bar
-				update_current_group_bar(excersiseGroupOrder[(children.length-1)-next]);
-			}
-		}
-		
-		// Decrement the sets left on the excersise just completed
-		var child = $(children[(children.length-1) - current_excersise]);
-		var reps_left = parseInt(document.getElementById("excersise_sets_" + child.attr('id')).innerText.split(":")[1]);
-		document.getElementById("excersise_sets_" + child.attr('id')).innerHTML = "<span></span>Sets Left: " + (reps_left-1);
-
-	}
-
-	current_excersise = next;
-}
-
-function update_current_group_bar(group)
-{
-	// clear the group details bar
-	document.getElementById("current_group_details").innerHTML = "";
-
-	// Itterate through all the excersises
 	var i = 0;
-	$("#excersises").children('a').each( function() {
+	$("#excersises").children().each( function() {
+		var rgb = HSBtoRGB(excersise_group_order[i] * (100.0/max_range), 0.68, 0.66);
+		$(this).animate({backgroundColor: "rgb(" + parseInt(rgb[0]) + ", " + parseInt(rgb[1]) + ", " + parseInt(rgb[2]) + ")"});
 
-			// If the excersise is in the specified group then add it to the group detals bar
-			if( excersiseGroupOrder[i] == group )
-			{
-				var id = $(this).attr('id');	
+		i += 1;
+		});
 
-				var excersise_detail = document.createElement("div");
-				excersise_detail.id = ("excersise_detail_" + id);
-				excersise_detail.className = "excersise_detail";
-				
-				excersise_detail.innerHTML += ("<h3>" + document.getElementById("excersise_name_" + id).innerText + "</h3");
-				excersise_detail.innerHTML += "</ br>"
-				excersise_detail.innerHTML +=  document.getElementById("excersise_diffculty_" + id).innerText;
+	});
 
-				document.getElementById("current_group_details").appendChild(excersise_detail);
-
-				i += 1;
-			}
-
-			});
-}
-
-function start_countdown()
+function toggle_sets(id)
 {
-	if( start_time != 0 || $("#countdown_timer").css("opacity") != 0 )
+	if( $("#excersise_" + id).width() == 350 )
 	{
-		// Display Error
-		return false;
-	}
-
-	$("#countdown_timer").css( 'visibility', "visible" ).animate({opacity: 0.9}, 500);
-	setTimeout(decrement_countdown, 1000);
-}
-
-function decrement_countdown()
-{
-
-	var num = parseInt(document.getElementById("countdown_time").innerText);
-	if( num != 1 )
-	{
-		document.getElementById("countdown_time").innerHTML = "<span></span>" + (num - 1);
-		setTimeout(decrement_countdown, 1000);
+		$("#excersise_" + id).animate({width: "700px", height: (($("#excersise_sets_" + id).height() + 140) + "px")}, 200, function() {
+				$("#excersise_sets_" + id).css({visibility: "visible"});
+				});
 	}
 	else
 	{
-		$("#countdown_timer").css( 'visibility', "visible" ).animate({opacity: 0.0}, 500).promise().done( function() {
-				document.getElementById("countdown_time").innerHTML = "<span></span>5";
-		
-				}); 
-		setTimeout(start, 1000);
-		
-		//document.getElementById("countdown_time").innerHTML = "<span></span>5";
+		$("#excersise_sets_" + id).css({visibility: "hidden"});
+		$("#excersise_" + id).animate({width: "350px", height: "300px"}, 200);
 	}
-
-}
-
-function start()
-{
-	
-
-	if( workout_start_time == 0 )
-	{
-		workout_start_time = new Date().getTime();
-	}
-
-	if( completion_time == 0 )
-	{
-		start_time = new Date().getTime();
-		completion_time = 0;
-		setTimeout(increment_time_count, 1000);
-	}
-	else
-	{
-		// We shojld show an error
-	}
-}
-
-function increment_time_count() 
-{
-	if( end_time == 0 && start_time != 0 )
-	{
-		var currentTime = parseInt( document.getElementById("time").innerText);
-		document.getElementById("time").innerHTML = "<span></span>" + (currentTime + 1) + " sec";
-
-		setTimeout(increment_time_count, 1000);
-	}
-}
-
-function stop()
-{
-	if( excersiseOrder.length == 0 )
-	{
-		workout_stop_time = new Date().getTime();
-		workout_completion_time = workout_stop_time - workout_start_time;
-	}
-
-	if( completion_time == 0 )
-	{
-		end_time = new Date().getTime();
-		completion_time = end_time - start_time;
-	}
-	else
-	{
-
-	}
-}
-
-function reset() 
-{
-	start_time = 0;
-	end_time = 0;
-	completion_time = 0;
-	document.getElementById("time").innerHTML = "<span></span>0 sec";
-}
-
-function HSBtoRGB(h, s, l)
-{
-	var C = (1 - Math.abs(2 * l - 1)) * s;
-	var Hp = h/60.0;
-	var x = C * ( 1 - Math.abs(Hp%2 - 1));
-
-	var r;
-	var g;
-	var b;
-
-	if( Hp >= 0 && Hp < 1 )
-	{
-		r = C;
-		g = x;
-		b = 0;
-	}
-	else if( Hp >= 1 && Hp < 2 )
-	{
-		r = x;
-		g = C;
-		b = 0;
-	}
-	else if( Hp >= 2 && Hp < 3 )
-	{
-		r = 0;
-		g = C;
-		b = x;
-	}
-	else if( Hp >= 3 && Hp < 4 )
-	{
-		r = 0;
-		g = x;
-		b = C;
-	}
-	else if( Hp >= 4 && Hp < 5 )
-	{
-		r = x;
-		g = 0;
-		b = C;
-	}	
-else if( Hp >= 5 && Hp < 6 )
-{
-	r = C;
-	g = 0;
-	b = x;
-}
-
-m = l - (1/2.0) * C;
-
-return [255 * (r+m), 255 * (g+m), 255 * (b+m)];
 }
 
 </script>
 
-<div id="countdown_timer">
-	<div id="countdown_time">
-		<span></span>5
-	</div>
-</div>
-
 <div id="container">
-<div id="excersises">
-<% @excersises.reverse.each do |excersise| %>
-	<a id="<%= excersise.id %>" class="excersise_container">
-		<div id="excersise_<%= excersise.id %>" class="excersise">
-			<div id="excersise_name_<%= excersise.id %>" class="excersise_name">
-				<span></span><%= excersise.name %>
-			</div>
+	<div id="excersises">
+		<% @excersises.each do |excersise| %>
+			<div id="excersise_<%= excersise.id %>" class="excersise" onclick="toggle_sets(<%= excersise.id %>)">
 
-			<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-			<div id="excersise_diffculty_number_<%= excersise.id %>" class="excersise_diffculty_number" onkeypress="return ( this.innerText.length < 6 )" <%= "contentEditable=true" if excersise.excersisetype != 3 %> title="<%= 'Edit this to the diffcult that you just did the excersise at' if excersise.excersisetype != 3 %>">
-					<%= "#{excersise.diffculty == 0 ? '' : excersise.diffculty}" %>
-				</div>
-				<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">
-					<%= excersise.get_units %>
-				</div>
+			<div id="excersise_letter_<%= excersise.id %>" class="excersise_letter">
+				<%= excersise.name[0] %>
 			</div>
 			
+			<div id="excersise_information_<%= excersise.id %>" class="excersise_information">
+				<div id="excersise_name_<%= excersise.id %>" class="excersise_name">
+					<%= excersise.name %>
+				</div>
+
+				<div id="excersise_usual_<%= excersise.id %>" class="excersise_usual">
+					<%= "Usual set is #{excersise.reps} reps" %> <%= if excersise.excersisetype != 3 then; " at #{excersise.diffculty} #{excersise.get_units}"; end %>
+				</div>
+			</div>
+
 			<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets">
-				<span></span>Sets Left: <%= excersise.sets %>
+
+				<% (1..excersise.sets).each do |i| %>
+				<div id="excersise_set_<%= excersise.id %>_<%= i %>" class="excersise_set">
+						
+					<div class="excersise_set_number">
+						Set <%= i %>
+					</div>
+
+					<div id="excersise_set_reps_<%= excersise.id %>_<%= i %>" class="excersise_set_reps">
+
+					</div>
+
+					<div id="excersise_set_diffculty_<%= excersise.id %>_<%= i %>" class="excersise_set_diffculty">
+
+					</div>
+
+					<div class="excersise_set_diffculty_units">
+						<%= excersise.get_units %>
+					</div>
+				</div>
+				<% end %>
 			</div>
-
-			<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps">
-				<div class="reps_title">
-					Reps: 
-				</div>
-				<div id="excersise_reps_number_<%= excersise.id %>" class="excersise_reps_number" contentEditable='true' title="Change to the number of reps to did"> 
-					<%= excersise.reps %> 
-				</div>
-			</div>
-				
-				<div id="excersise_encouragement_<%= excersise.id %>" class="excersise_encouragement">
-					<span></span><%= @encouragements[rand(@encouragements.size)] %>
-				</div>
-			</div> 
-		</a> 
-	<% end %>
-</div>
-</div>
-
-<div id="current_group_details">
-	<% @groups[@excersises[0].group].each do |excersise| %>
-		<div id="excersise_detail_<%= excersise.id %>" class="excersise_detail">
-			<h3><%=  excersise.name %></h3>
-			</ br>
-			<%= "#{excersise.diffculty} #{excersise.get_units}" %>
 		</div>
-	<% end %>	
-</div>
-
-<div id="controll_bar">
-	<div id="time_controll">
-		<div id="start" onclick="start_countdown()">
-			<span></span>Start
-		</div>
-
-		<div id="time">
-			<span></span>0 sec
-		</div>
-
-		<div id="stop" onclick="stop()">
-			<span></span>Stop
-		</div>	
-
-		<div id="reset" onclick="reset()">
-			<span></span>R
-		</div>
-	</div>
-	<div id="next" onclick="next()">
-		<span></span>NEXT!
+		<% end %>
 	</div>
 </div>

@@ -18,6 +18,14 @@ excersise_information[<%= excersise.id %>] = <%= @excersise_information[excersis
 var last_toggled = -1;
 var current_excersise_id = <%= @excersises[0].id %>
 
+var set_times = {};
+
+var workout_start_time = -1;
+var total_workout_time = -1;
+
+var excersise_start_time = -1;
+var excersise_total_time = -1;
+
 var resting = false;
 var finished = false;
 
@@ -38,7 +46,7 @@ $(function () {
 		}
 		});
 
-	$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "#2196F3"});
+	//$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "#2196F3"});
 
 	});
 
@@ -74,16 +82,50 @@ function toggle_sets(id)
 	}
 }
 
+function start_workout()
+{
+	$("#start_workout_button").animate({opacity: 0}, 200, function() {
+			$("#start_workout_button").remove();
+			});
+
+	$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "#2196F3"});
+
+	workout_start_time = new Date().getTime();
+}
+
+function go(id)
+{
+	if( resting || id != current_excersise_id || excersise_start_time != -1 )
+	{
+		return false;
+	}
+
+
+	excersise_start_time = new Date().getTime();
+}
+
 function next(id)
 {
 	//var possible_next_id = excersise_information[current_excersise_id][0];
 	var next_id = -1;
 
-	// Make sure the right button was clicked
-	if( !( resting && id == ("group_" + excersise_information[current_excersise_id][1]) ) && !( !resting && id == current_excersise_id ) )
+	// Make sure the right button was clicked and that the excersise has actually been done
+	if( (!( resting && id == ("group_" + excersise_information[current_excersise_id][1]) ) && !( !resting && id == current_excersise_id )) || ( !resting && excersise_start_time == -1 ) )
 	{
 		return false;
 	}
+
+	// Store the ammount of time it took to complete that set
+	excersise_total_time = new Date().getTime() - excersise_start_time;
+
+	if( set_times[id] == null )
+	{
+		set_times[id] = [];
+	}	
+	set_times[id].push(excersise_total_time);
+
+	excersise_start_time = -1;
+	excersise_total_time = -1;
 
 	if( resting )
 	{
@@ -155,6 +197,9 @@ function next(id)
 		else
 		{
 			$("#rest_group_done").animate({backgroundColor: "#2196F3"});
+
+			total_workout_time = new Date().getTime() - workout_start_time;
+
 			finished = true;
 
 		}
@@ -175,14 +220,14 @@ function next(id)
 
 function finish()
 {
-	//if( !finished )
-	//{
-	//	return false;
-	//}
+	if( !finished )
+	{
+		return false;
+	}
 
 	
 	// Collect all the data to be saved into a record
-	var paramaters = "?id=" + workout_id + "&time=0";
+	var paramaters = "?id=" + workout_id + "&time=" + total_workout_time;
 
 	var excersise_ids = Object.keys(excersise_information);
 	for( var i = 0; i < excersise_ids.length; i += 1 )
@@ -202,13 +247,11 @@ function finish()
 				document.getElementById("excersise_set_diffculty_" + current_excersise + "_" + j).innerText;	
 			}
 
-			set_record_array.push([reps, diffculty, 0.0]);
+			set_record_array.push([reps, diffculty, set_times[j-1]]);
 		}
 
 		paramaters += "&" + current_excersise + "=" + JSON.stringify(set_record_array);
 	}	
-
-	alert(paramaters);
 	
 	var xmlhttp;
 
@@ -231,6 +274,11 @@ function finish()
 </script>
 
 <div id="container">
+	
+	<div id="start_workout_button" onclick="start_workout()">
+		Start Workout!
+	</div>
+
 	<div id="excersises">
 		<% @last_group = @excersises[0].group %>
 		<% @excersises.each do |excersise| %>
@@ -270,7 +318,7 @@ function finish()
 				</div>
 
 				<div id="excersise_buttons_<%= excersise.id %>" class="excersise_buttons">
-					<div id="go_button_<%= excersise.id %>" class="button">
+					<div id="go_button_<%= excersise.id %>" class="button" onclick="go(<%= excersise.id %>)">
 						GO!
 					</div>
 

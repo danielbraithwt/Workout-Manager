@@ -86,11 +86,17 @@ function start_workout()
 {
 	$("#start_workout_button").animate({opacity: 0}, 200, function() {
 			$("#start_workout_button").remove();
+
+			var top = $("#excersise_" + current_excersise_id).offset().top;
+			$("html,body").animate({ scrollTop: top - 20}, 1000);
 			});
 
 	$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "#2196F3"});
 
 	workout_start_time = new Date().getTime();
+
+	//var top = $("#excersise_" + current_excersise_id).offset().top;
+	//window.scroll(0, top);
 }
 
 function go(id)
@@ -167,7 +173,9 @@ function next(id)
 			possible_next_id = excersise_information[possible_next_id][0];
 		}		
 	}
-	
+
+	var top = 0;
+
 	// If the next excersise was found then highlight the next
 	// excersise
 	if( next_id != -1 )
@@ -178,7 +186,7 @@ function next(id)
 		current_excersise_id = next_id;
 		$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "#2196F3"});
 
-		//excersise_information[current_excersise_id][2] -= 1;
+		top = $("#excersise_" + current_excersise_id).offset().top;
 	}
 	else if( next_id == -1 && resting )
 	{
@@ -188,6 +196,8 @@ function next(id)
 
 			//current_excersise_id = next_id;
 			$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "#2196F3"});
+
+			top = $("#excersise_" + current_excersise_id).offset().top;
 
 			//excersise_information[current_excersise_id][2] -= 1;
 
@@ -200,6 +210,8 @@ function next(id)
 
 			total_workout_time = new Date().getTime() - workout_start_time;
 
+			top = $("#rest_group_done").offset().top;
+
 			finished = true;
 
 		}
@@ -208,8 +220,13 @@ function next(id)
 	else //if( excersise_information[current_excersise_id][1] != largest_group )
 	{
 		$("#rest_group_" + excersise_information[current_excersise_id][1]).animate({backgroundColor: "#2196F3"});
+
+		top = $("#rest_group_" + excersise_information[current_excersise_id][1]).offset().top;
+
 		resting = true;
 	}
+
+	$("html,body").animate({ scrollTop: top - 20}, 1000);
 	// Otherwise the workout has been finished
 	//else
 	//{

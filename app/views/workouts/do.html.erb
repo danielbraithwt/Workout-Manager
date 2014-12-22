@@ -8,7 +8,17 @@
 var excersise_group_order = <%= @excersise_group_order.to_json %>;
 var largest_group = <%= @largest_group %>;
 
+var group_starting_excersise = <%= @group_starting_excersise.to_json %>
+var excersise_information = {};
+<% @excersises.each do |excersise| %>
+excersise_information[<%= excersise.id %>] = <%= @excersise_information[excersise.id] %>
+<%  end %>
+
 var last_toggled = -1;
+var current_excersise_id = <%= @excersises[0].id %>
+
+var resting = false;
+var finished = false;
 
 $(function () {
 	
@@ -26,6 +36,8 @@ $(function () {
 			i += 1;
 		}
 		});
+
+	$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "#2196F3"});
 
 	});
 
@@ -61,6 +73,115 @@ function toggle_sets(id)
 	}
 }
 
+function next(id)
+{
+	//var possible_next_id = excersise_information[current_excersise_id][0];
+	var next_id = -1;
+
+	// Make sure the right button was clicked
+	if( !( resting && id == ("group_" + excersise_information[current_excersise_id][1]) ) && !( !resting && id == current_excersise_id ) )
+	{
+		return false;
+	}
+
+	if( resting )
+	{
+		$("#rest_group_" + excersise_information[current_excersise_id][1]).animate({backgroundColor: "rgba(255, 255, 255, 0.2)"});
+
+		// Subtract 1 from the index because the grouops are indexeded 1 .. * but the 
+		// array is 0 .. *-1
+		var group_start_id = group_starting_excersise[excersise_information[current_excersise_id][1] - 1];
+		//resting = false;
+
+		// Make sure that the next excersise has sets left
+		if( excersise_information[group_start_id][2] > 0 )
+		{
+			next_id = group_start_id;	
+		}
+		else
+		{
+			current_excersise_id = group_start_id;
+		}
+	}
+	else
+	{
+		excersise_information[current_excersise_id][2] -= 1;
+		$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "rgba(255, 255, 255, 0.2)"});
+	}
+	
+	var possible_next_id = excersise_information[current_excersise_id][0];
+	
+	// Find an excersise in the current group after the current excersise
+	// that still has sets left to do
+	while( next_id == -1 && possible_next_id != -1 )
+	{
+		if( excersise_information[possible_next_id][2] > 0 )
+		{
+			next_id = possible_next_id;
+		}
+		else
+		{
+			possible_next_id = excersise_information[possible_next_id][0];
+		}		
+	}
+	
+	// If the next excersise was found then highlight the next
+	// excersise
+	if( next_id != -1 )
+	{
+		//$("#excersise_letter_" + current_excersise_id).animate({"backgroundColor": "rgba(255,255,255, 0.2)"});
+		resting = false;
+
+		current_excersise_id = next_id;
+		$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "#2196F3"});
+
+		//excersise_information[current_excersise_id][2] -= 1;
+	}
+	else if( next_id == -1 && resting )
+	{
+		if( excersise_information[current_excersise_id][1] < group_starting_excersise.length )
+		{
+			current_excersise_id = group_starting_excersise[excersise_information[current_excersise_id][1]];
+
+			//current_excersise_id = next_id;
+			$("#excersise_letter_" + current_excersise_id).animate({backgroundColor: "#2196F3"});
+
+			//excersise_information[current_excersise_id][2] -= 1;
+
+			resting = false;
+
+		}
+		else
+		{
+			$("#rest_group_done").animate({backgroundColor: "#2196F3"});
+			finished = true;
+
+		}
+	}
+	// Else the set is finished so if this wasnt the last set then highlight the rest box
+	else //if( excersise_information[current_excersise_id][1] != largest_group )
+	{
+		$("#rest_group_" + excersise_information[current_excersise_id][1]).animate({backgroundColor: "#2196F3"});
+		resting = true;
+	}
+	// Otherwise the workout has been finished
+	//else
+	//{
+	//	$("#rest_group_done").animate({"backgroudColor": "#2196F3"});
+	//	finished = true;
+	//}
+}
+
+function finish()
+{
+	if( !finished )
+	{
+		return false;
+	}
+
+	window.location = "/";
+}
+
 </script>
 
 <div id="container">
@@ -78,7 +199,7 @@ function toggle_sets(id)
 				</div>
 
 				<div class="rest_buttons">
-					<div id="next_button_<%= @last_group %>" class="button">
+					<div id="next_button_<%= @last_group %>" class="button" onclick="next('group_<%= @last_group %>')">
 						NEXT
 					</div>
 				</div>
@@ -107,8 +228,8 @@ function toggle_sets(id)
 						GO!
 					</div>
 
-					<div id="stop_button_<%= excersise.id %>" class="button">
-						STOP
+					<div id="done_button_<%= excersise.id %>" class="button" onclick="next(<%= excersise.id %>)"> 
+						DONE
 					</div>
 				</div>
 			</div>
@@ -138,6 +259,22 @@ function toggle_sets(id)
 			</div>
 		</div>
 		<% end %>
+
+		<div id="rest_<%= @largest_group %>" class="rest">
+			<div id="rest_group_<%= @largest_group %>" class="rest_group">
+				<%= @last_group %>
+			</div>
+
+			<div class="rest_text">
+				Rest Now
+			</div>
+
+			<div class="rest_buttons">
+				<div id="next_button_<%= @largest_group %>" class="button" onclick="next('group_<%= @largest_group %>')">
+					NEXT
+				</div>
+			</div>
+		</div>
 		
 		<div id="rest_done" class="rest">
 			<div id="rest_group_done" class="rest_group">
@@ -149,7 +286,7 @@ function toggle_sets(id)
 			</div>
 
 			<div class="rest_buttons">
-				<div id="finish_button" class="button">
+				<div id="finish_button" class="button" onclick="finish()">
 					FINISH
 				</div>
 			</div>

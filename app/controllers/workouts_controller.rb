@@ -180,30 +180,36 @@ class WorkoutsController < ApplicationController
 			@groups[excersise.group] << excersise
 		end
 
-		# Itterate through the groups and 
-		#@groups.keys.sort.each do |group|
-		#	excersise_group = @groups[group]
-		#	group_finished = false
-			
-			# Untill all the excersises have been added the ammout they should
-			# IE if you are doing 3 sets of something it should be added three times
-		#	while !group_finished
-		#		group_finished = true
-				
-				# for the current excersise group go through the excersises and add them
-				# if they still need to be added
-		#		excersise_group.each do |excersise|
-		#			excersise_frequency[excersise.id] = 0 if excersise_frequency[excersise.id] == nil
-		#			
-		#			if excersise_frequency[excersise.id] < excersise.sets
-		#				@excersise_order << excersise.position
-		#				excersise_frequency[excersise.id] += 1
+		# Gether the excersise information
+		@group_starting_excersise = []
+		@excersise_information = {}
+		prev_group = -1
+		i = 0
+		@excersises.each do |excersise|
 
-		#				group_finished = false
-		#			end
-		#		end
-		#	end
-		#end
+			if excersise.group != prev_group
+				@group_starting_excersise << excersise.id
+				prev_group = excersise.group
+			end
+
+			@excersise_information[excersise.id] = []
+
+			# Add to the information the id of the excersise that comes next
+			if (i+1) < @excersises.size && @excersises[i+1].group == excersise.group
+				@excersise_information[excersise.id] << @excersises[i+1].id
+			else
+				@excersise_information[excersise.id] << -1
+			end
+
+			# Add the excersises group
+			@excersise_information[excersise.id] << excersise.group
+
+			# Add the base number of sets
+			@excersise_information[excersise.id] << excersise.sets
+
+			i += 1
+		end
+
 
 		# Get groups into an array
 		@excersise_group_order = []
@@ -214,16 +220,6 @@ class WorkoutsController < ApplicationController
 
 		# Get the largest group
 		@largest_group = @excersises.inject(0) { |memo, item| if item.group != nil && item.group > memo then item.group; else memo; end }
-
-		## just for testing
-		############################
-		#puts "\nWorkout Schedule: "
-
-		#@excersise_order.each do |i|
-		#	puts "Excersise: #{@excersises[i].name}"
-		#end
-		#puts "\n"
-		###########################
 
 	end
 

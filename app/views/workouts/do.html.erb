@@ -234,20 +234,20 @@ function finish()
 	{
 		var current_excersise = excersise_ids[i];
 		var sets = $("#excersise_sets_" + current_excersise).children();
-		alert(sets.length);
 
 		var set_record_array = []
 
 		for( var j = 1; j < sets.length; j += 1 )
 		{
-			var reps = document.getElementById("excersise_set_reps_" + current_excersise + "_" + j).innerText;
+			var reps = document.getElementById("excersise_set_reps_" + current_excersise + "_" + j).innerHTML.trim();
 			var diffculty = 0;
+
 			if(	document.getElementById("excersise_set_diffculty_" + current_excersise + "_" + j) != null )
 			{
-				document.getElementById("excersise_set_diffculty_" + current_excersise + "_" + j).innerText;	
+				diffculty = document.getElementById("excersise_set_diffculty_" + current_excersise + "_" + j).innerHTML.trim();	
 			}
 
-			set_record_array.push([reps, diffculty, set_times[j-1]]);
+			set_record_array.push([reps, diffculty, set_times[current_excersise][j-1]]);
 		}
 
 		paramaters += "&" + current_excersise + "=" + JSON.stringify(set_record_array);

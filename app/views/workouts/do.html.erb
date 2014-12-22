@@ -5,6 +5,7 @@
 <%= stylesheet_link_tag "jquery-ui.css" %>
 
 <script>
+var workout_id = <%= @workout.id %>;
 var excersise_group_order = <%= @excersise_group_order.to_json %>;
 var largest_group = <%= @largest_group %>;
 
@@ -174,11 +175,56 @@ function next(id)
 
 function finish()
 {
-	if( !finished )
+	//if( !finished )
+	//{
+	//	return false;
+	//}
+
+	
+	// Collect all the data to be saved into a record
+	var paramaters = "?id=" + workout_id + "&time=0";
+
+	var excersise_ids = Object.keys(excersise_information);
+	for( var i = 0; i < excersise_ids.length; i += 1 )
 	{
-		return false;
+		var current_excersise = excersise_ids[i];
+		var sets = $("#excersise_sets_" + current_excersise).children();
+		alert(sets.length);
+
+		var set_record_array = []
+
+		for( var j = 1; j < sets.length; j += 1 )
+		{
+			var reps = document.getElementById("excersise_set_reps_" + current_excersise + "_" + j).innerText;
+			var diffculty = 0;
+			if(	document.getElementById("excersise_set_diffculty_" + current_excersise + "_" + j) != null )
+			{
+				document.getElementById("excersise_set_diffculty_" + current_excersise + "_" + j).innerText;	
+			}
+
+			set_record_array.push([reps, diffculty, 0.0]);
+		}
+
+		paramaters += "&" + current_excersise + "=" + JSON.stringify(set_record_array);
+	}	
+
+	alert(paramaters);
+	
+	var xmlhttp;
+
+	if( window.XMLHttpRequest )
+	{
+		xmlhttp = new XMLHttpRequest();
+	}
+	else
+	{
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 	}
 
+	xmlhttp.open("GET", "/workouts/create_record" + paramaters, true);
+	xmlhttp.send();
+
+	// Then redirect to the home page
 	window.location = "/";
 }
 

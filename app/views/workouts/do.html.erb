@@ -236,6 +236,18 @@ function finish()
 
 			<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets">
 
+				<div class="excersise_set_title">
+					<div class="excersise_set_reps">
+						Reps
+					</div>
+
+					<% if excersise.excersisetype != 3 %>
+					<div class="excersise_set_diffculty">		
+						Diffculty
+					</div>
+					<% end %>
+				</div>
+
 				<% (1..excersise.sets).each do |i| %>
 				<div id="excersise_set_<%= excersise.id %>_<%= i %>" class="excersise_set">
 						
@@ -243,13 +255,15 @@ function finish()
 						Set <%= i %>
 					</div>
 
-					<div id="excersise_set_reps_<%= excersise.id %>_<%= i %>" class="excersise_set_reps">
-
+					<div id="excersise_set_reps_<%= excersise.id %>_<%= i %>" class="excersise_set_reps" contentEditable='true'>
+						<%= excersise.reps %>
 					</div>
-
-					<div id="excersise_set_diffculty_<%= excersise.id %>_<%= i %>" class="excersise_set_diffculty">
-
+					
+					<% if excersise.excersisetype != 3 %>
+					<div id="excersise_set_diffculty_<%= excersise.id %>_<%= i %>" class="excersise_set_diffculty" contentEditable='true'>
+						<%= excersise.diffculty %>
 					</div>
+					<% end %>
 
 					<div class="excersise_set_diffculty_units">
 						<%= excersise.get_units %>

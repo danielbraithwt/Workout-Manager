@@ -36,7 +36,8 @@ $(function() {
 		$("#excersises").sortable({placeholder: "excersise-placeholder", helper: 'clone', axys: 'y', 
 				cancel: '.excersise_group,.excersise_name,.excersise_type,.excersise_diffculty,.excersise_sets,.excersise_reps,.excersise_delete,.message',
 				stop: function(event, ui) { 
-					update_column_title_color();
+				//update_column_title_color();
+					ensure_groups();
 					update_positions();
 					}});
 		});

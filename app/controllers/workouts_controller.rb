@@ -82,6 +82,9 @@ class WorkoutsController < ApplicationController
 		allowed = confirm_user_auth(@workout)
 		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
 
+		@header_title_name = "Delete"
+		@header_title_desc = "You are about to delete a workout, this action cant be undone"
+
 	end
 	
 	##

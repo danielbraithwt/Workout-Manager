@@ -218,3 +218,8 @@ span {
 
 	background-color: #0091EA;
 }
+
+[contenteditable=true]:empty:before {
+	content: attr(placeholder);
+	display: block;
+}

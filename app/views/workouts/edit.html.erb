@@ -53,9 +53,9 @@ $(window).bind("load", function() {
 // Fuction runs when the user scrolls down the page
 // it updates the color of the title bar to be the same
 // as the excersise it is currently over
-$(document).scroll( function() {
-			update_column_title_color();
-			});
+//$(document).scroll( function() {
+//			update_column_title_color();
+//			});
 
 function update_positions()
 {
@@ -177,8 +177,9 @@ function create_new_excersise()
 			var excersiseName = document.createElement('div');
 			excersiseName.id = ("excersise_name_" + id);
 			excersiseName.className = "excersise_name";
-			excersiseName.innerText = "Name";
 			excersiseName.contentEditable = 'true';
+			//excersiseName.placeholder = "Name";
+			$(excersiseName).attr('placeholder', 'Name');
 
 			excersiseContainer.appendChild(excersiseName);
 
@@ -215,8 +216,9 @@ function create_new_excersise()
 
 			excersiseDiffcultyMagnitude.id = ("excersise_diffculty_magnitude_" + id);
 			excersiseDiffcultyMagnitude.className = "excersise_diffculty_magnitude";
-			excersiseDiffcultyMagnitude.innerText = "1.0";
+			//excersiseDiffcultyMagnitude.innerText = "1.0";
 			excersiseDiffcultyMagnitude.contentEditable = 'true';
+			$(excersiseDiffcultyMagnitude).attr('placeholder', '0.0');
 
 			excersiseDiffculty.appendChild(excersiseDiffcultyMagnitude);
 
@@ -234,8 +236,9 @@ function create_new_excersise()
 
 			excersiseSets.id = ("excersise_sets_" + id);
 			excersiseSets.className = "excersise_sets";
-			excersiseSets.innerText = "1";
+			//excersiseSets.innerText = "1";
 			excersiseSets.contentEditable = 'true';
+			$(excersiseSets).attr('placeholder', '0');
 
 			excersiseContainer.appendChild(excersiseSets);
 
@@ -243,8 +246,9 @@ function create_new_excersise()
 
 			excersiseReps.id = ("excersise_reps_" + id);
 			excersiseReps.className = "excersise_reps";
-			excersiseReps.innerText = "1";
+			//excersiseReps.innerText = "1";
 			excersiseReps.contentEditable = "true";
+			$(excersiseReps).attr('placeholder', '0');
 
 			excersiseContainer.appendChild(excersiseReps);
 
@@ -633,8 +637,8 @@ function destroy_excersise(id)
 						<%= excersise.group %>
 					</div>
 
-					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true'>
-						<%= excersise.name %>
+					<div id="excersise_name_<%= excersise.id %>" class="excersise_name" contentEditable='true' placeholder="Name">
+						<%= excersise.name if excersise.name != "Name" %>
 					</div>
 
 					<div id="excersise_type_<%= excersise.id %>" class="excersise_type">
@@ -646,7 +650,7 @@ function destroy_excersise(id)
 					</div>
 
 					<div id="excersise_diffculty_<%= excersise.id %>" class="excersise_diffculty">
-						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" <%= "contentEditable=true" if excersise.excersisetype != 3 %>>
+						<div id="excersise_diffculty_magnitude_<%= excersise.id %>" class="excersise_diffculty_magnitude" <%= "contentEditable=true" if excersise.excersisetype != 3 %> placeholder="0.0">
 							<%= excersise.diffculty %>
 						</div>
 						<div id="excersise_diffculty_units_<%= excersise.id %>" class="excersise_diffculty_units">
@@ -654,12 +658,12 @@ function destroy_excersise(id)
 						</div>
 					</div>
 
-					<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets" contentEditable='true'>
-						<%= excersise.sets %>
+					<div id="excersise_sets_<%= excersise.id %>" class="excersise_sets" contentEditable='true' placeholder="0">
+						<%= excersise.sets if excersise.sets > 0 %>
 					</div>
 
-					<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps" contentEditable='true'>
-						<%= excersise.reps %>
+					<div id="excersise_reps_<%= excersise.id %>" class="excersise_reps" contentEditable='true' placeholder="0">
+						<%= excersise.reps if excersise.reps > 0 %>
 					</div>
 
 					<div id="excersise_delete_<%= excersise.id %>" class="excersise_delete" onclick="destroy_excersise(<%= excersise.id %>)">

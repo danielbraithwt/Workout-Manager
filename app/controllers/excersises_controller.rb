@@ -98,7 +98,7 @@ class ExcersisesController < ApplicationController
 			return false
 		end
 		
-		if is_numeric?(params[:diffculty]) && params[:diffculty].to_f > 0
+		if is_numeric?(params[:diffculty]) && params[:diffculty].to_f >= 0
 	  		excersise.diffculty = params[:diffculty]
 		elsif params[:type].to_i == 3
 			excersise.diffculty = 0

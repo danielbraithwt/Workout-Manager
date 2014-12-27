@@ -11,8 +11,10 @@ var largest_group = <%= @largest_group %>;
 
 var group_starting_excersise = <%= @group_starting_excersise.to_json %>
 var excersise_information = {};
+var excersise_units = {};
 <% @excersises.each do |excersise| %>
-excersise_information[<%= excersise.id %>] = <%= @excersise_information[excersise.id] %>
+	excersise_information[<%= excersise.id %>] = <%= @excersise_information[excersise.id] %>
+	excersise_units[<%= excersise.id %>] = "<%= excersise.get_units %>"
 <%  end %>
 
 var last_toggled = -1;
@@ -288,6 +290,104 @@ function finish()
 	window.location = "/";
 }
 
+function add_set(id)
+{
+	var set_id = next_id(id);
+
+	var set = document.createElement('div');
+	set.id = ("excersise_set_" + id + "_" + set_id);
+	set.className = "excersise_set";
+
+	var set_number = document.createElement('div');
+	set_number.id = ("excersise_set_number_" + id + "_" + set_id);
+	set_number.className = "excersise_set_number";
+	set.appendChild(set_number);
+
+	var set_reps = document.createElement('div');
+	set_reps.id = ("excersise_set_reps_" + id + "_" + set_id);
+	set_reps.className = "excersise_set_reps";
+	set_reps.innerText = "0";
+	set_reps.contentEditable = "true";
+	set.appendChild(set_reps);
+
+	var set_diffculty = document.createElement('div');
+	set_diffculty.id = ("excersise_set_diffculty_" + id + "_" + set_id);
+	set_diffculty.className = "excersise_set_diffculty";
+	set_diffculty.innerText = "0";
+	set_diffculty.contentEditable = "true";
+	set.appendChild(set_diffculty);
+
+	var set_units = document.createElement('div');
+	set_units.className = "excersise_set_diffculty_units";
+	set_units.innerText = excersise_units[id];
+	set.appendChild(set_units);
+
+	var set_delete = document.createElement('div');
+	set_delete.className = "excersise_set_delete";
+	set_delete.addEventListener("mouseup", function() { remove_set(id, set_id);  });
+	set_delete.innerText = "X";
+	set.appendChild(set_delete);
+
+	var sets = document.getElementById("excersise_sets_" + id);
+	sets.insertBefore(set, sets.childNodes[sets.childNodes.length - 2]);
+
+	excersise_information[id][2] += 1;
+
+	var new_height = ($("#excersise_sets_" + id).height() + 140);
+	if( new_height < 300 ) new_height = 300;
+
+	$("#excersise_" + id).animate({height: (new_height + "px")}, 200);
+
+	update_set_numbers(id);
+}
+
+function remove_set(id, set_number)
+{
+	$("#excersise_set_" + id + "_" + set_number).animate({opacity: 0}, 200, function() {
+			$("#excersise_set_" + id + "_" + set_number).remove();
+			update_set_numbers(id);
+			});
+
+	excersise_information[id][2] -= 1;
+
+	var new_height = ($("#excersise_sets_" + id).height() + 140);
+	if( new_height < 300 ) new_height = 300;
+
+	$("#excersise_" + id).animate({height: (new_height + "px")}, 200);
+}
+
+function update_set_numbers(id)
+{
+	var num = 1;
+	var children = $("#excersise_sets_" + id).children("div");
+
+	for( var i = 1; i < children.length - 1; i += 1 )
+	{
+		var id_split = $(children[i]).attr('id').split('_');
+		var set_id = id_split[id_split.length-1];
+
+		$("#excersise_set_number_" + id + "_" + set_id).text("Set " + num);
+		num += 1;
+	}
+
+}
+
+function next_id(id)
+{
+	var max_id = 0;
+	var children = $("#excersise_sets_" + id).children("div");
+
+	for( var i = 1; i < children.length - 1; i += 1 )
+	{
+		var id_split = $(children[i]).attr('id').split('_');
+		var set_id = id_split[id_split.length-1];
+		
+		var max_id = parseInt(set_id);
+	}
+
+	return max_id + 1;
+}
+
 </script>
 
 <div id="container">
@@ -362,7 +462,7 @@ function finish()
 				<% (1..excersise.sets).each do |i| %>
 				<div id="excersise_set_<%= excersise.id %>_<%= i %>" class="excersise_set">
 						
-					<div class="excersise_set_number">
+					<div id="excersise_set_number_<%= excersise.id %>_<%= i %>" class="excersise_set_number">
 						Set <%= i %>
 					</div>
 
@@ -379,8 +479,16 @@ function finish()
 					<div class="excersise_set_diffculty_units">
 						<%= excersise.get_units %>
 					</div>
+
+					<div class="excersise_set_delete" onclick="remove_set(<%= excersise.id %>, <%= i %>)">
+						X
+					</div>
 				</div>
 				<% end %>
+
+				<div class="add_set_button" onclick="add_set(<%= excersise.id %>)">
+					Add Set
+				</div>
 			</div>
 		</div>
 		<% end %>

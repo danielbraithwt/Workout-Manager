@@ -24,6 +24,7 @@
 	background-color: #9575CD;
 	color: white;
 
+	cursor: pointer;
 }
 
 #excersises {
@@ -36,7 +37,7 @@
 
 .excersise {
 	width: 350px;
-	height: 300px;
+	height: 350px;
 
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -78,6 +79,8 @@
 
 	color: white;
 	background-color: rgba(255, 255, 255, 0.2);
+
+	cursor: pointer;
 }
 
 .excersise_name {
@@ -144,7 +147,7 @@
 }
 
 .excersise_set_reps {
-	width: 40%;
+	width: 35%;
 	height: 100%;
 
 	float: left
@@ -164,9 +167,44 @@
 	float: left;	
 }
 
+.excersise_set_delete {
+	width: 5%;
+	height: 100%;
+
+	margin-left: 10px;
+
+	cursor: pointer;
+
+	float: left;
+}
+
+.add_set_button {
+	width: 100px;
+	height: 50px;
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 25px;
+	margin-bottom: 25px;
+
+	text-align: center;
+	font-size: 150%;
+	font-weight: bold;
+	line-height: 50px;
+
+	border: none;
+	border-bottom-style: solid;
+	border-bottom-color: #7E57C2;
+
+	background-color: #9575CD;
+	color: white;
+
+	cursor: pointer;
+}
+
 .rest {
 	width: 350px;
-	height: 300px;	
+	height: 350px;	
 
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -254,4 +292,6 @@
 	background-color: #BA68C8;
 
 	float: left;
+
+	cursor: pointer;
 }

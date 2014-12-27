@@ -54,9 +54,12 @@
 	float: right;
 }
 
-
 #header_links a:hover {
 	text-decoration: underline;
+}
+
+#header_links a {
+	cursor: pointer;
 }
 
 #header_title {

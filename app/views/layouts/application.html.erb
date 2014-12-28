@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%= stylesheet_link_tag "header.css" %>
+
+<% if mobile_device? %>
+	<%= stylesheet_link_tag "header_mobile.css" %>
+<% else %>
+	<%= stylesheet_link_tag "header.css" %>
+<% end %>
+
+
 <%= stylesheet_link_tag "flash_notice.css" %>
 <%= stylesheet_link_tag "jquery-ui.css" %>
 

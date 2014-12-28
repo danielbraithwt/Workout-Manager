@@ -1,0 +1,98 @@
+#header {
+	width: 100%;
+	height: auto;
+
+	top: 0;
+	left: 0;
+	position: absolute;
+	
+	z-index: 1;
+
+	background-color: #2196F3;
+
+	color: white;
+}
+
+#header_links {
+	width: 100%;
+	height: 80px;
+
+	font-size: 30px;
+}
+
+#header_links a {
+	width: auto;
+	height: 80px;
+
+	padding-left: 20px;
+	padding-right: 20px;
+
+	line-height: 80px;
+
+	text-decoration: none;	
+
+	color: white;
+
+	/*float: right;*/
+}
+
+#constant {
+	float:left;
+	width: 50%;
+}
+
+#header_links #constant a {
+	float: left;
+}
+
+#variable {
+	float: right;
+	width: 50%;
+}
+
+#header_links #variable a {
+	float: right;
+}
+
+#header_links a:hover {
+	text-decoration: underline;
+}
+
+#header_links a {
+	cursor: pointer;
+}
+
+#header_title {
+	width: 100%;
+	height: 40%;
+	
+	margin-left: auto;
+	margin-right: auto;
+
+	padding-top: 50px;
+	padding-bottom: 50px;
+
+	text-align: center;
+}
+
+#header_title_name {
+	width: 100%;
+	height: 60%;
+
+	font-weight: bold;
+	font-size: 1000%;
+}
+
+#header_title_desc {
+	width: 80%;
+	height: 40%;
+
+	margin-left: auto;
+	margin-right: auto;
+	
+	padding-top: 70px;
+
+	font-size: 200%;
+}
+
+

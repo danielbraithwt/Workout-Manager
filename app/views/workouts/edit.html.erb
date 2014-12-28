@@ -417,7 +417,7 @@ function update_name()
 
 	// Verify that the name has appriate length and only contains letters, numbers
 	// and white space
-	if( name.length > 20 || name.length < 5 || name.search(/[^\w\s]/) != -1 )
+	if( name.length > 25 || name.search(/[^\w\s]/) != -1 )
 	{
 		//$("#workout_name").tooltip().mouseover();
 		show_error("That isnt a valid name!");

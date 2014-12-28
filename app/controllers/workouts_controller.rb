@@ -121,7 +121,7 @@ class WorkoutsController < ApplicationController
 		puts "Updating Workout Name: => #{params[:id]}"
 
 		# Make sure the workout name passed to the controller is valid
-		if params[:name].length > 20 || params[:name].length < 5 || params[:name].index(/[^\w\s]/)
+		if params[:name].length > 25 || params[:name].index(/[^\w\s]/)
 			@m = "error"
 			return false
 		end

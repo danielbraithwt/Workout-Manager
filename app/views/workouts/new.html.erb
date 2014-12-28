@@ -15,7 +15,7 @@ function verify_form()
 
 	// Verify that the string has appriate length and only contains letters, numbers
 	// and white space
-	if( str.length > 20 || str.length < 5 || str.search(/[^\w\s]/) != -1 )
+	if( str.length > 25 || str.search(/[^\w\s]/) != -1 )
 	{
 		//$("#workout_name").tooltip().mouseover();
 		show_error("That isnt a valid name!");
@@ -33,7 +33,7 @@ function verify_form()
 		<div id="form">
 		<%= form_tag({:action => 'create'}, :id  => 'workout_name_form',:onsubmit => "return verify_form();") do %>
 			<%= label_tag "Name" %>
-			<%= text_field_tag('workout[name]', value = "", options = {:id => "workout_name", :onkeyup => "text_field_change()", :title => "The workout name, between 5 and 20 charactors and cant contain special charactors"}) %>
+			<%= text_field_tag('workout[name]', value = "", options = {:id => "workout_name", :onkeyup => "text_field_change()", :title => "The workout name, must be less than 25 charactors and cant contain special charactors"}) %>
 
 			</ br>
 

@@ -10,13 +10,16 @@ class ApplicationController < ActionController::Base
 	MOBILE_BROWSERS = ["android", "ipod", "opera mini", "blackberry", "palm","hiptop","avantgo","plucker", "xiino","blazer","elaine", "windows ce; ppc;", "windows ce; smartphone;","windows ce; iemobile", "up.browser","up.link","mmp","symbian","smartphone", "midp","wap","vodafone","o2","pocket","kindle", "mobile","pda","psp","treo"]
 
 	def mobile_device?
-		if session[:mobile_param]
-			session[:mobile_param] = 1
-		elsif mobile_browser?
-			session[:mobile_param] = 1
-		else
-			request.user_ages =~ /Mobile|webOS/
-		end
+		##if session[:mobile_param]
+		##	session[:mobile_param] = 1
+		##elsif mobile_browser?
+		##	session[:mobile_param] = 1
+		##else
+		##	request.user_agent =~ /Mobile|webOS/
+		##end
+		
+		return true if session[:mobile_param] == 1 || mobile_browser?
+		return false
 	end
 	helper_method :mobile_device?
 

@@ -385,6 +385,21 @@ class WorkoutsController < ApplicationController
 		
 	end
 
+	def summary
+		@workout = Workout.find(params[:id])
+
+		# Make sure that the user has access to this workout
+		allowed = confirm_user_auth(@workout)
+		redirect_to :controller => 'access', :action => 'not_authorised' if !allowed
+
+		if params[:time].present?
+			#@records = @workout.records.where(:created_at => (
+			render "summary_day"
+		else
+			render "summary_calender"
+		end
+	end
+
 	private
 
 	def confirm_logged_in

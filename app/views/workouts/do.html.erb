@@ -71,7 +71,7 @@ function toggle_sets(id)
 	if( $("#excersise_" + id).width() == 350 )
 	{
 		var new_height = ($("#excersise_sets_" + id).height() + 140);
-		if( new_height < 300 ) new_height = 300;
+		if( new_height < 350 ) new_height = 350;
 
 		$("#excersise_" + id).animate({width: "700px", height: (new_height + "px")}, 200, function() {
 				$("#excersise_sets_" + id).css({visibility: "visible"});
@@ -80,7 +80,7 @@ function toggle_sets(id)
 	else
 	{
 		$("#excersise_sets_" + id).css({visibility: "hidden"});
-		$("#excersise_" + id).animate({width: "350px", height: "300px"}, 200);
+		$("#excersise_" + id).animate({width: "350px", height: "350px"}, 200);
 	}
 }
 
@@ -392,7 +392,7 @@ function next_id(id)
 
 <div id="container">
 	
-	<div id="start_workout_button" onclick="start_workout()">
+	<div id="start_workout_button" class="text_unselectable" onclick="start_workout()">
 		Start Workout!
 	</div>
 
@@ -410,7 +410,7 @@ function next_id(id)
 				</div>
 
 				<div class="rest_buttons">
-					<div id="next_button_<%= @last_group %>" class="button" onclick="next('group_<%= @last_group %>')">
+					<div id="next_button_<%= @last_group %>" class="button text_unselectable" onclick="next('group_<%= @last_group %>')">
 						NEXT
 					</div>
 				</div>
@@ -421,7 +421,7 @@ function next_id(id)
 
 			<div id="excersise_<%= excersise.id %>" class="excersise">
 
-			<div id="excersise_letter_<%= excersise.id %>" class="excersise_letter" onclick="toggle_sets(<%= excersise.id %>)">
+			<div id="excersise_letter_<%= excersise.id %>" class="excersise_letter text_unselectable" onclick="toggle_sets(<%= excersise.id %>)">
 				<%= excersise.name[0] %>
 			</div>
 			
@@ -435,11 +435,11 @@ function next_id(id)
 				</div>
 
 				<div id="excersise_buttons_<%= excersise.id %>" class="excersise_buttons">
-					<div id="go_button_<%= excersise.id %>" class="button" onclick="go(<%= excersise.id %>)">
+					<div id="go_button_<%= excersise.id %>" class="button text_unselectable" onclick="go(<%= excersise.id %>)">
 						GO!
 					</div>
 
-					<div id="done_button_<%= excersise.id %>" class="button" onclick="next(<%= excersise.id %>)"> 
+					<div id="done_button_<%= excersise.id %>" class="button text_unselectable" onclick="next(<%= excersise.id %>)"> 
 						DONE
 					</div>
 				</div>
@@ -486,7 +486,7 @@ function next_id(id)
 				</div>
 				<% end %>
 
-				<div class="add_set_button" onclick="add_set(<%= excersise.id %>)">
+				<div class="add_set_button text_unselectable" onclick="add_set(<%= excersise.id %>)">
 					Add Set
 				</div>
 			</div>
@@ -503,7 +503,7 @@ function next_id(id)
 			</div>
 
 			<div class="rest_buttons">
-				<div id="next_button_<%= @largest_group %>" class="button" onclick="next('group_<%= @largest_group %>')">
+				<div id="next_button_<%= @largest_group %>" class="button text_unselectable" onclick="next('group_<%= @largest_group %>')">
 					NEXT
 				</div>
 			</div>
@@ -519,7 +519,7 @@ function next_id(id)
 			</div>
 
 			<div class="rest_buttons">
-				<div id="finish_button" class="button" onclick="finish()">
+				<div id="finish_button" class="button text_unseletable" onclick="finish()">
 					FINISH
 				</div>
 			</div>

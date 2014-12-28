@@ -61,6 +61,15 @@
 	float: left;
 }
 
+.text_unselectable {
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+
+	-o-user-select: none;
+	user-select: none;
+}
+
 .excersise_letter {
 	width: 100px;
 	height: 100px;

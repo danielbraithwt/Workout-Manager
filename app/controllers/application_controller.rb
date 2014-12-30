@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   	# For APIs, you may want to use :null_session instead.
   	protect_from_forgery with: :exception
 
+	before_filter :prepare_for_mobile
+
 	private
 
 	MOBILE_BROWSERS = ["android", "ipod", "opera mini", "blackberry", "palm","hiptop","avantgo","plucker", "xiino","blazer","elaine", "windows ce; ppc;", "windows ce; smartphone;","windows ce; iemobile", "up.browser","up.link","mmp","symbian","smartphone", "midp","wap","vodafone","o2","pocket","kindle", "mobile","pda","psp","treo"]
@@ -31,8 +33,8 @@ class ApplicationController < ActionController::Base
 		return false
 	end
 
-	#def prepare_for_mobile
-	#	session[:mobile_param] = mobile_device? 1 : 0 
-	#	#request.format = :mobile if mobile_device?
-	#end
+	def prepare_for_mobile
+		puts params[:mobile]
+		session[:mobile_param] = params[:mobile] ? params[:mobile].to_i : 0 
+	end
 end

@@ -13,18 +13,16 @@ body {
 
 
 .column {
-	width: 300px;
+	width: 60%;
 	height: auto;
-
-	padding-left: 10px;
-	padding-right: 10px;
-
-	float: left;
+	
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #workouts {
 	margin-top: 20px;
-	width: 80%;
+	width: 100%;
 
 	margin-left: auto;
 	margin-right: auto;
@@ -49,15 +47,17 @@ body {
 }
 
 .workout_header {
-	width: 90%;
-	height: auto;
+	width: 50%;
+	height: 100%;
 
 	margin-left: auto;
 	margin-right: auto;
 
 	padding-bottom: 10px;
 
-	border-bottom: rgba(0, 0, 0, 0.1) 1px solid;
+	float: left;
+
+	border-right: rgba(0, 0, 0, 0.1) 1px solid;
 }
 
 .workout_letter {
@@ -96,10 +96,12 @@ body {
 }
 
 .workout_excersises {
-	width: 100%;
+	width: 49%;
 	height: auto;
 
 	font-size: 1em;
+
+	float: left;
 
 	color: white;
 }
@@ -109,6 +111,8 @@ body {
 	width: 100%;	
 
 	padding-left: 15px;
+
+	clear: both;
 
 	background-color: rgba(255,255,255,0.2);
 }
@@ -143,7 +147,7 @@ body {
 	width: 50px;
 
 	left: 40px;
-	top: 465px;
+	top: 450px;
 
 	background-color: #DB4437;
 

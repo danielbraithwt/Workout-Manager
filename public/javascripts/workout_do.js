@@ -20,6 +20,37 @@ $(function () {
 	});
 
 
+function toggle_sets(id)
+{
+	if( id == last_toggled )
+	{
+		last_toggled = -1;
+	}
+	else if( last_toggled == -1 )
+	{
+		last_toggled = id;
+	}
+	else
+	{
+		toggle_sets(last_toggled);
+		last_toggled = id;
+	}
+
+	if( $("#excersise_" + id).width() == 350 )
+	{
+		var new_height = ($("#excersise_sets_" + id).height() + 140);
+		if( new_height < 350 ) new_height = 350;
+
+		$("#excersise_" + id).animate({width: "700px", height: (new_height + "px")}, 200, function() {
+				$("#excersise_sets_" + id).css({visibility: "visible"});
+				});
+	}
+	else
+	{
+		$("#excersise_sets_" + id).css({visibility: "hidden"});
+		$("#excersise_" + id).animate({width: "350px", height: "350px"}, 200);
+	}
+}
 
 function start_workout()
 {
@@ -278,6 +309,21 @@ function add_set(id)
 	update_set_numbers(id);
 }
 
+function remove_set(id, set_number)
+{
+	$("#excersise_set_" + id + "_" + set_number).animate({opacity: 0}, 200, function() {
+			$("#excersise_set_" + id + "_" + set_number).remove();
+			update_set_numbers(id);
+			});
+
+	excersise_information[id][2] -= 1;
+
+	var new_height = ($("#excersise_sets_" + id).height() + 140);
+	if( new_height < 300 ) new_height = 300;
+
+	$("#excersise_" + id).animate({height: (new_height + "px")}, 200);
+}
+
 function update_set_numbers(id)
 {
 	var num = 1;
@@ -309,4 +355,3 @@ function next_id(id)
 
 	return max_id + 1;
 }
-
